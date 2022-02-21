@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_const_iterator.hpp                          :+:      :+:    :+:   */
+/*   vector_const_reverse_iterator.hpp                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,7 +14,7 @@
 #include <iterator>
 
 template <typename T>
-class VectorConstIterator
+class VectorConstReverseIterator
 {
     public:
         typedef std::random_access_iterator_tag iterator_category;
@@ -26,77 +26,17 @@ class VectorConstIterator
 
     public:
 
-        VectorConstIterator()
+        VectorConstReverseIterator()
         : _M_ptr(0) {}
 
-        VectorConstIterator(pointer _ptr)
+        VectorConstReverseIterator(pointer _ptr)
         : _M_ptr(_ptr) {}
 
-        ~VectorConstIterator() {}
+        ~VectorConstReverseIterator() {}
 
         const_reference
         operator*() const {
             return (*_M_ptr);
-        }
-        
-        const VectorConstIterator&
-        operator++() {
-            _M_ptr = _M_ptr + 1;
-            return (*this);
-        }
-
-        const VectorConstIterator&
-        operator--() {
-            _M_ptr = _M_ptr - 1;
-            return (*this);
-        }
-        
-        const VectorConstIterator
-        operator++(int post) {
-            VectorConstIterator tmp = *this;
-            ++_M_ptr;
-            return (tmp);
-        }
-
-        const VectorConstIterator
-        operator--(int post) {
-            VectorConstIterator tmp = this;
-            --_M_ptr;
-            return (tmp);
-        }
-
-        bool
-        operator==(const VectorConstIterator rval) const {
-            return (*_M_ptr == *rval ? true : false);
-        }
-
-        bool
-        operator!=(const VectorConstIterator rval) const {
-            return (!(*_M_ptr == *rval));
-        }
-
-        bool
-        operator<(const VectorConstIterator rval) const {
-            return (*_M_ptr < rval ? true : false);
-        }
-
-        bool 
-        operator<=(const VectorConstIterator rval) const {
-            return ((*_M_ptr < rval || *_M_ptr == rval) ? true : false);
-        }
-
-        bool
-        operator>(const VectorConstIterator rval) const {
-            return (*_M_ptr > rval ? true : false);
-        }
-
-        bool
-        operator>=(const VectorConstIterator rval) const {
-            return ((*_M_ptr > rval || *_M_ptr == rval) ? true : false);
-        }
-        const_reference
-        operator[](int index) {
-            return (*(_M_ptr + index));
         }
 
         const_reference
@@ -108,7 +48,74 @@ class VectorConstIterator
         operator->() {
             return(_M_ptr);
         }
+        
+        const VectorConstReverseIterator&
+        operator++() {
+            _M_ptr = _M_ptr + 1;
+            return (*this);
+        }
 
+        const VectorConstReverseIterator&
+        operator--() {
+            _M_ptr = _M_ptr - 1;
+            return (*this);
+        }
+        
+        const VectorConstReverseIterator
+        operator++(int post) {
+            VectorConstReverseIterator tmp = *this;
+            ++_M_ptr;
+            return (tmp);
+        }
+
+        const VectorConstReverseIterator
+        operator--(int post) {
+            VectorConstReverseIterator tmp = this;
+            --_M_ptr;
+            return (tmp);
+        }
+
+        bool
+        operator==(const VectorConstReverseIterator rval) const {
+            return (_M_ptr == rval._M_current() ? true : false);
+        }
+
+        bool
+        operator!=(const VectorConstReverseIterator rval) const {
+            return (!(_M_ptr == rval._M_current()));
+        }
+
+        bool
+        operator<(const VectorConstReverseIterator rval) const {
+            return (_M_ptr < rval._M_current() ? true : false);
+        }
+
+        bool 
+        operator<=(const VectorConstReverseIterator rval) const {
+            return ((_M_ptr < rval._M_current()
+                || _M_ptr == rval._M_current()) ? true : false);
+        }
+
+        bool
+        operator>(const VectorConstReverseIterator rval) const {
+            return (_M_ptr > rval._M_current() ? true : false);
+        }
+
+        bool
+        operator>=(const VectorConstReverseIterator rval) const {
+            return ((_M_ptr > rval._M_current()
+                || _M_ptr == rval._M_current()) ? true : false);
+        }
+        
+        const_reference
+        operator[](int index) {
+            return (*(_M_ptr + index));
+        }
+
+        const_pointer
+        _M_current() const {
+            return (_M_ptr);
+        }
 	private:
 		pointer _M_ptr;
 

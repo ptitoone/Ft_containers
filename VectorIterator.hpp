@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_iterator.hpp                                :+:      :+:    :+:   */
+/*   VectorIterator.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 12:05:22 by akotzky           #+#    #+#             */
-/*   Updated: 2022/02/12 12:50:38 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/02/21 21:30:28 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,16 @@ class VectorIterator
             return (*_M_ptr);
         }
         
+        reference
+        operator&() {
+            return (_M_ptr); 
+        }
+
+        pointer
+        operator->() {
+            return(_M_ptr);
+        }
+
         VectorIterator&
         operator++() {
             _M_ptr = _M_ptr + 1;
@@ -66,48 +76,44 @@ class VectorIterator
 
         bool
         operator==(VectorIterator<T> rval) const {
-            return (*_M_ptr == *rval ? true : false);
+            return (_M_ptr == rval._M_current() ? true : false);
         }
 
         bool
         operator!=(VectorIterator<T> rval) const {
-            return (!(*_M_ptr == *rval));
+            return (!(_M_ptr == rval._M_current()));
         }
 
         bool
         operator<(reference rval) const {
-            return (*_M_ptr < rval ? true : false);
+            return (_M_ptr < rval._M_current() ? true : false);
         }
 
         bool 
         operator<=(reference rval) const {
-            return ((*_M_ptr < rval || *_M_ptr == rval) ? true : false);
+            return ((_M_ptr < rval._M_current()
+                || _M_ptr == rval._M_current()) ? true : false);
         }
 
         bool
         operator>(reference rval) const {
-            return (*_M_ptr > rval ? true : false);
+            return (_M_ptr > rval._M_current() ? true : false);
         }
 
         bool
         operator>=(reference rval) const {
-            return ((*_M_ptr > rval || *_M_ptr == rval) ? true : false);
+            return ((_M_ptr > rval._M_current()
+                || _M_ptr == rval)._M_current() ? true : false);
         }
         reference
         operator[](int index) {
             return (*(_M_ptr + index));
         }
 
-        reference
-        operator&() {
-            return (_M_ptr); 
-        }
-
         pointer
-        operator->() {
-            return(_M_ptr);
+        _M_current() {
+            return (_M_ptr);
         }
-
 	private:
 		pointer _M_ptr;
 
