@@ -49,10 +49,11 @@ namespace ft
 
 		public:
 
-			vector(void) {}
-
-			explicit vector(const Allocator& _alloc) :
-			_M_alloc_intr(_alloc) {}
+			explicit vector(const allocator_type& _alloc = allocator_type())
+			: _M_alloc_intr(_alloc),
+			_M_start(0),
+			_M_finish(0),
+			_M_end_of_storage(0) {}
 
 			explicit vector(size_type _count,
 							const T& _value,
@@ -64,27 +65,50 @@ namespace ft
 				std::uninitialized_fill_n(begin(), _count, _value);
 			}
 
-//							template< class InputIt >
-//							vector(	InputIt first, InputIt last,
-//									Allocator const& alloc = Allocator());
-//							vector(vector const& other);
+//			template< class InputIt >
+//			vector(	InputIt first, InputIt last,
+//			Allocator const& alloc = Allocator());
 //
-							~vector(void) {}
+//			vector(vector const& other);
 //
-			vector&
-			operator=(const vector& _rval) {
-				pointer _tmp;
-				if (_M_start)
-				{
-					_tmp = _M_allocate(_rval.size());
-				}
-				this->swap(_rval);	
-				return (*this);
+			~vector(void) {
+				_M_deallocate(_M_start, capacity());
+				std::cout << "Destructor called" << std::endl;
 			}
 //
-//			void			assign(size_type count, T const& value);
+//			vector&
+//			operator=(const vector& _rval) {
+//				pointer _tmp;
+//				if (_M_start)
+//					_tmp = _M_allocate(_rval.size());
+//				std::uninitialized_copy(_rval.begin(), _rval.end(), _tmp);
+//				return (*this);
+//			}
+//
 //			template <class InputIt>
-//			void			assign(InputIt first, InputIt last);
+//			void
+//			assign(InputIt _first, InputIt _last) {
+//				_M_deallocate(_M_start, size());
+//				_M_start = _M_allocate(_count);
+//				_M_finish = _M_start + _count;
+//				_M_end_of_storage = _M_start + _count;
+//				std::uninitialized_fill_n(begin(), _count, _value);
+//			}
+
+			/**
+			 *  Empties and resizes %vecotr with _count of _value and resizes if necessary. 
+			 */
+			void
+			assign(size_type _count, T const& _value) {
+				if (_count > capacity())
+				{
+					_M_deallocate(_M_start, size());
+					_M_start = _M_allocate(_count);
+					_M_end_of_storage = _M_start + _count;
+				}
+				_M_finish = _M_start + _count;
+				std::uninitialized_fill_n(begin(), _count, _value);
+			}
 
 			/**
 			 *  Returns a copy of the internal allocator of %vector.
@@ -276,11 +300,35 @@ namespace ft
 				return (_M_end_of_storage - _M_start);
 			}
 
-//			void			reserve(size_type new_cap);
-//
-//			size_type		capacity(void) const;
-//
-//			void			clear(void);
+			void
+			reserve(size_type _new_cap) {
+				pointer		_tmp;
+				size_type	_tmp_size;
+
+				if (_new_cap > capacity())
+				{
+					_tmp_size = size();
+					_tmp = _M_allocate(_M_check_len(_new_cap));
+					std::uninitialized_copy(_M_start, _M_finish, _tmp);
+					_M_start = _tmp;
+					_M_finish = _M_start + _tmp_size;
+					_M_end_of_storage = _M_start + _new_cap;
+				}
+			}
+
+			size_type
+			capacity() const {
+				return (_M_end_of_storage - _M_start);
+			}
+
+			void
+			clear(void) {
+				size_type	_tmp_size = size();
+				for (size_type i = 0; i < _tmp_size; i++)
+				{
+					_M_alloc_intr.destroy(_M_start + (i * sizeof(value_type)));
+				}
+			}
 //
 //			iterator		insert(iterator pos, const T& value);
 //			void			insert(iterator pos, size_type count, const T& value);
@@ -296,11 +344,7 @@ namespace ft
 //
 //			void			resize(size_type count, T value = T());
 //
-			void			swap(vector& other) {
-				swap(this->_M_start, other._M_start);
-				swap(this->_M_finish, other._M_finish);
-				swap(this->_M_end_of_storage, other._M_end_of_storage);
-			}
+//			void			swap(vector& other);
 //
 		private:
 
