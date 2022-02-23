@@ -12,6 +12,8 @@
 
 #include <iostream>
 #include "TestClass.hpp"
+#define GRN "\e[0;32m"
+#define YEL "\e[0;33m"
 
 #if __FT
 #		include "vector.hpp"
@@ -38,23 +40,29 @@ print(const std::vector<TestClass>& vec) {
 int
 main(void) {
 #if __FT
+		std::cout << GRN << std::endl;
 		std::cout << "=== FT IMPLEMENTATION RESULT ===" << std::endl;
 		ft::vector<TestClass> myvector;
-		ft::vector<TestClass>::iterator it = myvector.begin();
-
 #else
+		std::cout << YEL << std::endl;
 		std::cout << "=== LIBSTD IMPLEMENTATION RESULT ===" << std::endl;
 		std::vector<TestClass> myvector;
-		std::vector<TestClass>::iterator it = myvector.begin();
-
 #endif
 		myvector.assign(4, TestClass());
+		TestClass new_test_class;
+		std::cout << "here" << std::endl;
+		myvector.reserve(40);
 		std::cout << "capacity is " << myvector.capacity() << std::endl;
+		std::cout << "size is " << myvector.size() << std::endl;
 		print(myvector);
-	//	myvector.assign(9,"rst");
-	//	myvector.reserve(40);
-	//	std::cout << "capacity is " << myvector.capacity() << std::endl;
-	//	print(myvector);
-		myvector.clear();
+
+		std::cout << "-------------PUSH BACK----------------" << std::endl;
+
+		myvector.push_back(new_test_class);
+		std::cout << "capacity is " << myvector.capacity() << std::endl;
+		std::cout << "size is " << myvector.size() << std::endl;
+		print(myvector);
+
+	//	myvector.clear();
 	return 0;
 }
