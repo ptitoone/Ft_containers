@@ -6,7 +6,7 @@
 /*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 13:36:18 by akotzky           #+#    #+#             */
-/*   Updated: 2022/02/15 15:00:27 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/02/23 21:47:16 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,20 @@ print(const std::vector<TestClass>& vec) {
 int
 main(void) {
 #if __FT
+	{
 		std::cout << GRN << std::endl;
 		std::cout << "=== FT IMPLEMENTATION RESULT ===" << std::endl;
 		ft::vector<TestClass> myvector;
 #else
+	{
 		std::cout << YEL << std::endl;
 		std::cout << "=== LIBSTD IMPLEMENTATION RESULT ===" << std::endl;
 		std::vector<TestClass> myvector;
 #endif
-		myvector.assign(4, TestClass());
 		TestClass new_test_class;
-		std::cout << "here" << std::endl;
+		myvector.assign(4, new_test_class);
 		myvector.reserve(40);
+		std::cout << "here" << std::endl;
 		std::cout << "capacity is " << myvector.capacity() << std::endl;
 		std::cout << "size is " << myvector.size() << std::endl;
 		print(myvector);
@@ -64,5 +66,6 @@ main(void) {
 		print(myvector);
 
 	//	myvector.clear();
+	}
 	return 0;
 }
