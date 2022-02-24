@@ -49,6 +49,16 @@ class VectorIterator
         }
 
         VectorIterator&
+        operator+(size_type _n) {
+            return (_M_ptr + _n);
+        }
+
+        VectorIterator&
+        operator-(size_type _n) {
+            return (_M_ptr - _n);
+        }
+
+        VectorIterator&
         operator++() {
             _M_ptr = _M_ptr + 1;
             return (*this);

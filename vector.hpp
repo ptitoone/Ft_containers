@@ -337,7 +337,37 @@ namespace ft
 //			template <class InputIt>
 //			void			insert(iterator pos, InputIt first, InputIt last);
 //
-//			iterator		erase(iterator pos);
+			iterator
+			erase(iterator _it) {
+				pointer _tmp;
+				if (_it != end())
+				{
+					_tmp = _M_alloc_intr.allocate(capacity());
+					if (_it == begin())
+					{
+						std::uninitialized_copy(_it + 1, end(), _tmp);
+						_M_finish = _tmp + (size() - 1) * sizeof(value_type);
+						_M_end_of_storage = _M_start + capacity();
+						_M_deallocate(_M_start, size());
+						_M_start = _tmp;
+						return (begin());
+					}
+					else
+					{
+						std::uninitialized_copy(begin(), _it - 1, _tmp);
+						std::uninitialized_copy(_it + 1, end(), _tmp);
+						_M_finish = _tmp + (size() - 1) * sizeof(value_type);
+						_M_end_of_storage = _M_start + capacity());
+						_M_deallocate(_M_start, size());
+						_M_start = _tmp;
+						return ();
+						//// fair la diff et l'enregistrer pour le retun 
+
+					}
+				}
+				_M_alloc_intr.destroy(*it);
+				_M_finish -= sizeof(value_type);
+			}
 //			iterator		erase(iterator first, iterator last);
 //
 			void
