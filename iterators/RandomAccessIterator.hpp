@@ -2,8 +2,8 @@
 #include "BidirectionalIterator.hpp"
 
 template <typename T>
-class RandomAccessIterator :    public BidirectionalIterator,
-                                public VectorIterator<ft::RandomAccessIterator, T>
+class RandomAccessIterator :    public BidirectionalIterator<T>,
+                                public VectorIterator<ft::random_access_iterator_tag, T>
 {
 
     public:

@@ -1,16 +1,12 @@
 #pragma once
-#include <iterator>
 #include "InputIterator.hpp"
+#include "VectorIterator.hpp"
 
 template <typename T>
-class FowardIterator : public InputIterator
+class FowardIterator :  public InputIterator<T>,
+                        public VectorIterator<ft::foward_iterator_tag, T>
 {
     public:
-        typedef std::foward_iterator_tag iterator_category;
-        typedef T   value_type;
-        typedef T   difference_type;
-        typedef T*  pointer;
-        typedef T&  reference;
 
     FowardIterator()
     : _M_ptr(0)

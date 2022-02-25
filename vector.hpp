@@ -16,6 +16,7 @@
 #include "VectorConstIterator.hpp"
 #include "VectorReverseIterator.hpp"
 #include "VectorConstReverseIterator.hpp"
+#include "RandomAccessIterator.hpp"
 #include <iostream>
 #include <memory>
 
@@ -34,7 +35,7 @@ namespace ft
 			typedef typename allocator_type::pointer pointer;
 			typedef typename allocator_type::const_pointer const_pointer;
 
-			typedef VectorIterator<T> iterator;
+			typedef RandomAccessIterator<T> iterator;
 			typedef VectorConstIterator<T> const_iterator;
 			typedef VectorReverseIterator<T> reverse_iterator;
 			typedef VectorConstReverseIterator<T> const_reverse_iterator;

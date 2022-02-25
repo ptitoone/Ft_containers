@@ -1,15 +1,12 @@
 #pragma once
 #include "FowardIterator.hpp"
+#include "VectorIterator.hpp"
 
 template <typename T>
-class BidirectionalIterator : public FowardIterator
+class BidirectionalIterator :   public FowardIterator<T>,
+                                public VectorIterator<ft::bidirectional_iterator_tag, T>
 {
     public:
-        typedef std::bidirectional_iterator_tag iterator_category;
-        typedef T   value_type;
-        typedef T   difference_type;
-        typedef T*  pointer;
-        typedef T&  reference;
 
     BidirectionalIterator()
     : _M_ptr(0)

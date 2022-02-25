@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #pragma once 
-#include <iterator>
+#include "IteratorTraits.hpp"
+#include <cstddef>
 
 template <class Category, class T, class Distance = ptrdiff_t,
           class Pointer = T*, class Reference = T&>
-struct iterator {
+struct VectorIterator {
 
     typedef T         value_type;
     typedef Distance  difference_type;
