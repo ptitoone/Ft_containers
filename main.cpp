@@ -19,17 +19,21 @@
 #		include "vector.hpp"
 void
 print(const ft::vector<TestClass>& vec) {
+		std::cout << "capacity is " << vec.capacity() << std::endl;
+		std::cout << "size is " << vec.size() << std::endl;
 		std::cout << std::endl << "Current values in vector:" << std::endl;
 		for(ft::vector<TestClass>::const_iterator it = vec.begin(); it != vec.end(); ++it)
 #else
 #		include <vector>
 void
 print(const std::vector<TestClass>& vec) {
+		std::cout << "capacity is " << vec.capacity() << std::endl;
+		std::cout << "size is " << vec.size() << std::endl;
 		std::cout << std::endl << "Current values in vector:" << std::endl;
 		for(std::vector<TestClass>::const_iterator it = vec.begin(); it != vec.end(); ++it)
 #endif
 		{
-				std::cout << "[" << *it << "]\t";
+				std::cout << "[" << it->getName() << "]\t";
 		}
 		std::cout << std::endl;
 		std::cout << "|\t|\t|\t|" << std::endl;
@@ -53,16 +57,15 @@ main(void) {
 		TestClass new_test_class;
 		myvector.assign(4, new_test_class);
 		myvector.reserve(40);
-		std::cout << "here" << std::endl;
-		std::cout << "capacity is " << myvector.capacity() << std::endl;
-		std::cout << "size is " << myvector.size() << std::endl;
 		print(myvector);
 
 		std::cout << "-------------PUSH BACK----------------" << std::endl;
 
+		new_test_class.setName("yy");
 		myvector.push_back(new_test_class);
-		std::cout << "capacity is " << myvector.capacity() << std::endl;
-		std::cout << "size is " << myvector.size() << std::endl;
+		print(myvector);
+
+		myvector.erase(myvector.begin() + 2);
 		print(myvector);
 
 	//	myvector.clear();

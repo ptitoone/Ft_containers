@@ -100,11 +100,19 @@ namespace ft
 			 */
 			void
 			assign(size_type _count, T const& _value) {
+				size_type	_tmp_size;
+
 				if (_count > capacity())
 				{
 					_M_deallocate(_M_start, size());
 					_M_start = _M_allocate(_count);
 					_M_end_of_storage = _M_start + _count;
+				}
+				else
+				{
+					_tmp_size = size();
+					for (size_type i = 0; i < _tmp_size; i++)
+						_M_alloc_intr.destroy(_M_start + i);
 				}
 				_M_finish = _M_start + _count;
 				std::uninitialized_fill_n(begin(), _count, _value);
@@ -312,8 +320,8 @@ namespace ft
 					std::uninitialized_copy(_M_start, _M_finish, _tmp);
 					_M_deallocate(_M_start, _tmp_prev_size);
 					_M_start = _tmp;
-					_M_finish = _M_start + (sizeof(value_type) * _tmp_prev_size);
-					_M_end_of_storage = _M_start + (sizeof(value_type) * _new_cap);
+					_M_finish = _M_start + _tmp_prev_size;
+					_M_end_of_storage = _M_start + _new_cap;
 				}
 			}
 
@@ -327,7 +335,7 @@ namespace ft
 				size_type	_tmp_size = size();
 				if (_tmp_size) {
 					for (size_type i = 0; i < _tmp_size; i++)
-						_M_alloc_intr.destroy(_M_start + (i * sizeof(value_type)));
+						_M_alloc_intr.destroy(_M_start + i);
 					_M_finish = _M_start;
 				}
 			}
@@ -339,58 +347,66 @@ namespace ft
 //
 			iterator
 			erase(iterator _it) {
-				pointer _tmp;
+				pointer			_tmp;
+				pointer			_return_pos;
+				size_type		_new_size = _M_check_len(1);
+				size_type		_prev_size = size();
+				size_type		_prev_capacity = capacity();
+
 				if (_it != end())
 				{
-					_tmp = _M_alloc_intr.allocate(capacity());
+					_tmp = _M_alloc_intr.allocate(_prev_capacity);
 					if (_it == begin())
 					{
-						std::uninitialized_copy(_it + 1, end(), _tmp);
-						_M_finish = _tmp + (size() - 1) * sizeof(value_type);
-						_M_end_of_storage = _M_start + capacity();
-						_M_deallocate(_M_start, size());
+						std::uninitialized_copy(_it + 1, _M_finish, _tmp);
+						_M_finish = _tmp + (_prev_size - 1);
+						_M_end_of_storage = _M_start + _prev_capacity;
+						_M_deallocate(_M_start, _prev_capacity);
 						_M_start = _tmp;
 						return (begin());
 					}
 					else
 					{
-						std::uninitialized_copy(begin(), _it - 1, _tmp);
-						std::uninitialized_copy(_it + 1, end(), _tmp);
-						_M_finish = _tmp + (size() - 1) * sizeof(value_type);
-						_M_end_of_storage = _M_start + capacity());
-						_M_deallocate(_M_start, size());
+						_return_pos = begin() - _it;
+						std::cout << "Return pos: " << _return_pos << std::endl;
+						std::uninitialized_copy(_M_start, _it - 1, _tmp);
+						std::uninitialized_copy(_it + 1, _M_finish, _tmp);
+						_M_finish = _tmp + (_prev_size - 1);
+						_M_end_of_storage = _M_start + _prev_capacity;
+						_M_deallocate(_M_start, _prev_size);
 						_M_start = _tmp;
-						return ();
-						//// fair la diff et l'enregistrer pour le retun 
-
+						return (_return_pos);
 					}
 				}
-				_M_alloc_intr.destroy(*it);
-				_M_finish -= sizeof(value_type);
+				_M_alloc_intr.destroy(*_it);
+				_M_finish--;
+				return (end() - 1);
 			}
 //			iterator		erase(iterator first, iterator last);
 //
 			void
 			push_back(const T& _value) {
 				pointer		_tmp;
-				size_type	_tmp_prev_size;
-				size_type	_tmp_new_size;
+				size_type	_new_size = _M_check_len(1);
+				size_type	_prev_size = size();
+				size_type	_prev_capacity = capacity();
+
 				if (size() < capacity())
 				{
-					_M_finish += (sizeof(value_type));
-					*_M_finish = _value;
+					_M_alloc_intr.construct(_M_finish, _value);
+					_M_finish++;
+					std::cout << "here push_back" << std::endl;
 				}
 				else
 				{
-					_tmp_prev_size = size();
-					_tmp_new_size = _M_check_len(1);
-					_tmp = _M_allocate(_tmp_new_size);
+					_tmp = _M_allocate(_new_size);
 					std::uninitialized_copy(_M_start, _M_finish, _tmp);
-					_M_deallocate(_M_start, size());
+					_M_finish = _tmp + _prev_size;
+					_M_end_of_storage = _M_start + _new_size;
+					_M_alloc_intr.construct(_M_finish, _value);
+					_M_finish++;
+					_M_deallocate(_M_start, _prev_capacity);
 					_M_start = _tmp;
-					_M_finish = _M_start + _tmp_prev_size + sizeof(value_type);
-					*_M_finish = _value;
-					_M_end_of_storage = _M_start + _tmp_new_size;
 				}
 			}
 
@@ -398,7 +414,7 @@ namespace ft
 			pop_back() {
 				if (size()) {
 					_M_alloc_intr.destroy(_M_finish);
-					_M_finish -= sizeof(value_type);
+					_M_finish--;
 				}
 			}
 //
@@ -422,7 +438,7 @@ namespace ft
 			size_type	_tmp_size = size();
 			if (_M_start != 0) {
 				for (size_type i = 0; i < _tmp_size; i++)
-					_M_alloc_intr.destroy(_M_start + (i * sizeof(value_type)));
+					_M_alloc_intr.destroy(_M_start + i);
 				_M_alloc_intr.deallocate(_ptr, _size);
 				_M_start = 0;
 				_M_finish = 0;

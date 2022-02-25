@@ -3,16 +3,14 @@
 class TestClass {
 
 public:
-    TestClass() {}
 
-    ~TestClass() {
-        std::cout << "Test class destructor called: " << std::endl;
-    }
+    TestClass();
+    TestClass(const TestClass & copy);
+    ~TestClass(); 
 
-    friend std::ostream& operator<<(std::ostream& os, TestClass const& rval)
-    {
-        std::cout << "xx";
-        return (os);
-    }
+    std::string        getName() const;
+    void setName(std::string name);
+
+    std::string _name;
 
 };

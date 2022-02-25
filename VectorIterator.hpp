@@ -48,15 +48,17 @@ class VectorIterator
             return(_M_ptr);
         }
 
-        VectorIterator&
-        operator+(size_type _n) {
+        pointer
+        operator+(int _n) {
             return (_M_ptr + _n);
         }
 
-        VectorIterator&
-        operator-(size_type _n) {
+        pointer
+        operator-(int _n) {
             return (_M_ptr - _n);
         }
+
+
 
         VectorIterator&
         operator++() {
