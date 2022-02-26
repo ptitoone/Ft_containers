@@ -18,7 +18,7 @@ class RandomAccessIterator :    public BidirectionalIterator<T>,
 
     ~RandomAccessIterator() {}
 
-    RandomAccessIterator const & =operator(const RandomAccessIterator & _rval) {
+    RandomAccessIterator const & operator=(const RandomAccessIterator & _rval) {
         this->_M_ptr = _rval._M_current();
         return (*this);
     }

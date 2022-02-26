@@ -18,7 +18,7 @@ class BidirectionalIterator :   public FowardIterator<T>,
 
     ~BidirectionalIterator() {}
 
-    BidirectionalIterator const & =operator(const BidirectionalIterator & _rval) {
+    BidirectionalIterator const & operator=(const BidirectionalIterator & _rval) {
         this->_M_ptr = _rval._M_current();
         return (*this);
     }

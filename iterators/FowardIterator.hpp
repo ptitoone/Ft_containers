@@ -18,7 +18,7 @@ class FowardIterator :  public InputIterator<T>,
 
     ~FowardIterator() {}
 
-    FowardIterator const & =operator(const FowardIterator & _rval) {
+    FowardIterator const & operator=(const FowardIterator & _rval) {
         this->_M_ptr = _rval._M_current();
         return (*this);
     }

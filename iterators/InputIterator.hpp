@@ -12,7 +12,8 @@ class InputIterator : public VectorIterator<ft::input_iterator_tag, T>
 
         ~InputIterator() {}
 
-        InputIterator const & =operator(const InputIterator & _rval) {
+        InputIterator const &
+        operator=(const InputIterator & _rval) {
             this->_M_ptr = _rval._M_current();
             return (*this);
         }
@@ -26,8 +27,8 @@ class InputIterator : public VectorIterator<ft::input_iterator_tag, T>
         operator!=(InputIterator<T> rval) const {
             return (!(_M_ptr == rval._M_current()));
         }
-
-        reference
+//ne pas oublier typename !!! 
+        typename reference
         operator*() {
             return (*_M_ptr);
         }
