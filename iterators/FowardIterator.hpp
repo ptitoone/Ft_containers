@@ -3,10 +3,13 @@
 #include "VectorIterator.hpp"
 
 template <typename T>
-class FowardIterator :  public InputIterator<T>,
-                        public VectorIterator<ft::foward_iterator_tag, T>
+class FowardIterator : public InputIterator<T>
 {
     public:
+        typedef typename InputIterator<T>::difference_type		difference_type;
+        typedef typename InputIterator<T>::value_type			value_type;
+        typedef typename InputIterator<T>::pointer				pointer;
+        typedef typename InputIterator<T>::reference			reference;
 
     FowardIterator()
     : _M_ptr(0)

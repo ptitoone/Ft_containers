@@ -1,14 +1,23 @@
 #pragma once
 #include "VectorIterator.hpp"
+#include "Iterator.hpp"
 
 template <typename T>
-class InputIterator : public VectorIterator<ft::input_iterator_tag, T>
+class InputIterator
 {
     public:
+        typedef T	difference_type;
+        typedef T	value_type;
+        typedef T*	pointer;
+        typedef T&	reference;
 
-        InputIterator(InputIterator const & _rval)
-        : _M_ptr(_rval._M_current())
-        {}
+		InputIterator()
+		: _M_ptr(0)
+		{}
+
+		InputIterator(InputIterator const & _rval)
+		: _M_ptr(_rval._M_current())
+		{}
 
         ~InputIterator() {}
 
@@ -27,8 +36,7 @@ class InputIterator : public VectorIterator<ft::input_iterator_tag, T>
         operator!=(InputIterator<T> rval) const {
             return (!(_M_ptr == rval._M_current()));
         }
-//ne pas oublier typename !!! 
-        typename reference
+        reference
         operator*() {
             return (*_M_ptr);
         }
@@ -38,15 +46,15 @@ class InputIterator : public VectorIterator<ft::input_iterator_tag, T>
             return(_M_ptr);
         }
 
-        VectorIterator&
+        InputIterator&
         operator++() {
             _M_ptr = _M_ptr + 1;
             return (*this);
         }
 
-        VectorIterator
+        InputIterator
         operator++(int post) {
-            VectorIterator tmp = *this;
+            InputIterator tmp = *this;
             ++_M_ptr;
             return (tmp);
         }

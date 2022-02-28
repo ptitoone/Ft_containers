@@ -1,12 +1,16 @@
 #pragma once
 #include "BidirectionalIterator.hpp"
+#include "IteratorTraits.hpp"
 
 template <typename T>
-class RandomAccessIterator :    public BidirectionalIterator<T>,
-                                public VectorIterator<ft::random_access_iterator_tag, T>
+class RandomAccessIterator : public BidirectionalIterator<T>
 {
-
     public:
+		typedef typename BidirectionalIterator<T>::difference_type	difference_type;
+		typedef typename BidirectionalIterator<T>::value_type		value_type;
+		typedef typename BidirectionalIterator<T>::pointer			pointer;
+		typedef typename BidirectionalIterator<T>::reference		reference;
+		typedef ft::random_access_iterator_tag					iterator_category;
 
     RandomAccessIterator()
     : _M_ptr(0)

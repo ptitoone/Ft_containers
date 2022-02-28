@@ -12,16 +12,39 @@
 
 #pragma once 
 #include "IteratorTraits.hpp"
+#include "Iterator.hpp"
+#include "RandomAccessIterator.hpp"
 #include <cstddef>
 
-template <class Category, class T, class Distance = ptrdiff_t,
-          class Pointer = T*, class Reference = T&>
-struct VectorIterator {
+template <class T, class Category = class random_access_iterator_tag>
+class VectorIterator : public ft::iterator<T, Category>, public RandomAccessIterator<T>
+{
+      public:
+            typedef typename ft::iterator<T, Category>::difference_type      difference_type;
+            typedef typename ft::iterator<T, Category>::value_type           value_type;
+            typedef typename ft::iterator<T, Category>::pointer              pointer;
+            typedef typename ft::iterator<T, Category>::reference            reference;
+            typedef typename ft::iterator<T, Category>::iterator_category    iterator_category;
+        
+            VectorIterator()
+            : _M_ptr(0)
+            {}
 
-    typedef T         value_type;
-    typedef Distance  difference_type;
-    typedef Pointer   pointer;
-    typedef Reference reference;
-    typedef Category  iterator_category;
+            VectorIterator(pointer const _ptr)
+            : _M_ptr(_ptr)
+            {}
 
+            VectorIterator(RandomAccessIterator<T> const & _rval)
+            : _M_ptr(_rval._M_current())
+            {}
+
+            ~VectorIterator() {}
+
+            VectorIterator const & operator=(const RandomAccessIterator<T> & _rval) {
+                this->_M_ptr = _rval._M_current();
+        		return (*this);
+            }
+
+            private:
+				pointer _M_ptr;
  };

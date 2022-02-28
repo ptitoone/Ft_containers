@@ -3,10 +3,13 @@
 #include "VectorIterator.hpp"
 
 template <typename T>
-class BidirectionalIterator :   public FowardIterator<T>,
-                                public VectorIterator<ft::bidirectional_iterator_tag, T>
+class BidirectionalIterator : public FowardIterator<T>
 {
     public:
+        typedef typename FowardIterator<T>::difference_type	difference_type;
+        typedef typename FowardIterator<T>::value_type		value_type;
+        typedef typename FowardIterator<T>::pointer			pointer;
+        typedef typename FowardIterator<T>::reference		reference;
 
     BidirectionalIterator()
     : _M_ptr(0)
