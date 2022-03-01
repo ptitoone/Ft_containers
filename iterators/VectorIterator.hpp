@@ -20,11 +20,11 @@ template <class T, class Category = class random_access_iterator_tag>
 class VectorIterator : public ft::iterator<T, Category>, public RandomAccessIterator<T>
 {
       public:
-            typedef typename ft::iterator<T, Category>::difference_type      difference_type;
-            typedef typename ft::iterator<T, Category>::value_type           value_type;
-            typedef typename ft::iterator<T, Category>::pointer              pointer;
-            typedef typename ft::iterator<T, Category>::reference            reference;
-            typedef typename ft::iterator<T, Category>::iterator_category    iterator_category;
+            typedef typename ft::iterator_traits<T>::difference_type      difference_type;
+            typedef typename ft::iterator_traits<T>::value_type           value_type;
+            typedef typename ft::iterator_traits<T>::pointer              pointer;
+            typedef typename ft::iterator_traits<T>::reference            reference;
+            typedef typename ft::iterator_traits<T>::iterator_category    iterator_category;
         
             VectorIterator()
             : _M_ptr(0)
