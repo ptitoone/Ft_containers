@@ -1,16 +1,16 @@
 #include <iostream>
 
 class TestClass {
-
 public:
+		TestClass();
+		TestClass(const TestClass& copy);
+		~TestClass();
 
-    TestClass();
-    TestClass(const TestClass & copy);
-    ~TestClass(); 
+		std::string
+		getName() const;
 
-    std::string        getName() const;
-    void setName(std::string name);
+		void
+		setName(std::string name);
 
-    std::string _name;
-
+		std::string _name;
 };

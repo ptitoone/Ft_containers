@@ -16,7 +16,7 @@
 #define YEL "\e[0;33m"
 
 #if __FT
-#		include "vector.hpp"
+#include "vector.hpp"
 void
 print(const ft::vector<TestClass>& vec) {
 		std::cout << "capacity is " << vec.capacity() << std::endl;
@@ -24,7 +24,7 @@ print(const ft::vector<TestClass>& vec) {
 		std::cout << std::endl << "Current values in vector:" << std::endl;
 		for(ft::vector<TestClass>::const_iterator it = vec.begin(); it != vec.end(); ++it)
 #else
-#		include <vector>
+#include <vector>
 void
 print(const std::vector<TestClass>& vec) {
 		std::cout << "capacity is " << vec.capacity() << std::endl;
