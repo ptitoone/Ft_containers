@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 
-#include "NormalIterator.hpp"
+#include "VectorIterator.hpp"
 #include "VectorException.hpp"
 #include "VectorConstIterator.hpp"
 #include "VectorReverseIterator.hpp"
@@ -34,7 +34,7 @@ namespace ft
 			typedef typename allocator_type::pointer			pointer;
 			typedef typename allocator_type::const_pointer		const_pointer;
 
-			typedef ft::NormalIterator<pointer>		iterator;
+			typedef ft::VectorIterator<pointer>		iterator;
 			typedef VectorConstIterator<T>			const_iterator;
 			typedef VectorReverseIterator<T>		reverse_iterator;
 			typedef VectorConstReverseIterator<T>	const_reverse_iterator;

@@ -4,8 +4,10 @@
 #include "IteratorTraits.hpp"
 
 namespace ft {
+        using ft::iterator;
+        using ft::iterator_traits;
 		template <class _Iterator>
-		class NormalIterator : public ft::iterator {
+		class NormalIterator {
 		protected:
 				_Iterator _M_ptr;
 				typedef typename ft::iterator_traits<_Iterator> _traits;
@@ -16,9 +18,6 @@ namespace ft {
 				typedef typename _traits::pointer pointer;
 				typedef typename _traits::reference reference;
 				typedef typename _traits::iterator_category iterator_category;
-
-				NormalIterator()
-				: _M_ptr(_Iterator) {}
 
 				NormalIterator(_Iterator const& _rval)
 				: _M_ptr(_rval) {}
@@ -82,8 +81,8 @@ namespace ft {
 				// Arithmetic operators//
 				// a + n
 				pointer
-				operator+(NormalIterator& _n) {
-						return (_M_ptr + _n._M_current());
+				operator+(difference_type _n) {
+						return (_M_ptr + _n);
 				}
 
 				pointer
@@ -99,8 +98,8 @@ namespace ft {
 				}
 
 				pointer
-				operator-(NormalIterator& _n) {
-						return (_M_ptr - _n._M_current());
+				operator-(difference_type _n) {
+						return (_M_ptr - _n);
 				}
 				// a - b
 				// Comparaison operators//
