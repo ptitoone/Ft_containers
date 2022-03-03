@@ -11,12 +11,11 @@
 /* ************************************************************************** */
 
 
-#include "VectorIterator.hpp"
+#include "NormalIterator.hpp"
 #include "VectorException.hpp"
 #include "VectorConstIterator.hpp"
 #include "VectorReverseIterator.hpp"
 #include "VectorConstReverseIterator.hpp"
-#include "RandomAccessIterator.hpp"
 #include <iostream>
 #include <memory>
 
@@ -35,7 +34,7 @@ namespace ft
 			typedef typename allocator_type::pointer			pointer;
 			typedef typename allocator_type::const_pointer		const_pointer;
 
-			typedef VectorIterator<T>				iterator;
+			typedef ft::NormalIterator<pointer>		iterator;
 			typedef VectorConstIterator<T>			const_iterator;
 			typedef VectorReverseIterator<T>		reverse_iterator;
 			typedef VectorConstReverseIterator<T>	const_reverse_iterator;
@@ -43,9 +42,9 @@ namespace ft
 			typedef size_t							size_type;
 
 			allocator_type _M_alloc_intr;
-			value_type* _M_start;
-			value_type* _M_finish;
-			value_type* _M_end_of_storage;
+			pointer _M_start;
+			pointer _M_finish;
+			pointer _M_end_of_storage;
 
 
 		public:
@@ -116,7 +115,9 @@ namespace ft
 						_M_alloc_intr.destroy(_M_start + i);
 				}
 				_M_finish = _M_start + _count;
-				std::uninitialized_fill_n(begin(), _count, _value);
+// Does not want to EAT THE FUCKING ITERATOR !!!! ////////////////////////////
+				std::uninitialized_fill_n(_M_start, _count, _value);        //
+//////////////////////////////////////////////////////////////////////////////
 			}
 
 			/**
@@ -170,7 +171,7 @@ namespace ft
 			 */
 			iterator
 			begin() {
-				return iterator(this->_M_start);
+				return (iterator(this->_M_start));
 			}
 
 			/**
@@ -340,7 +341,7 @@ namespace ft
 					_M_finish = _M_start;
 				}
 			}
-//
+
 //			iterator		insert(iterator pos, const T& value);
 //			void			insert(iterator pos, size_type count, const T& value);
 //			template <class InputIt>
@@ -379,7 +380,7 @@ namespace ft
 						return (_return_pos);
 					}
 				}
-				_M_alloc_intr.destroy(*_it);
+				_M_alloc_intr.destroy(_it._M_current());
 				_M_finish--;
 				return (end() - 1);
 			}

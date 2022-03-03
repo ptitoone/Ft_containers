@@ -65,7 +65,7 @@ main(void) {
 		myvector.push_back(new_test_class);
 		print(myvector);
 
-	//	myvector.erase(myvector.begin() + 2);
+		myvector.erase(myvector.begin() + 2);
 		print(myvector);
 
 	//	myvector.clear();
