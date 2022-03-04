@@ -6,7 +6,7 @@
 namespace ft {
         using ft::iterator;
         using ft::iterator_traits;
-		template <class _Iterator>
+		template <class _Iterator, class _Container>
 		class NormalIterator {
 		protected:
 				_Iterator _M_ptr;
@@ -19,10 +19,21 @@ namespace ft {
 				typedef typename _traits::reference reference;
 				typedef typename _traits::iterator_category iterator_category;
 
-				NormalIterator(_Iterator const& _rval)
-				: _M_ptr(_rval) {}
+                NormalIterator()
+                : _M_ptr(_Iterator())
+                {}
 
-				~NormalIterator() {}
+				NormalIterator(_Iterator const& _rval)
+				: _M_ptr(_rval)
+                {}
+
+				~NormalIterator()
+                {}
+
+				pointer
+				_M_current() const {
+						return (_M_ptr);
+				}
 
 // Foward iterator requirements
 				bool
@@ -58,10 +69,6 @@ namespace ft {
 						return (tmp);
 				}
 
-				pointer
-				_M_current() const {
-						return (_M_ptr);
-				}
 // Bidirectional iterator requirements
 
 				NormalIterator&
@@ -131,7 +138,7 @@ namespace ft {
 				// a -= n
 				// Offset difference operator//
 				reference
-				operator[](int index) {
+				operator[](difference_type index) {
 						return (*(_M_ptr + index));
 				}
 		};

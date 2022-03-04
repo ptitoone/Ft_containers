@@ -44,12 +44,10 @@ print(const std::vector<TestClass>& vec) {
 int
 main(void) {
 #if __FT
-	{
 		std::cout << GRN << std::endl;
 		std::cout << "=== FT IMPLEMENTATION RESULT ===" << std::endl;
 		ft::vector<TestClass> myvector;
 #else
-	{
 		std::cout << YEL << std::endl;
 		std::cout << "=== LIBSTD IMPLEMENTATION RESULT ===" << std::endl;
 		std::vector<TestClass> myvector;
@@ -65,10 +63,11 @@ main(void) {
 		myvector.push_back(new_test_class);
 		print(myvector);
 
+        std::cout << "iterator begin() address= \t\t" << myvector.begin()._M_current() << std::endl;
 		myvector.erase(myvector.begin() + 2);
+/* debug */return 0;
 		print(myvector);
 
 	//	myvector.clear();
-	}
 	return 0;
 }
