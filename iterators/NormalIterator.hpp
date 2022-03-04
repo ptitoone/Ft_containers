@@ -31,7 +31,7 @@ namespace ft {
                 {}
 
 				_Iterator&
-				base() const {
+				base() {
 						return (_M_ptr);
 				}
 
@@ -95,54 +95,120 @@ namespace ft {
                 }
 
                 NormalIterator
-                operator+=(difference_type _n) {
+                operator-=(difference_type _n) {
                         this->_M_ptr -= _n;
                         return (*this);
                 }
 
-/*
-				// Comparaison operators//
-				bool
-				operator<(reference rval) const {
-						return (_M_ptr < rval._M_current() ? true : false);
-				}
-
-				bool
-				operator<=(reference rval) const {
-						return ((_M_ptr < rval._M_current() || _M_ptr == rval._M_current()) ?
-																true :
-																false);
-				}
-
-				bool
-				operator>(reference rval) const {
-						return (_M_ptr > rval._M_current() ? true : false);
-				}
-
-				bool
-				operator>=(reference rval) const {
-						return ((_M_ptr > rval._M_current() || _M_ptr == rval)._M_current() ?
-																true :
-																false);
-				}
-
-                bool
-				operator==(NormalIterator rval) const {
-						return (_M_ptr == rval._M_current() ? true : false);
-				}
-
-				bool
-				operator!=(NormalIterator rval) const {
-						return (! (_M_ptr == rval._M_current()));
-				}
-				// Compound assignment operators//
-				// a += n
-				// a -= n*/
-
 				// Offset difference operator//
 				reference
-				operator[](difference_type index) {
-						return (*(_M_ptr + index));
+				operator[](difference_type _index) {
+						return (*(_M_ptr + _index));
 				}
 		};
 };
+
+template <typename _IterL, typename _IterR, typename _Container >
+bool
+operator==( ft::NormalIterator<_IterL, _Container> _lhs,
+            ft::NormalIterator<_IterR, _Container> _rhs ) {
+    return (_lhs == _rhs);
+}
+
+template <typename _Iter, typename _Container >
+bool
+operator==( ft::NormalIterator<_Iter, _Container> _lhs,
+            ft::NormalIterator<_Iter, _Container> _rhs ) {
+    return (_lhs == _rhs);
+}
+
+template <typename _IterL, typename _IterR, typename _Container >
+bool
+operator!=( ft::NormalIterator<_IterL, _Container> _lhs,
+            ft::NormalIterator<_IterR, _Container> _rhs ) {
+    return (_lhs != _rhs);
+}
+
+template <typename _Iter, typename _Container >
+bool
+operator!=( ft::NormalIterator<_Iter, _Container> _lhs,
+            ft::NormalIterator<_Iter, _Container> _rhs ) {
+    return (_lhs != _rhs);
+}
+
+template <typename _IterL, typename _IterR, typename _Container >
+bool
+operator<( ft::NormalIterator<_IterL, _Container> _lhs,
+            ft::NormalIterator<_IterR, _Container> _rhs ) {
+    return (_lhs != _rhs);
+}
+
+template <typename _Iter, typename _Container >
+bool
+operator<( ft::NormalIterator<_Iter, _Container> _lhs,
+            ft::NormalIterator<_Iter, _Container> _rhs ) {
+    return (_lhs != _rhs);
+}
+
+template <typename _IterL, typename _IterR, typename _Container >
+bool
+operator<=( ft::NormalIterator<_IterL, _Container> _lhs,
+            ft::NormalIterator<_IterR, _Container> _rhs ) {
+    return (_lhs != _rhs);
+}
+
+template <typename _Iter, typename _Container >
+bool
+operator<=( ft::NormalIterator<_Iter, _Container> _lhs,
+            ft::NormalIterator<_Iter, _Container> _rhs ) {
+    return (_lhs != _rhs);
+}
+
+template <typename _IterL, typename _IterR, typename _Container >
+bool
+operator>( ft::NormalIterator<_IterL, _Container> _lhs,
+            ft::NormalIterator<_IterR, _Container> _rhs ) {
+    return (_lhs != _rhs);
+}
+
+template <typename _Iter, typename _Container >
+bool
+operator>( ft::NormalIterator<_Iter, _Container> _lhs,
+            ft::NormalIterator<_Iter, _Container> _rhs ) {
+    return (_lhs != _rhs);
+}
+
+template <typename _IterL, typename _IterR, typename _Container >
+bool
+operator>=( ft::NormalIterator<_IterL, _Container> _lhs,
+            ft::NormalIterator<_IterR, _Container> _rhs ) {
+    return (_lhs != _rhs);
+}
+
+template <typename _Iter, typename _Container >
+bool
+operator>=( ft::NormalIterator<_Iter, _Container> _lhs,
+            ft::NormalIterator<_Iter, _Container> _rhs ) {
+    return (_lhs != _rhs);
+}
+
+template <typename _IterL, typename _IterR, typename _Container >
+typename ft::NormalIterator<_IterL, _Container>::diffrence_type
+operator-( ft::NormalIterator<_IterL, _Container> _lhs,
+            ft::NormalIterator<_IterR, _Container> _rhs ) {
+    return (_lhs.base() - _rhs.base());
+}
+
+template <typename _Iter, typename _Container >
+typename ft::NormalIterator<_Iter, _Container>::diffrence_type
+operator-( ft::NormalIterator<_Iter, _Container> _lhs,
+            ft::NormalIterator<_Iter, _Container> _rhs ) {
+    return (_lhs.base() - _rhs.base());
+}
+
+template <typename _Iter, typename _Container >
+typename ft::NormalIterator<_Iter, _Container>
+operator+(  ft::NormalIterator<_Iter, _Container> _lhs,
+            typename ft::NormalIterator<_Iter, _Container>::difference_type _rhs ) {
+    return (ft::NormalIterator<_Iter, _Container>(_lhs.base() + _rhs));
+}

@@ -35,17 +35,16 @@ namespace ft
 			typedef typename allocator_type::const_pointer		const_pointer;
 
 			typedef ft::NormalIterator<pointer, vector>   		iterator;
-			typedef VectorConstIterator<T>			const_iterator;
-			typedef VectorReverseIterator<T>		reverse_iterator;
-			typedef VectorConstReverseIterator<T>	const_reverse_iterator;
-			typedef ptrdiff_t						difference_type;
-			typedef size_t							size_type;
+			typedef VectorConstIterator<T>			            const_iterator;
+			typedef VectorReverseIterator<T>		            reverse_iterator;
+			typedef VectorConstReverseIterator<T>           	const_reverse_iterator;
+			typedef ptrdiff_t	            					difference_type;
+			typedef size_t				            			size_type;
 
 			allocator_type _M_alloc_intr;
 			pointer _M_start;
 			pointer _M_finish;
 			pointer _M_end_of_storage;
-
 
 		public:
 
@@ -64,6 +63,18 @@ namespace ft
 			_M_end_of_storage(_M_start + _count) {
 				std::uninitialized_fill_n(begin(), _count, _value);
 			}
+
+            vector&
+            operator=(const vector& _rhs) {
+                size_type _prev_size = size();
+                pointer _tmp = _M_alloc_intr.allocate(_rhs.size());
+                
+                std::uninitialized_copy(_rhs.begin(), _rhs.end(), _tmp);
+                _M_deallocate(_M_start, _prev_size);
+                _M_start = _tmp;
+                _M_finish = _M_start + _prev_size;
+                _M_end_of_storage = _M_finish;
+            }
 
 //			template< class InputIt >
 //			vector(	InputIt first, InputIt last,
@@ -350,7 +361,7 @@ namespace ft
 			iterator
 			erase(iterator _it) {
 				pointer			_tmp;
-				iterator			_return_pos;
+				iterator		_return_pos;
 				size_type		_new_size = _M_check_len(1);
 				size_type		_prev_size = size();
 				size_type		_prev_capacity = capacity();
@@ -360,7 +371,7 @@ namespace ft
 					_tmp = _M_alloc_intr.allocate(_prev_capacity);
 					if (_it == begin())
 					{
-						std::uninitialized_copy(_it + 1, _M_finish, _tmp);
+						std::uninitialized_copy(_it.base() + 1, _M_finish, _tmp);
 						_M_finish = _tmp + (_prev_size - 1);
 						_M_end_of_storage = _M_start + _prev_capacity;
 						_M_deallocate(_M_start, _prev_capacity);
@@ -450,10 +461,9 @@ namespace ft
 	};
 }
 
-
 template<class T, class Alloc>
 bool
-operator==(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& __rhs) {
+operator==(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
     return(_lhs.size() == _rhs.size()
         && std::equal(_lhs.begin(), _lhs.end(), _rhs.begin()));
 }
@@ -476,13 +486,11 @@ operator<=(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs)
     return (_lhs <= _rhs);
 }
 
-
 template<class T, class Alloc>
 bool
 operator>(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
     return (_lhs > _rhs);
 }
-
 
 template<class T, class Alloc>
 bool
