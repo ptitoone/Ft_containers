@@ -30,21 +30,13 @@ namespace ft {
 				~NormalIterator()
                 {}
 
-				pointer
-				_M_current() const {
+				_Iterator&
+				base() const {
 						return (_M_ptr);
 				}
 
 // Foward iterator requirements
-				bool
-				operator==(NormalIterator rval) const {
-						return (_M_ptr == rval._M_current() ? true : false);
-				}
 
-				bool
-				operator!=(NormalIterator rval) const {
-						return (! (_M_ptr == rval._M_current()));
-				}
 
 				reference
 				operator*() {
@@ -86,29 +78,29 @@ namespace ft {
 
 // Random Access iterator requirements
 				// Arithmetic operators//
-				// a + n
-				pointer
+				NormalIterator
 				operator+(difference_type _n) {
-						return (_M_ptr + _n);
+						return (NormalIterator(_M_ptr + _n));
 				}
 
-				pointer
-				operator+(int _n) {
-						return (_M_ptr + _n);
-				}
-				// n + a
-
-				// a - n
-				pointer
-				operator-(int _n) {
-						return (_M_ptr - _n);
-				}
-
-				pointer
+				NormalIterator
 				operator-(difference_type _n) {
-						return (_M_ptr - _n);
+						return (NormalIterator(_M_ptr - _n));
 				}
-				// a - b
+
+                NormalIterator
+                operator+=(difference_type _n) {
+                        this->_M_ptr += _n;
+                        return (*this);
+                }
+
+                NormalIterator
+                operator+=(difference_type _n) {
+                        this->_M_ptr -= _n;
+                        return (*this);
+                }
+
+/*
 				// Comparaison operators//
 				bool
 				operator<(reference rval) const {
@@ -133,9 +125,20 @@ namespace ft {
 																true :
 																false);
 				}
+
+                bool
+				operator==(NormalIterator rval) const {
+						return (_M_ptr == rval._M_current() ? true : false);
+				}
+
+				bool
+				operator!=(NormalIterator rval) const {
+						return (! (_M_ptr == rval._M_current()));
+				}
 				// Compound assignment operators//
 				// a += n
-				// a -= n
+				// a -= n*/
+
 				// Offset difference operator//
 				reference
 				operator[](difference_type index) {

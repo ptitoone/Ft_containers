@@ -63,7 +63,6 @@ main(void) {
 		myvector.push_back(new_test_class);
 		print(myvector);
 
-        std::cout << "iterator begin() address= \t\t" << myvector.begin()._M_current() << std::endl;
 		myvector.erase(myvector.begin() + 2);
 /* debug */return 0;
 		print(myvector);

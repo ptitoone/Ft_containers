@@ -350,7 +350,7 @@ namespace ft
 			iterator
 			erase(iterator _it) {
 				pointer			_tmp;
-				pointer			_return_pos;
+				iterator			_return_pos;
 				size_type		_new_size = _M_check_len(1);
 				size_type		_prev_size = size();
 				size_type		_prev_capacity = capacity();
@@ -371,7 +371,6 @@ namespace ft
 					{
 						_return_pos = begin() - _it;
 /* debug */return 0;
-						std::cout << "Return pos: " << _return_pos << std::endl;
 						std::uninitialized_copy(_M_start, _it - 1, _tmp);
 						std::uninitialized_copy(_it + 1, _M_finish, _tmp);
 						_M_finish = _tmp + (_prev_size - 1);
@@ -381,7 +380,7 @@ namespace ft
 						return (_return_pos);
 					}
 				}
-				_M_alloc_intr.destroy(_it._M_current());
+				_M_alloc_intr.destroy(_it.base());
 				_M_finish--;
 				return (end() - 1);
 			}
@@ -448,36 +447,47 @@ namespace ft
 				_M_end_of_storage = 0;
 			}
 		}
-	
 	};
 }
 
-/*
-template<class T, class Alloc>
-bool
-operator==(std::vector<T, Alloc> const& lhs, std::vector<T, Alloc> const& rhs);
-
-template<class T, class Alloc>
-constexpr bool
-operator==(std::vector<T, Alloc> const& lhs, std::vector<T, Alloc> const& rhs);
 
 template<class T, class Alloc>
 bool
-operator!=(std::vector<T, Alloc> const& lhs, std::vector<T, Alloc> const& rhs);
+operator==(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& __rhs) {
+    return(_lhs.size() == _rhs.size()
+        && std::equal(_lhs.begin(), _lhs.end(), _rhs.begin()));
+}
 
 template<class T, class Alloc>
 bool
-operator<(std::vector<T, Alloc> const& lhs, std::vector<T, Alloc> const& rhs);
+operator!=(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
+    return (!(_lhs == _rhs));
+}
 
 template<class T, class Alloc>
 bool
-operator<=(std::vector<T, Alloc> const& lhs, std::vector<T, Alloc> const& rhs);
+operator<(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
+    return (_lhs < _rhs);
+}
 
 template<class T, class Alloc>
 bool
-operator>(std::vector<T, Alloc> const& lhs, std::vector<T, Alloc> const& rhs);
+operator<=(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
+    return (_lhs <= _rhs);
+}
+
 
 template<class T, class Alloc>
 bool
-operator>=(std::vector<T, Alloc> const& lhs, std::vector<T, Alloc> const& rhs);
-*/
+operator>(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
+    return (_lhs > _rhs);
+}
+
+
+template<class T, class Alloc>
+bool
+operator>=(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
+    return (_lhs >= _rhs);
+}
+
+
