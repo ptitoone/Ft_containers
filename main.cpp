@@ -68,7 +68,8 @@ main(void) {
 		print(myvector);
 
 		myvector.erase(myvector.begin() + 2);
-/* debug */return 0;
+		//myvector.erase(myvector.end());
+        std::cout << "hahahaha" << std::endl;
 		print(myvector);
         // iterator_traits example
 

@@ -371,24 +371,25 @@ namespace ft
 					_tmp = _M_alloc_intr.allocate(_prev_capacity);
 					if (_it == begin())
 					{
+                        std::cout << "DEBUG" << std::endl; 
 						std::uninitialized_copy(_it + 1, end(), _tmp);
 						_M_finish = _tmp + (_prev_size - 1);
-						_M_end_of_storage = _M_start + _prev_capacity;
+						_M_end_of_storage = _tmp + _prev_capacity;
 						_M_deallocate(_M_start, _prev_capacity);
 						_M_start = _tmp;
 						return (begin());
 					}
 					else
 					{
-						_return_pos = std::distance(begin(), _it);
-/* debug */return 0;
-						std::uninitialized_copy(begin(), _it - 1, _tmp);
-						std::uninitialized_copy(_it + 1, end(), _tmp);
+						_return_pos = end() - _it;
+                        std::cout << "return pos = " << _return_pos << std::endl; 
+						std::uninitialized_copy(begin(), _it, _tmp);
+						std::uninitialized_copy(_it + 1, end(), (_tmp + _return_pos + 1));
 						_M_finish = _tmp + (_prev_size - 1);
-						_M_end_of_storage = _M_start + _prev_capacity;
+						_M_end_of_storage = _tmp + _prev_capacity;
 						_M_deallocate(_M_start, _prev_size);
 						_M_start = _tmp;
-					//	return (_return_pos);
+						return (begin() + _return_pos);
 					}
 				}
 				_M_alloc_intr.destroy(_it.base());
