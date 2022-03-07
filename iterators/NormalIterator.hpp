@@ -4,47 +4,43 @@
 #include "IteratorTraits.hpp"
 
 namespace ft {
-        using ft::iterator;
-        using ft::iterator_traits;
+
 		template <class _Iterator, class _Container>
 		class NormalIterator {
 		protected:
 				_Iterator _M_ptr;
-				typedef typename ft::iterator_traits<_Iterator> _traits;
 
 		public:
-				typedef typename _traits::difference_type difference_type;
-				typedef typename _traits::value_type value_type;
-				typedef typename _traits::pointer pointer;
-				typedef typename _traits::reference reference;
-				typedef typename _traits::iterator_category iterator_category;
+				typedef typename ft::iterator_traits<_Iterator>::difference_type difference_type;
+				typedef typename ft::iterator_traits<_Iterator>::value_type value_type;
+				typedef typename ft::iterator_traits<_Iterator>::pointer pointer;
+				typedef typename ft::iterator_traits<_Iterator>::reference reference;
+				typedef typename ft::iterator_traits<_Iterator>::iterator_category iterator_category;
 
                 NormalIterator()
                 : _M_ptr(_Iterator())
                 {}
 
-				NormalIterator(_Iterator const& _rval)
-				: _M_ptr(_rval)
+				NormalIterator(_Iterator const& _copy)
+				: _M_ptr(_copy)
                 {}
 
 				~NormalIterator()
                 {}
 
-				_Iterator&
-				base() {
+				const _Iterator&
+				base() const {
 						return (_M_ptr);
 				}
-
 // Foward iterator requirements
 
-
 				reference
-				operator*() {
+				operator*() const {
 						return (*_M_ptr);
 				}
 
 				pointer
-				operator->() {
+				operator->() const {
 						return (_M_ptr);
 				}
 
@@ -79,13 +75,18 @@ namespace ft {
 // Random Access iterator requirements
 				// Arithmetic operators//
 				NormalIterator
-				operator+(difference_type _n) {
+				operator+(difference_type _n) const {
 						return (NormalIterator(_M_ptr + _n));
 				}
 
 				NormalIterator
-				operator-(difference_type _n) {
+				operator-(difference_type _n) const {
 						return (NormalIterator(_M_ptr - _n));
+				}
+
+				difference_type
+				operator-(NormalIterator &_n) const {
+						return (_M_ptr - _n.base());
 				}
 
                 NormalIterator
@@ -102,7 +103,7 @@ namespace ft {
 
 				// Offset difference operator//
 				reference
-				operator[](difference_type _index) {
+				operator[](difference_type _index) const {
 						return (*(_M_ptr + _index));
 				}
 		};
@@ -112,84 +113,84 @@ template <typename _IterL, typename _IterR, typename _Container >
 bool
 operator==( ft::NormalIterator<_IterL, _Container> _lhs,
             ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs == _rhs);
+    return (_lhs.base() == _rhs.base());
 }
 
 template <typename _Iter, typename _Container >
 bool
 operator==( ft::NormalIterator<_Iter, _Container> _lhs,
             ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs == _rhs);
+    return (_lhs.base() == _rhs.base());
 }
 
 template <typename _IterL, typename _IterR, typename _Container >
 bool
 operator!=( ft::NormalIterator<_IterL, _Container> _lhs,
             ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs != _rhs);
+    return (_lhs.base() != _rhs.base());
 }
 
 template <typename _Iter, typename _Container >
 bool
 operator!=( ft::NormalIterator<_Iter, _Container> _lhs,
             ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs != _rhs);
+    return (_lhs.base() != _rhs.base());
 }
 
 template <typename _IterL, typename _IterR, typename _Container >
 bool
 operator<( ft::NormalIterator<_IterL, _Container> _lhs,
             ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs != _rhs);
+    return (_lhs.base() != _rhs.base());
 }
 
 template <typename _Iter, typename _Container >
 bool
 operator<( ft::NormalIterator<_Iter, _Container> _lhs,
             ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs != _rhs);
+    return (_lhs.base() != _rhs.base());
 }
 
 template <typename _IterL, typename _IterR, typename _Container >
 bool
 operator<=( ft::NormalIterator<_IterL, _Container> _lhs,
             ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs != _rhs);
+    return (_lhs.base() != _rhs.base());
 }
 
 template <typename _Iter, typename _Container >
 bool
 operator<=( ft::NormalIterator<_Iter, _Container> _lhs,
             ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs != _rhs);
+    return (_lhs.base() != _rhs.base());
 }
 
 template <typename _IterL, typename _IterR, typename _Container >
 bool
 operator>( ft::NormalIterator<_IterL, _Container> _lhs,
             ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs != _rhs);
+    return (_lhs.base() != _rhs.base());
 }
 
 template <typename _Iter, typename _Container >
 bool
 operator>( ft::NormalIterator<_Iter, _Container> _lhs,
             ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs != _rhs);
+    return (_lhs.base() != _rhs.base());
 }
 
 template <typename _IterL, typename _IterR, typename _Container >
 bool
 operator>=( ft::NormalIterator<_IterL, _Container> _lhs,
             ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs != _rhs);
+    return (_lhs.base() != _rhs.base());
 }
 
 template <typename _Iter, typename _Container >
 bool
 operator>=( ft::NormalIterator<_Iter, _Container> _lhs,
             ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs != _rhs);
+    return (_lhs.base() != _rhs.base());
 }
 
 template <typename _IterL, typename _IterR, typename _Container >

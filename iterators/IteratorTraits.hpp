@@ -3,11 +3,11 @@
 
 namespace ft {
 
-		struct input_iterator_tag {};
-		struct output_iterator_tag {};
-		struct foward_iterator_tag : public input_iterator_tag {};
-		struct bidirectional_iterator_tag : public foward_iterator_tag {};
-		struct random_access_iterator_tag : public bidirectional_iterator_tag {};
+		typedef std::input_iterator_tag input_iterator_tag;
+		typedef std::output_iterator_tag output_iterator_tag;
+		typedef std::forward_iterator_tag forward_iterator_tag;
+		typedef std::bidirectional_iterator_tag bidirectional_iterator_tag;
+		typedef std::random_access_iterator_tag random_access_iterator_tag;
 
 		template <class _Iterator>
 		struct iterator_traits {

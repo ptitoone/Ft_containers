@@ -14,6 +14,10 @@
 #include "TestClass.hpp"
 #define GRN "\e[0;32m"
 #define YEL "\e[0;33m"
+#include <iostream>     // std::cout
+#include <iterator>     // std::iterator_traits
+#include <typeinfo>     // typeid
+#include "./iterators/IteratorTraits.hpp"
 
 #if __FT
 #include "vector.hpp"
@@ -66,6 +70,7 @@ main(void) {
 		myvector.erase(myvector.begin() + 2);
 /* debug */return 0;
 		print(myvector);
+        // iterator_traits example
 
 	//	myvector.clear();
 	return 0;

@@ -361,7 +361,7 @@ namespace ft
 			iterator
 			erase(iterator _it) {
 				pointer			_tmp;
-				iterator		_return_pos;
+				difference_type _return_pos;
 				size_type		_new_size = _M_check_len(1);
 				size_type		_prev_size = size();
 				size_type		_prev_capacity = capacity();
@@ -371,7 +371,7 @@ namespace ft
 					_tmp = _M_alloc_intr.allocate(_prev_capacity);
 					if (_it == begin())
 					{
-						std::uninitialized_copy(_it.base() + 1, _M_finish, _tmp);
+						std::uninitialized_copy(_it + 1, end(), _tmp);
 						_M_finish = _tmp + (_prev_size - 1);
 						_M_end_of_storage = _M_start + _prev_capacity;
 						_M_deallocate(_M_start, _prev_capacity);
@@ -380,15 +380,15 @@ namespace ft
 					}
 					else
 					{
-						_return_pos = begin() - _it;
+						_return_pos = std::distance(begin(), _it);
 /* debug */return 0;
-						std::uninitialized_copy(_M_start, _it - 1, _tmp);
-						std::uninitialized_copy(_it + 1, _M_finish, _tmp);
+						std::uninitialized_copy(begin(), _it - 1, _tmp);
+						std::uninitialized_copy(_it + 1, end(), _tmp);
 						_M_finish = _tmp + (_prev_size - 1);
 						_M_end_of_storage = _M_start + _prev_capacity;
 						_M_deallocate(_M_start, _prev_size);
 						_M_start = _tmp;
-						return (_return_pos);
+					//	return (_return_pos);
 					}
 				}
 				_M_alloc_intr.destroy(_it.base());
@@ -463,39 +463,43 @@ namespace ft
 
 template<class T, class Alloc>
 bool
-operator==(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
+operator==(ft::vector<T, Alloc> const& _lhs, ft::vector<T, Alloc> const& _rhs) {
     return(_lhs.size() == _rhs.size()
         && std::equal(_lhs.begin(), _lhs.end(), _rhs.begin()));
 }
 
 template<class T, class Alloc>
 bool
-operator!=(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
+operator!=(ft::vector<T, Alloc> const& _lhs, ft::vector<T, Alloc> const& _rhs) {
     return (!(_lhs == _rhs));
 }
 
 template<class T, class Alloc>
 bool
-operator<(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
+operator<(ft::vector<T, Alloc> const& _lhs, ft::vector<T, Alloc> const& _rhs) {
     return (_lhs < _rhs);
 }
 
 template<class T, class Alloc>
 bool
-operator<=(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
+operator<=(ft::vector<T, Alloc> const& _lhs, ft::vector<T, Alloc> const& _rhs) {
     return (_lhs <= _rhs);
 }
 
 template<class T, class Alloc>
 bool
-operator>(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
+operator>(ft::vector<T, Alloc> const& _lhs, ft::vector<T, Alloc> const& _rhs) {
     return (_lhs > _rhs);
 }
 
 template<class T, class Alloc>
 bool
-operator>=(std::vector<T, Alloc> const& _lhs, std::vector<T, Alloc> const& _rhs) {
+operator>=(ft::vector<T, Alloc> const& _lhs, ft::vector<T, Alloc> const& _rhs) {
     return (_lhs >= _rhs);
 }
 
-
+//template<class T, class Alloc>
+//typename ft::vector<T, Alloc>::iterator
+//operator-(typename ft::vector<T, Alloc>::iterator const& _lhs, typename ft::vector<T, Alloc>::iterator const& _rhs) {
+    //return (typename ft::vector<T, Alloc>::iterator(_lhs.base() - _rhs.base()));
+//}
