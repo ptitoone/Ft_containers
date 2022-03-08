@@ -56,22 +56,42 @@ main(void) {
 		std::cout << "=== LIBSTD IMPLEMENTATION RESULT ===" << std::endl;
 		std::vector<TestClass> myvector;
 #endif
-		TestClass new_test_class;
-		myvector.assign(4, new_test_class);
-		myvector.reserve(40);
+		TestClass new_test_class0;
+		TestClass new_test_class1;
+		TestClass new_test_class2;
+		TestClass new_test_class3;
+		TestClass new_test_class4;
+		TestClass new_test_class5;
+
+		new_test_class0.setName("aa");
+		new_test_class1.setName("bb");
+		new_test_class2.setName("cc");
+		new_test_class3.setName("dd");
+		new_test_class4.setName("ee");
+		new_test_class5.setName("ff");
+//        std::cout << "reserve" << std::endl;
+//		myvector.reserve(40);
+
+		myvector.push_back(new_test_class0);
+		myvector.push_back(new_test_class1);
+		myvector.push_back(new_test_class2);
+		myvector.push_back(new_test_class3);
+		myvector.push_back(new_test_class4);
+		myvector.push_back(new_test_class5);
+        return 0;
 		print(myvector);
 
-		std::cout << "-------------PUSH BACK----------------" << std::endl;
+        std::cout << "erase" << std::endl;
+#if __FT
+    ft::vector<TestClass>::iterator it;
+#else
+    std::vector<TestClass>::iterator it;
+#endif
 
-		new_test_class.setName("yy");
-		myvector.push_back(new_test_class);
+		it = myvector.erase(myvector.begin() + 1, myvector.begin() + 3);
+        
+        std::cout << "Print returned iter from erase : " << it->getName() << std::endl;
 		print(myvector);
-
-		myvector.erase(myvector.begin() + 2);
-		//myvector.erase(myvector.end());
-        std::cout << "hahahaha" << std::endl;
-		print(myvector);
-        // iterator_traits example
 
 	//	myvector.clear();
 	return 0;

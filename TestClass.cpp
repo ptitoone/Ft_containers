@@ -6,10 +6,11 @@ TestClass::TestClass()
 
 TestClass::TestClass(const TestClass& copy)
 : _name(copy.getName()) {
+		std::cout << "Copy constructor called: " << std::endl;
 }
 
 TestClass::~TestClass() {
-		std::cout << "Test class destructor called: " << std::endl;
+	    std::cout << "Test class destructor called: " << std::endl;
 }
 
 std::string
