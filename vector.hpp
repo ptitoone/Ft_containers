@@ -66,14 +66,12 @@ namespace ft
 
             vector&
             operator=(const vector& _rhs) {
-                size_type _prev_size = size();
-                pointer _tmp = _M_alloc_intr.allocate(_rhs.size());
-                
-                std::uninitialized_copy(_rhs.begin(), _rhs.end(), _tmp);
                 _M_deallocate(_M_start, capacity());
-                _M_start = _tmp;
-                _M_finish = _M_start + _prev_size;
-                _M_end_of_storage = _M_finish;
+                _M_start = _M_alloc_intr.allocate(_rhs.capacity());
+                std::uninitialized_copy(_rhs.begin(), _rhs.end(), _M_start);
+                _M_finish = _M_start + _rhs.size();
+                _M_end_of_storage = _M_start + _rhs.capacity();
+                return (*this);
             }
 
 //			template< class InputIt >
@@ -126,9 +124,7 @@ namespace ft
 						_M_alloc_intr.destroy(_M_start + i);
 				}
 				_M_finish = _M_start + _count;
-// Does not want to EAT THE FUCKING ITERATOR !!!! ////////////////////////////
-				std::uninitialized_fill_n(_M_start, _count, _value);        //
-//////////////////////////////////////////////////////////////////////////////
+				std::uninitialized_fill_n(_M_start, _count, _value);
 			}
 
 			/**
@@ -358,62 +354,41 @@ namespace ft
 //			template <class InputIt>
 //			void			insert(iterator pos, InputIt first, InputIt last);
 //
+
 			iterator
 			erase(iterator _it) {
-				pointer			_tmp;
-				difference_type _return_pos;
-				size_type		_prev_size = size();
-				size_type		_prev_capacity = capacity();
+                difference_type _return_pos = std::distance(begin(), _it);
+                pointer         _tmp = _it.base();
 
-				if (_it != end())
-				{
-					_tmp = _M_alloc_intr.allocate(_prev_capacity);
-					if (_it == begin())
-					{
-						std::uninitialized_copy(_it + 1, end(), _tmp);
-						_M_deallocate(_M_start, _prev_capacity);
-						_M_start = _tmp;
-						_M_finish = _M_start + (_prev_size - 1);
-						_M_end_of_storage = _M_start + _prev_capacity;
-						return (begin());
-					}
-					else
-					{
-						_return_pos = std::distance(begin(), _it);
-						std::uninitialized_copy(begin(),
-                            begin() + std::distance(begin(), _it),
-                            _tmp);
-						std::uninitialized_copy_n(_it + 1,
-                            std::distance(_it + 1, end()),
-                            (_tmp + _return_pos));
-					    _M_deallocate(_M_start, capacity());
-						_M_start = _tmp;
-						_M_finish = _M_start + (_prev_size - 1);
-						_M_end_of_storage = _M_start + _prev_capacity;
-						return (begin() + _return_pos);
-					}
-				}
-				_M_alloc_intr.destroy(_it.base());
-				_M_finish--;
-				return (end());
-			}
+                _M_alloc_intr.destroy(_it.base());
+                if (_it != end())
+                {
+                    while (_tmp != _M_finish)
+                    {
+                        *_tmp = *(_tmp + 1);
+                        _tmp++;
+                    }
+                }
+                _M_finish--;
+                return (begin() + _return_pos); 
+            }
 
 			iterator
             erase(iterator _first, iterator _last) {
-                pointer         _tmp;
-				difference_type _return_pos = std::distance(begin(), _first);
-				difference_type _del_count = std::distance(_first, _last);
-				size_type		_prev_size = size();
-				size_type		_prev_capacity = capacity();
+                pointer         _f = _first.base();
+                pointer         _l = _last.base();
+                difference_type _return_pos = std::distance(_first, _last);
 
-                _tmp = _M_allocate(capacity());
-                std::uninitialized_copy(begin(), _first, _tmp);
-                std::uninitialized_copy(_last, end(), _tmp + std::distance(begin(), _first));
-                _M_deallocate(_M_start, capacity());
-                _M_start = _tmp;
-                _M_finish = _M_start + (_prev_size - _del_count);
-                _M_end_of_storage = _M_start + _prev_capacity;
-                return (_M_start + _return_pos);
+                while (_first != _last)
+                    _M_alloc_intr.destroy((_first++).base());
+                while (_l != _M_finish)
+                {
+                    *_f = *_l;
+                    _f++;
+                    _l++;
+                }
+                _M_finish -= _return_pos;
+                return (begin() + _return_pos);
             }
 
 			void
@@ -423,25 +398,19 @@ namespace ft
 				size_type	_prev_size = size();
 				size_type	_prev_capacity = capacity();
 
-                //std::cout << "\nhere" << std::endl;
-
 				if (size() < capacity())
 				{
 					_M_alloc_intr.construct(_M_finish, _value);
 					_M_finish++;
-                    //std::cout << "in IF " << std::endl ;
-                    //std::cout << "New size = " << size() << std::endl;
 				}
 				else
 				{
 					_tmp = _M_allocate(_new_size);
-                    //std::cout << "New capacity = " << _new_size << std::endl;
 					std::uninitialized_copy(_M_start, _M_finish, _tmp);
 					_M_deallocate(_M_start, _prev_capacity);
 					_M_start = _tmp;
 					_M_finish = _M_start + _prev_size;
 					_M_end_of_storage = _M_start + _new_size;
-                    //std::cout << "alloc.construct" << std::endl;
 					_M_alloc_intr.construct(_M_finish, _value);
 					_M_finish++;
 				}
@@ -457,13 +426,27 @@ namespace ft
 //
 //			void			resize(size_type count, T value = T());
 //
-//			void			swap(vector& other);
+			void
+            swap(vector& other) {
+                pointer _tmp_start = other._M_start;
+                pointer _tmp_finish = other._M_finish;
+                pointer _tmp_end_of_storage = other._M_end_of_storage;
+
+                other._M_start = _M_start;
+                other._M_finish = _M_finish;
+                other._M_end_of_storage = _M_end_of_storage;
+
+                _M_start = _tmp_start;
+                _M_finish = _tmp_finish;
+                _M_end_of_storage = _tmp_end_of_storage;
+            }
+
 		private:
 
 		size_type _M_check_len(size_type _size) {
 			if (_M_alloc_intr.max_size() - size() < _size)
 				throw(VectorException::OutOfMemoryException());
-			size_type _len = size() + std::max(max_size(), _size);
+			size_type _len = size() + std::max(size(), _size);
 			return ((_len < size() || _len < max_size()) ? max_size() : _len);
 		}
 
@@ -472,9 +455,9 @@ namespace ft
         }
 
 		void _M_deallocate(pointer _ptr, size_type _capacity) {
-			if (_M_start != 0) {
+			if (_ptr != 0) {
 				for (size_type i = 0; i < size(); i++)
-					_M_alloc_intr.destroy(_M_start + i);
+					_M_alloc_intr.destroy(_ptr + i);
 				_M_alloc_intr.deallocate(_ptr, _capacity);
 				_M_start = 0;
 				_M_finish = 0;

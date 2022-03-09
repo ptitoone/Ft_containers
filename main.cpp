@@ -51,10 +51,12 @@ main(void) {
 		std::cout << GRN << std::endl;
 		std::cout << "=== FT IMPLEMENTATION RESULT ===" << std::endl;
 		ft::vector<TestClass> myvector;
+		ft::vector<TestClass> myvector1;
 #else
 		std::cout << YEL << std::endl;
 		std::cout << "=== LIBSTD IMPLEMENTATION RESULT ===" << std::endl;
 		std::vector<TestClass> myvector;
+		std::vector<TestClass> myvector1;
 #endif
 		TestClass new_test_class0;
 		TestClass new_test_class1;
@@ -63,14 +65,28 @@ main(void) {
 		TestClass new_test_class4;
 		TestClass new_test_class5;
 
+		TestClass new_test_class6;
+		TestClass new_test_class7;
+		TestClass new_test_class8;
+		TestClass new_test_class9;
+		TestClass new_test_class10;
+		TestClass new_test_class11;
+
 		new_test_class0.setName("aa");
 		new_test_class1.setName("bb");
 		new_test_class2.setName("cc");
 		new_test_class3.setName("dd");
 		new_test_class4.setName("ee");
 		new_test_class5.setName("ff");
-//        std::cout << "reserve" << std::endl;
-//		myvector.reserve(40);
+
+		new_test_class6.setName("00");
+		new_test_class7.setName("11");
+		new_test_class8.setName("22");
+		new_test_class9.setName("33");
+		new_test_class10.setName("44");
+		new_test_class11.setName("55");
+        std::cout << "reserve" << std::endl;
+    	myvector.reserve(40);
 
 		myvector.push_back(new_test_class0);
 		myvector.push_back(new_test_class1);
@@ -78,20 +94,18 @@ main(void) {
 		myvector.push_back(new_test_class3);
 		myvector.push_back(new_test_class4);
 		myvector.push_back(new_test_class5);
-        return 0;
-		print(myvector);
 
-        std::cout << "erase" << std::endl;
-#if __FT
-    ft::vector<TestClass>::iterator it;
-#else
-    std::vector<TestClass>::iterator it;
-#endif
-
-		it = myvector.erase(myvector.begin() + 1, myvector.begin() + 3);
-        
-        std::cout << "Print returned iter from erase : " << it->getName() << std::endl;
+		myvector1.push_back(new_test_class6);
+		myvector1.push_back(new_test_class7);
+		myvector1.push_back(new_test_class8);
+		myvector1.push_back(new_test_class9);
+		myvector1.push_back(new_test_class10);
+		myvector1.push_back(new_test_class11);
 		print(myvector);
+		print(myvector1);
+        myvector1.assign(3, new_test_class0);
+		print(myvector);
+		print(myvector1);
 
 	//	myvector.clear();
 	return 0;

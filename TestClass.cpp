@@ -10,6 +10,7 @@ TestClass::TestClass(const TestClass& copy)
 }
 
 TestClass::~TestClass() {
+    std::cout << this->getName() << std::endl;
 	    std::cout << "Test class destructor called: " << std::endl;
 }
 

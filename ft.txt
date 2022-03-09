@@ -1,62 +1,16 @@
 clear
 [H[2J[0;32m
 === FT IMPLEMENTATION RESULT ===
-push back elems
-Copy constructor called: 
-Copy constructor called: 
-Test class destructor called: 
-Copy constructor called: 
-Copy constructor called: 
-Copy constructor called: 
-Test class destructor called: 
-Test class destructor called: 
 Copy constructor called: 
 Copy constructor called: 
 Copy constructor called: 
 Copy constructor called: 
 Copy constructor called: 
 Copy constructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Copy constructor called: 
-Copy constructor called: 
-capacity is 8
-size is 6
-
-Current values in vector:
-[aa]	[bb]	[cc]	[dd]	[ee]	[ff]	
-|	|	|	|
-0	1	2	3
-
-erase
 Copy constructor called: 
 Copy constructor called: 
 Copy constructor called: 
 Copy constructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Print returned iter from erase : dd
-capacity is 8
-size is 4
-
-Current values in vector:
-[aa]	[dd]	[ee]	[ff]	
-|	|	|	|
-0	1	2	3
-
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
-Test class destructor called: 
+Copy constructor called: 
+Copy constructor called: 
+Copy constructor called: 
