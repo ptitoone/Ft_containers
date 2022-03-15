@@ -6,16 +6,16 @@
 /*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 18:53:28 by akotzky           #+#    #+#             */
-/*   Updated: 2022/02/21 22:34:59 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/03/15 23:56:47 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "NormalIterator.hpp"
 #include "VectorException.hpp"
-#include "VectorConstIterator.hpp"
-#include "VectorReverseIterator.hpp"
-#include "VectorConstReverseIterator.hpp"
+#include "iterators/NormalIterator.hpp"
+#include "iterators/VectorConstIterator.hpp"
+#include "iterators/VectorReverseIterator.hpp"
+#include "iterators/VectorConstReverseIterator.hpp"
 #include <iostream>
 #include <memory>
 
@@ -27,8 +27,8 @@ namespace ft
 
 		public:
 
-			typedef T value_type;
-			typedef Allocator allocator_type;
+			typedef T 											value_type;
+			typedef Allocator									allocator_type;
 			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
 			typedef typename allocator_type::pointer			pointer;
@@ -55,13 +55,13 @@ namespace ft
 			_M_end_of_storage(0) {}
 
 			explicit vector(size_type _count,
-							const T& _value,
+							const T& _value = value_type(),
 							const allocator_type& _alloc = allocator_type())
 			: _M_alloc_intr(_alloc),
 			_M_start(_M_alloc_intr.allocate(_count)),
 			_M_finish(_M_start + _count),
 			_M_end_of_storage(_M_start + _count) {
-				std::uninitialized_fill_n(begin(), _count, _value);
+				std::uninitialized_fill_n(_M_start, _count, _value);
 			}
 
             vector&
@@ -76,242 +76,170 @@ namespace ft
 
 //			template< class InputIt >
 //			vector(	InputIt first, InputIt last,
-//			Allocator const& alloc = Allocator());
+//			Allocator const& alloc = Allocator()) {
+//				
 //
-//			vector(vector const& other);
-//
-			~vector(void) {
-				_M_deallocate(_M_start, capacity());
-				//std::cout << "Vector destructor called" << std::endl;
-			}
-//
-//			vector&
-//			operator=(const vector& _rval) {
-//				pointer _tmp;
-//				if (_M_start)
-//					_tmp = _M_allocate(_rval.size());
-//				std::uninitialized_copy(_rval.begin(), _rval.end(), _tmp);
-//				return (*this);
 //			}
 //
-//			template <class InputIt>
-//			void
-//			assign(InputIt _first, InputIt _last) {
-//				_M_deallocate(_M_start, size());
-//				_M_start = _M_allocate(_count);
-//				_M_finish = _M_start + _count;
-//				_M_end_of_storage = _M_start + _count;
-//				std::uninitialized_fill_n(begin(), _count, _value);
+//			vector(vector const& other) {
+//
 //			}
 
-			/**
-			 *  Empties %vecotr, resizes if necessary and fills with _count _value. 
-			 */
+			~vector(void) {
+				_M_deallocate(_M_start, capacity());
+			}
+
 			void
-			assign(size_type _count, T const& _value) {
-				size_type	_tmp_size;
+			assign(iterator _first, iterator _last) {
+				size_type _count = std::distance(_first, _last);
 
 				if (_count > capacity())
 				{
 					_M_deallocate(_M_start, capacity());
 					_M_start = _M_allocate(_count);
+					_M_finish = _M_start + _count;
 					_M_end_of_storage = _M_start + _count;
+					std::uninitialized_copy(_first, _last, _M_start);
 				}
 				else
 				{
-					_tmp_size = size();
-					for (size_type i = 0; i < _tmp_size; i++)
+					for (size_type i = size() - 1; i >= _count; i--)
 						_M_alloc_intr.destroy(_M_start + i);
+					_M_finish = _M_start + _count;
+					for (size_type i = 0; _first != _last; _first++)
+						*(_M_start + i++) = *_first;
 				}
-				_M_finish = _M_start + _count;
-				std::uninitialized_fill_n(_M_start, _count, _value);
 			}
 
-			/**
-			 *  Returns a copy of the internal allocator of %vector.
-			 */
+			void
+			assign(size_type _count, T const& _value) {
+				if (_count > capacity())
+				{
+					_M_deallocate(_M_start, capacity());
+					_M_start = _M_allocate(_count);
+					_M_finish = _M_start + _count;
+					_M_end_of_storage = _M_start + _count;
+					std::uninitialized_fill_n(_M_start, _count, _value);
+				}
+				else
+				{
+					for (size_type i = size() - 1; i >= _count; i--)
+						_M_alloc_intr.destroy(_M_start + i);
+					_M_finish = _M_start + _count;
+					for (size_type i = 0; i < _count; i++)
+						*(_M_start + i) = _value;
+				}
+			}
+
 			allocator_type
 			get_allocator() const {
 				return (_M_alloc_intr);
 			}
 
-			/**
-			 *  Checks if _pos is in range and returns a reference at 
-			 * 	element at _pos in %vector.
-			 */
 			reference
 			at(size_type _pos) {
 				if (_pos < size())
 					return (_M_start[_pos]);
 			}
 
-			/**
-			 *  Checks if _pos is in range and returns a const reference
-			 *  at element at _pos in %vector.
-			 */
 			const_reference
 			at(size_type _pos) const {
 				if (_pos < size())
 					return (_M_start[_pos]);
 			}
-			/**
-			 *  Returns a reference to the object at element _pos.
-			 *  Does not check if _pos is in range.
-			 */
+
 			reference
 			operator[](size_type _pos) {
-				return (_M_start + _pos);
+				return (*(_M_start + _pos));
 			}
 
-			/**
-			 *  Returns a const reference to the object at element _pos.
-			 *  Does not check if _pos is in range.
-			 */
 			const_reference
 			operator[](size_type _pos) const {
-				return (_M_start + _pos);
+				return (*(_M_start + _pos));
 			}
-			
-			/**
-			 *	Returns a read/write iterator that points to the first element
-			 *	of %vector. Iteration is done in foward order.
-			 */
+
 			iterator
 			begin() {
 				return (iterator(this->_M_start));
 			}
 
-			/**
-			 *	Returns a read iterator that points to the first element
-			 *	of %vector. Iteration is done in foward order.
-			 */
 			const_iterator
 			begin() const {
 				return (const_iterator(this->_M_start));
 			}
-			
 
-			/**
-			 *	Returns a read/write iterator that points to the last element
-			 *	of %vector. Iteration is done in foward order.
-			 */
 			iterator
 			end() {
 				return (iterator(this->_M_finish));
 			}
 
-			/**
-			 *	Returns a read iterator that points to the last element
-			 *	of %vector. Iteration is done in foward order.
-			 */
 			const_iterator
 			end() const {
 				return (const_iterator(this->_M_finish));
 			}
 			
-			/**
-			 *	Returns a read/write iterator that points to the last element
-			 *	of %vector. Iteration is done in reverse order.
-			 */
 			reverse_iterator
 			rbegin() {
 				return (reverse_iterator(this->_M_finish - 1));
 			}
 
-			/**
-			 *	Returns a read iterator that points to the last element
-			 *	of %vector. Iteration is done in reverse order.
-			 */
 			const_reverse_iterator
 			rbegin() const {
 				return (const_reverse_iterator(this->_M_finish - 1));
 			}
 
-			/**
-			 *	Returns a read/ iterator that points to the last element
-			 *	of %vector. Iteration is done foward order.
-			 */
 			reverse_iterator
 			rend() {
 				return (reverse_iterator(this->_M_start - 1));
 			}
 
-			/**
-			 *	Returns a read/ iterator that points to the last element
-			 *	of %vector. Iteration is done foward order.
-			 */
 			const_reverse_iterator
 			rend() const {
 				return (const_reverse_iterator(this->_M_start - 1));
 			}
 
-			/**
-			 *  Returns a read/write referece to the first element of %vector.
-			 */
 			reference
 			front() {
 				return (*_M_start);
 			}
 
-			/**
-			 *  Returns a read referece to the first element of %vector.
-			 */
 			const_reference
 			front() const {
 				return (*_M_start);
 			}
 
-			/**
-			 *  Returns a read/write referece to the last element of %vector.
-			 */
 			reference
 			back() {
 				return (*_M_finish);
 			}
 
-			/**
-			 *  Returns a read referece to the last element of %vector.
-			 */
 			const_reference
 			back() const {
 				return (*_M_finish);
 			}
 
-			/**
-			 *  Returns a read/write direct pointer to the internal storage array.
-			 */
 			pointer
 			data() {
 				return (_M_start);
 			}
 
-			/**
-			 *  Returns a read direct pointer to the internal storage array.
-			 */
 			const_pointer
 			data() const {
 				return (_M_start);
 			}
 
-			/**
-			 *  Evaluates to true if %vector has no elements.
-			 */
 			bool
 			empty(void) const {
 				return (this->_M_finish == this->_M_start ? true : false);
 			}
 
-			/**
-			 *  Returns the number of elements stored in %vector.
-			 */
 			size_type
 			size() const {
+			//	std::cout << "start = " << _M_start << std::endl;
+			//	std::cout << "finish = " << _M_finish << std::endl;
 				return (_M_finish - _M_start);
 			}
 
-			/**
-			 *  Returns the maximum storage capacity in %vector.
-			 */
 			size_type
 			max_size() const {
 				return (_M_end_of_storage - _M_start);

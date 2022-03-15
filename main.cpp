@@ -6,7 +6,7 @@
 /*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 13:36:18 by akotzky           #+#    #+#             */
-/*   Updated: 2022/02/23 21:47:16 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/03/15 19:14:28 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "TestClass.hpp"
 #define GRN "\e[0;32m"
 #define YEL "\e[0;33m"
-#include <iostream>     // std::cout
-#include <iterator>     // std::iterator_traits
-#include <typeinfo>     // typeid
+#include <iostream>
+#include <iterator>
+#include <typeinfo>
 #include "./iterators/IteratorTraits.hpp"
 
 #if __FT
@@ -86,7 +86,7 @@ main(void) {
 		new_test_class10.setName("44");
 		new_test_class11.setName("55");
         std::cout << "reserve" << std::endl;
-    	myvector.reserve(40);
+//    	myvector.reserve(40);
 
 		myvector.push_back(new_test_class0);
 		myvector.push_back(new_test_class1);
@@ -103,7 +103,7 @@ main(void) {
 		myvector1.push_back(new_test_class11);
 		print(myvector);
 		print(myvector1);
-        myvector1.assign(3, new_test_class0);
+	    myvector1.assign(myvector.begin(), myvector.begin() + 3);
 		print(myvector);
 		print(myvector1);
 

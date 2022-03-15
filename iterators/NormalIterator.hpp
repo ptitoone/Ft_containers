@@ -32,8 +32,8 @@ namespace ft {
 				base() const {
 						return (_M_ptr);
 				}
+				
 // Foward iterator requirements
-
 				reference
 				operator*() const {
 						return (*_M_ptr);
@@ -58,7 +58,6 @@ namespace ft {
 				}
 
 // Bidirectional iterator requirements
-
 				NormalIterator&
 				operator--() {
 						_M_ptr = _M_ptr - 1;
@@ -107,109 +106,109 @@ namespace ft {
 						return (*(_M_ptr + _index));
 				}
 		};
+
+		template <typename _IterL, typename _IterR, typename _Container >
+		bool
+		operator==( const NormalIterator<_IterL, _Container> &_lhs,
+					const NormalIterator<_IterR, _Container> &_rhs ) {
+			return (_lhs.base() == _rhs.base());
+		}
+
+		template <typename _Iter, typename _Container >
+		bool
+		operator==( const NormalIterator<_Iter, _Container> &_lhs,
+					const NormalIterator<_Iter, _Container> &_rhs ) {
+			return (_lhs.base() == _rhs.base());
+		}
+
+		template <typename _IterL, typename _IterR, typename _Container >
+		bool
+		operator!=( const NormalIterator<_IterL, _Container> &_lhs,
+					const NormalIterator<_IterR, _Container> &_rhs ) {
+			return (_lhs.base() != _rhs.base());
+		}
+
+		template <typename _Iter, typename _Container>
+		bool
+		operator!=( const NormalIterator<_Iter, _Container> &_lhs,
+					const NormalIterator<_Iter, _Container> &_rhs ) {
+			return (_lhs.base() != _rhs.base());
+		}
+
+		template <typename _IterL, typename _IterR, typename _Container >
+		bool
+		operator<( const NormalIterator<_IterL, _Container> &_lhs,
+					const NormalIterator<_IterR, _Container> &_rhs ) {
+			return (_lhs.base() != _rhs.base());
+		}
+
+		template <typename _Iter, typename _Container >
+		bool
+		operator<(	const NormalIterator<_Iter, _Container> &_lhs,
+					const NormalIterator<_Iter, _Container> &_rhs ) {
+			return (_lhs.base() != _rhs.base());
+		}
+
+		template <typename _IterL, typename _IterR, typename _Container >
+		bool
+		operator<=( const NormalIterator<_IterL, _Container> &_lhs,
+					const NormalIterator<_IterR, _Container> &_rhs ) {
+			return (_lhs.base() != _rhs.base());
+		}
+
+		template <typename _Iter, typename _Container >
+		bool
+		operator<=( const NormalIterator<_Iter, _Container> &_lhs,
+					const NormalIterator<_Iter, _Container> &_rhs ) {
+			return (_lhs.base() != _rhs.base());
+		}
+
+		template <typename _IterL, typename _IterR, typename _Container >
+		bool
+		operator>( const NormalIterator<_IterL, _Container> &_lhs,
+					const NormalIterator<_IterR, _Container> &_rhs ) {
+			return (_lhs.base() != _rhs.base());
+		}
+
+		template <typename _Iter, typename _Container >
+		bool
+		operator>( const NormalIterator<_Iter, _Container> &_lhs,
+					const NormalIterator<_Iter, _Container> &_rhs ) {
+			return (_lhs.base() != _rhs.base());
+		}
+
+		template <typename _IterL, typename _IterR, typename _Container >
+		bool
+		operator>=( const NormalIterator<_IterL, _Container> &_lhs,
+					const NormalIterator<_IterR, _Container> &_rhs ) {
+			return (_lhs.base() != _rhs.base());
+		}
+
+		template <typename _Iter, typename _Container >
+		bool
+		operator>=( const NormalIterator<_Iter, _Container> &_lhs,
+					const NormalIterator<_Iter, _Container> &_rhs ) {
+			return (_lhs.base() != _rhs.base());
+		}
+
+		template <typename _IterL, typename _IterR, typename _Container >
+		typename NormalIterator<_IterL, _Container>::diffrence_type
+		operator-( const NormalIterator<_IterL, _Container> &_lhs,
+					const NormalIterator<_IterR, _Container> &_rhs ) {
+			return (_lhs.base() - _rhs.base());
+		}
+
+		template <typename _Iter, typename _Container >
+		typename NormalIterator<_Iter, _Container>::diffrence_type
+		operator-( const NormalIterator<_Iter, _Container> &_lhs,
+					const NormalIterator<_Iter, _Container> &_rhs ) {
+			return (_lhs.base() - _rhs.base());
+		}
+
+		template <typename _Iter, typename _Container >
+		NormalIterator<_Iter, _Container>
+		operator+(  const NormalIterator<_Iter, _Container> &_lhs,
+					const typename NormalIterator<_Iter, _Container>::difference_type &_rhs ) {
+			return (NormalIterator<_Iter, _Container>(_lhs.base() + _rhs));
+		}
 };
-
-template <typename _IterL, typename _IterR, typename _Container >
-bool
-operator==( ft::NormalIterator<_IterL, _Container> _lhs,
-            ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs.base() == _rhs.base());
-}
-
-template <typename _Iter, typename _Container >
-bool
-operator==( ft::NormalIterator<_Iter, _Container> _lhs,
-            ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs.base() == _rhs.base());
-}
-
-template <typename _IterL, typename _IterR, typename _Container >
-bool
-operator!=( ft::NormalIterator<_IterL, _Container> _lhs,
-            ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs.base() != _rhs.base());
-}
-
-template <typename _Iter, typename _Container >
-bool
-operator!=( ft::NormalIterator<_Iter, _Container> _lhs,
-            ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs.base() != _rhs.base());
-}
-
-template <typename _IterL, typename _IterR, typename _Container >
-bool
-operator<( ft::NormalIterator<_IterL, _Container> _lhs,
-            ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs.base() != _rhs.base());
-}
-
-template <typename _Iter, typename _Container >
-bool
-operator<( ft::NormalIterator<_Iter, _Container> _lhs,
-            ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs.base() != _rhs.base());
-}
-
-template <typename _IterL, typename _IterR, typename _Container >
-bool
-operator<=( ft::NormalIterator<_IterL, _Container> _lhs,
-            ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs.base() != _rhs.base());
-}
-
-template <typename _Iter, typename _Container >
-bool
-operator<=( ft::NormalIterator<_Iter, _Container> _lhs,
-            ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs.base() != _rhs.base());
-}
-
-template <typename _IterL, typename _IterR, typename _Container >
-bool
-operator>( ft::NormalIterator<_IterL, _Container> _lhs,
-            ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs.base() != _rhs.base());
-}
-
-template <typename _Iter, typename _Container >
-bool
-operator>( ft::NormalIterator<_Iter, _Container> _lhs,
-            ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs.base() != _rhs.base());
-}
-
-template <typename _IterL, typename _IterR, typename _Container >
-bool
-operator>=( ft::NormalIterator<_IterL, _Container> _lhs,
-            ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs.base() != _rhs.base());
-}
-
-template <typename _Iter, typename _Container >
-bool
-operator>=( ft::NormalIterator<_Iter, _Container> _lhs,
-            ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs.base() != _rhs.base());
-}
-
-template <typename _IterL, typename _IterR, typename _Container >
-typename ft::NormalIterator<_IterL, _Container>::diffrence_type
-operator-( ft::NormalIterator<_IterL, _Container> _lhs,
-            ft::NormalIterator<_IterR, _Container> _rhs ) {
-    return (_lhs.base() - _rhs.base());
-}
-
-template <typename _Iter, typename _Container >
-typename ft::NormalIterator<_Iter, _Container>::diffrence_type
-operator-( ft::NormalIterator<_Iter, _Container> _lhs,
-            ft::NormalIterator<_Iter, _Container> _rhs ) {
-    return (_lhs.base() - _rhs.base());
-}
-
-template <typename _Iter, typename _Container >
-typename ft::NormalIterator<_Iter, _Container>
-operator+(  ft::NormalIterator<_Iter, _Container> _lhs,
-            typename ft::NormalIterator<_Iter, _Container>::difference_type _rhs ) {
-    return (ft::NormalIterator<_Iter, _Container>(_lhs.base() + _rhs));
-}
