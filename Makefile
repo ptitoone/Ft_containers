@@ -11,24 +11,24 @@ TEST_SEGV = -DTEST_SEGV=1
 
 ## Element Access
 
-vector_access_operator :
+vector_access_operator_std :
 	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/access_operator.cpp my_tester/base.cpp && ./a.out 
-vector_access_operator :
+vector_access_operator_ft :
 	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/access_operator.cpp my_tester/base.cpp && ./a.out 
 
-vector_at :
+vector_at_std :
 	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/at.cpp my_tester/base.cpp && ./a.out 
-vector_at:
+vector_at_ft:
 	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/at.cpp my_tester/base.cpp && ./a.out 
 
-vector_front:
+vector_front_std:
 	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/front.cpp my_tester/base.cpp  && ./a.out 
-vector_front:
+vector_front_ft:
 	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/front.cpp my_tester/base.cpp && ./a.out 
 
-vector_back:
+vector_back_std:
 	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/back.cpp my_tester/base.cpp && ./a.out 
-vector_back:
+vector_back_ft:
 	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/back.cpp my_tester/base.cpp && ./a.out
 
 ## Modifiers

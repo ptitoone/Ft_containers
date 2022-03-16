@@ -138,14 +138,26 @@ namespace ft
 
 			reference
 			at(size_type _pos) {
-				if (_pos < size())
-					return (_M_start[_pos]);
+                try {
+                    if (_pos > size())
+                        throw (std::out_of_range("Out of range"));
+                } catch (const std::out_of_range& oor) {
+                    std::cerr << oor.what() << std::endl;
+                    throw ;
+                }
+                return (_M_start[_pos]);
 			}
 
 			const_reference
 			at(size_type _pos) const {
-				if (_pos < size())
-					return (_M_start[_pos]);
+                try {
+                    if (_pos > size())
+                        throw (std::out_of_range("Out of range"));
+                } catch (const std::out_of_range& oor) {
+                    std::cerr << oor.what() << std::endl;
+                    throw ;
+                }
+                return (_M_start[_pos]);
 			}
 
 			reference
