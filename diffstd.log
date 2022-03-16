@@ -1,0 +1,117 @@
+clang++ -g -D__FT=0 VectorException.cpp my_tester/vector/assign.cpp my_tester/base.cpp && ./a.out 
+
+====	vct	====
+Size is: 7
+Capacity is: 7
+Content is: 
+	|POS	|VAL
+	|	|
+	[0]	|-> 21
+	[1]	|-> 18
+	[2]	|-> 15
+	[3]	|-> 12
+	[4]	|-> 9
+	[5]	|-> 6
+	[6]	|-> 3
+==============================
+
+====	vct_two	====
+Size is: 4
+Capacity is: 4
+Content is: 
+	|POS	|VAL
+	|	|
+	[0]	|-> 20
+	[1]	|-> 15
+	[2]	|-> 10
+	[3]	|-> 5
+==============================
+	### After assign(): ###
+
+====	vct	====
+Size is: 4
+Capacity is: 7
+Content is: 
+	|POS	|VAL
+	|	|
+	[0]	|-> 20
+	[1]	|-> 15
+	[2]	|-> 10
+	[3]	|-> 5
+==============================
+
+====	vct_two	====
+Size is: 2
+Capacity is: 4
+Content is: 
+	|POS	|VAL
+	|	|
+	[0]	|-> 42
+	[1]	|-> 42
+==============================
+
+====	vct_three	====
+Size is: 7
+Capacity is: 7
+Content is: 
+	|POS	|VAL
+	|	|
+	[0]	|-> 21
+	[1]	|-> 18
+	[2]	|-> 15
+	[3]	|-> 12
+	[4]	|-> 9
+	[5]	|-> 6
+	[6]	|-> 3
+==============================
+
+====	vct_four	====
+Size is: 4
+Capacity is: 4
+Content is: 
+	|POS	|VAL
+	|	|
+	[0]	|-> 21
+	[1]	|-> 21
+	[2]	|-> 21
+	[3]	|-> 21
+==============================
+
+====	vct_four	====
+Size is: 6
+Capacity is: 6
+Content is: 
+	|POS	|VAL
+	|	|
+	[0]	|-> 84
+	[1]	|-> 84
+	[2]	|-> 84
+	[3]	|-> 84
+	[4]	|-> 84
+	[5]	|-> 84
+==============================
+	### assign() on enough capacity and low size: ###
+
+====	vct	====
+Size is: 5
+Capacity is: 7
+Content is: 
+	|POS	|VAL
+	|	|
+	[0]	|-> 53
+	[1]	|-> 53
+	[2]	|-> 53
+	[3]	|-> 53
+	[4]	|-> 53
+==============================
+
+====	vct_two	====
+Size is: 3
+Capacity is: 4
+Content is: 
+	|POS	|VAL
+	|	|
+	[0]	|-> 21
+	[1]	|-> 18
+	[2]	|-> 15
+==============================

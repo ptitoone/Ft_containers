@@ -10,41 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#define TESTED_TYPE int
-#if __FT
-    #include "../../vector.hpp"
-    #include "../../iterators/IteratorTraits.hpp"
-    #define NAMESPACE ft
-#else
-    #include <vector>
-    #include <iostream>
-    #define NAMESPACE std
-#endif
+#include "../base.hpp"
 
-
-void    print(NAMESPACE::vector<TESTED_TYPE> & vct, std::string const &name)
+int main()
 {
-    NAMESPACE::vector<TESTED_TYPE>::iterator it = vct.begin();
-    NAMESPACE::vector<TESTED_TYPE>::iterator ite = vct.end();
-
-    std::cout << std::endl;
-    std::cout << "====\t" << name << "\t====" << std::endl;
-    std::cout << "Size is: " << vct.size() << std::endl;
-    std::cout << "Capacity is: " << vct.capacity() << std::endl;
-    std::cout << "Content is: " << std::endl;
-    std::cout << "\t|POS\t|VAL" << std::endl;
-    std::cout << "\t|\t|" << std::endl;
-    for (size_t i = 0; it != ite; it++)
-        std::cout << "\t[" << i++ << "]\t|-> " << *it << std::endl;
-    std::cout << "==============================" << std::endl;
-}
-
-int             main(void)
-{
-        NAMESPACE::vector<TESTED_TYPE> vct(7);
-        NAMESPACE::vector<TESTED_TYPE> vct_two(4);
-        NAMESPACE::vector<TESTED_TYPE> vct_three;
-        NAMESPACE::vector<TESTED_TYPE> vct_four;
+        NAMESPACE::vector<TYPE> vct(7);
+        NAMESPACE::vector<TYPE> vct_two(4);
+        NAMESPACE::vector<TYPE> vct_three;
+        NAMESPACE::vector<TYPE> vct_four;
 
         for (unsigned long int i = 0; i < vct.size(); ++i)
                 vct[i] = (vct.size() - i) * 3;
