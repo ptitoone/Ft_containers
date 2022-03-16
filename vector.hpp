@@ -281,7 +281,7 @@ namespace ft
 //			void			insert(iterator pos, size_type count, const T& value);
 //			template <class InputIt>
 //			void			insert(iterator pos, InputIt first, InputIt last);
-//
+
 
 			iterator
 			erase(iterator _it) {
@@ -346,10 +346,8 @@ namespace ft
 
 			void
 			pop_back() {
-				if (size()) {
-					_M_alloc_intr.destroy(_M_finish);
-					_M_finish--;
-				}
+				_M_alloc_intr.destroy(_M_finish);
+				_M_finish--;
 			}
 //
 //			void			resize(size_type count, T value = T());

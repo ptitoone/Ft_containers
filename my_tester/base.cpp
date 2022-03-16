@@ -1,12 +1,10 @@
 #include "base.hpp"
-#include "ANSI-color-codes.hpp"
 
 void    print(NAMESPACE::vector<TYPE> & vct, std::string const &name)
 {
     NAMESPACE::vector<TYPE>::iterator it = vct.begin();
     NAMESPACE::vector<TYPE>::iterator ite = vct.end();
 
-    std::cout << std::endl;
     std::cout << GRN << "[[" << name << "]]" << RST << std::endl;
     std::cout << "Size is: " << vct.size() << std::endl;
     std::cout << "Capacity is: " << vct.capacity() << std::endl;
