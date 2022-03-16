@@ -69,7 +69,12 @@
         "memory_resource": "cpp",
         "version": "cpp",
         "__functional_03": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "queue": "cpp",
+        "set": "cpp",
+        "filesystem": "cpp"
     },
     "workbench.colorTheme": "Default Dark+"
 }

@@ -18,7 +18,9 @@ int main()
     PRINT_ACTION("at() on out of range position 15 element")
     try {
         std::cout << "Position 15 = " << tenths_vec.at(15) << std::endl;
-    } catch (...) { }
+    } catch (const std::out_of_range& oor) {
+        std::cerr << "Error: " << oor.what() << std::endl;
+    }
 
     return (0);
 }

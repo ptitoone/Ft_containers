@@ -6,7 +6,7 @@
 /*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 18:53:28 by akotzky           #+#    #+#             */
-/*   Updated: 2022/03/15 23:56:47 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/03/16 22:52:44 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,25 +138,15 @@ namespace ft
 
 			reference
 			at(size_type _pos) {
-                try {
-                    if (_pos > size())
-                        throw (std::out_of_range("Out of range"));
-                } catch (const std::out_of_range& oor) {
-                    std::cerr << oor.what() << std::endl;
-                    throw ;
-                }
+                if (_pos > size())
+                    throw (std::out_of_range("vector"));
                 return (_M_start[_pos]);
 			}
 
 			const_reference
 			at(size_type _pos) const {
-                try {
-                    if (_pos > size())
-                        throw (std::out_of_range("Out of range"));
-                } catch (const std::out_of_range& oor) {
-                    std::cerr << oor.what() << std::endl;
-                    throw ;
-                }
+                if (_pos > size())
+                    throw (std::out_of_range("vector"));
                 return (_M_start[_pos]);
 			}
 
@@ -247,14 +237,12 @@ namespace ft
 
 			size_type
 			size() const {
-			//	std::cout << "start = " << _M_start << std::endl;
-			//	std::cout << "finish = " << _M_finish << std::endl;
 				return (_M_finish - _M_start);
 			}
 
 			size_type
 			max_size() const {
-				return (_M_end_of_storage - _M_start);
+				return (_M_alloc_intr.max_size());
 			}
 
 			void
@@ -262,6 +250,8 @@ namespace ft
 				pointer		_tmp;
 				size_type	_tmp_prev_size;
 
+				if (_new_cap > max_size())
+					throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
 				if (_new_cap > capacity())
 				{
 					_tmp_prev_size = size();
@@ -362,17 +352,17 @@ namespace ft
 				_M_finish--;
 			}
 //
-//			void			resize(size_type count, T value = T());
+//			void			resize(size_type _n, value_type value = value_type());
 //
 			void
-            swap(vector& other) {
-                pointer _tmp_start = other._M_start;
-                pointer _tmp_finish = other._M_finish;
-                pointer _tmp_end_of_storage = other._M_end_of_storage;
+            swap(vector& _other) {
+                pointer _tmp_start = _other._M_start;
+                pointer _tmp_finish = _other._M_finish;
+                pointer _tmp_end_of_storage = _other._M_end_of_storage;
 
-                other._M_start = _M_start;
-                other._M_finish = _M_finish;
-                other._M_end_of_storage = _M_end_of_storage;
+                _other._M_start = _M_start;
+                _other._M_finish = _M_finish;
+                _other._M_end_of_storage = _M_end_of_storage;
 
                 _M_start = _tmp_start;
                 _M_finish = _tmp_finish;
