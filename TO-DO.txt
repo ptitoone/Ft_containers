@@ -4,7 +4,7 @@ Vector:
     - insert()                  []
     - copy constructor          []
     - range constructor         []
-    - reverse iterator          []
+    - reverse iterator          [x]
     - const reverse iterator    []
     - const iterator            []
     - vector operator overloads []

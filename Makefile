@@ -45,10 +45,10 @@ TEST_SEGV = -DTEST_SEGV=1
 #vector_end_ft :
 #	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/end.cpp my_tester/base.cpp && ./a.out 
 
-#vector_rbegin_std :
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/rbegin.cpp my_tester/base.cpp && ./a.out 
-#vector_rbegin_ft :
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/rbegin.cpp my_tester/base.cpp && ./a.out 
+vector_rbegin_std :
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/rbegin.cpp my_tester/base.cpp && ./a.out 
+vector_rbegin_ft :
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/rbegin.cpp my_tester/base.cpp && ./a.out 
 
 #vector_rend_std :
 #	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/rend.cpp my_tester/base.cpp && ./a.out 

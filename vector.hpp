@@ -6,7 +6,7 @@
 /*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 18:53:28 by akotzky           #+#    #+#             */
-/*   Updated: 2022/03/16 22:52:44 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/03/16 23:20:20 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "VectorException.hpp"
 #include "iterators/NormalIterator.hpp"
 #include "iterators/VectorConstIterator.hpp"
-#include "iterators/VectorReverseIterator.hpp"
+#include "iterators/ReverseIterator.hpp"
 #include "iterators/VectorConstReverseIterator.hpp"
 #include <iostream>
 #include <memory>
@@ -36,7 +36,7 @@ namespace ft
 
 			typedef ft::NormalIterator<pointer, vector>   		iterator;
 			typedef VectorConstIterator<T>			            const_iterator;
-			typedef VectorReverseIterator<T>		            reverse_iterator;
+			typedef ReverseIterator<pointer, vector>            reverse_iterator;
 			typedef VectorConstReverseIterator<T>           	const_reverse_iterator;
 			typedef ptrdiff_t	            					difference_type;
 			typedef size_t				            			size_type;
