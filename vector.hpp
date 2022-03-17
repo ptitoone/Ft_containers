@@ -13,7 +13,7 @@
 
 #include "VectorException.hpp"
 #include "iterators/NormalIterator.hpp"
-#include "iterators/VectorConstIterator.hpp"
+#include "iterators/ConstIterator.hpp"
 #include "iterators/ReverseIterator.hpp"
 #include "iterators/VectorConstReverseIterator.hpp"
 #include <iostream>
@@ -35,7 +35,7 @@ namespace ft
 			typedef typename allocator_type::const_pointer		const_pointer;
 
 			typedef ft::NormalIterator<pointer, vector>   		iterator;
-			typedef VectorConstIterator<T>			            const_iterator;
+			typedef ConstIterator<const_pointer, vector>		const_iterator;
 			typedef ReverseIterator<pointer, vector>            reverse_iterator;
 			typedef VectorConstReverseIterator<T>           	const_reverse_iterator;
 			typedef ptrdiff_t	            					difference_type;
@@ -75,14 +75,23 @@ namespace ft
             }
 
 //			template< class InputIt >
-//			vector(	InputIt first, InputIt last,
-//			Allocator const& alloc = Allocator()) {
-//				
-//
+//			vector(	InputIt _first, InputIt _last,
+//			Allocator const& _alloc = Allocator())
+//            : _M_alloc_intr(_alloc)
+//            {
+//                _M_start = _M_allocate(std::distance(_first, _last));   
+//                std::uninitialized_copy(_first, _last, _M_start);
+//                _M_finish = _M_start + std::distance(_first, _last);
+//                _M_end_of_storage = _M_finish;
 //			}
 
-			vector(vector const& other) {
-                *this = other;
+			vector(vector const& _other)
+            : _M_alloc_intr(_other.get_allocator())
+            {
+                _M_start = _M_allocate(_other.size());
+                std::uninitialized_copy(_other.begin(), _other.end(), _M_start);
+                _M_finish = _M_start + _other.size();
+                _M_end_of_storage = _M_start + _other.size();
 			}
 
 			~vector(void) {
@@ -133,7 +142,7 @@ namespace ft
 
 			allocator_type
 			get_allocator() const {
-				return (_M_alloc_intr);
+				return (allocator_type(_M_alloc_intr));
 			}
 
 			reference
@@ -375,7 +384,7 @@ namespace ft
 			if (_M_alloc_intr.max_size() - size() < _size)
 				throw(VectorException::OutOfMemoryException());
 			size_type _len = size() + std::max(size(), _size);
-			return ((_len < size() || _len < max_size()) ? max_size() : _len);
+			return ((_len < size() || _len > max_size()) ? max_size() : _len);
 		}
 
 	    pointer _M_allocate(size_type _size) {
@@ -397,38 +406,38 @@ namespace ft
 
 template<class T, class Alloc>
 bool
-operator==(ft::vector<T, Alloc> const& _lhs, ft::vector<T, Alloc> const& _rhs) {
+operator==(ft::vector<T, Alloc> & _lhs, ft::vector<T, Alloc> & _rhs) {
     return(_lhs.size() == _rhs.size()
         && std::equal(_lhs.begin(), _lhs.end(), _rhs.begin()));
 }
 
 template<class T, class Alloc>
 bool
-operator!=(ft::vector<T, Alloc> const& _lhs, ft::vector<T, Alloc> const& _rhs) {
+operator!=(ft::vector<T, Alloc> & _lhs, ft::vector<T, Alloc> & _rhs) {
     return (!(_lhs == _rhs));
 }
 
 template<class T, class Alloc>
 bool
-operator<(ft::vector<T, Alloc> const& _lhs, ft::vector<T, Alloc> const& _rhs) {
+operator<(ft::vector<T, Alloc> & _lhs, ft::vector<T, Alloc> & _rhs) {
     return (_lhs < _rhs);
 }
 
 template<class T, class Alloc>
 bool
-operator<=(ft::vector<T, Alloc> const& _lhs, ft::vector<T, Alloc> const& _rhs) {
+operator<=(ft::vector<T, Alloc> & _lhs, ft::vector<T, Alloc> & _rhs) {
     return (_lhs <= _rhs);
 }
 
 template<class T, class Alloc>
 bool
-operator>(ft::vector<T, Alloc> const& _lhs, ft::vector<T, Alloc> const& _rhs) {
+operator>(ft::vector<T, Alloc> & _lhs, ft::vector<T, Alloc> & _rhs) {
     return (_lhs > _rhs);
 }
 
 template<class T, class Alloc>
 bool
-operator>=(ft::vector<T, Alloc> const& _lhs, ft::vector<T, Alloc> const& _rhs) {
+operator>=(ft::vector<T, Alloc> & _lhs, ft::vector<T, Alloc> & _rhs) {
     return (_lhs >= _rhs);
 }
 

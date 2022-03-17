@@ -14,10 +14,10 @@ vector_fill_constructor_std :
 vector_fill_constructor_ft :
 	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/fill_constructor.cpp my_tester/base.cpp && ./a.out 
 
-#vector_range_constructor_std :
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/range_constructor.cpp my_tester/base.cpp && ./a.out 
-#vector_range_constructor_ft :
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/range_constructor.cpp my_tester/base.cpp && ./a.out 
+vector_range_constructor_std :
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/range_constructor.cpp my_tester/base.cpp && ./a.out 
+vector_range_constructor_ft :
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/range_constructor.cpp my_tester/base.cpp && ./a.out 
 
 vector_copy_constructor_std :
 	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/copy_constructor.cpp my_tester/base.cpp && ./a.out 
@@ -29,10 +29,10 @@ vector_copy_constructor_ft :
 #vector_destructor_ft :
 #	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/destructor.cpp my_tester/base.cpp && ./a.out 
 
-#vector_equal_operator_std :
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/equal_operator.cpp my_tester/base.cpp && ./a.out 
-#vector_equal_operator_ft :
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/equal_operator.cpp my_tester/base.cpp && ./a.out 
+vector_equal_operator_std :
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/equal_operator.cpp my_tester/base.cpp && ./a.out 
+vector_equal_operator_ft :
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/equal_operator.cpp my_tester/base.cpp && ./a.out 
 
 ## Iterators
 vector_begin_std :
@@ -150,35 +150,35 @@ vector_clear_ft :
 #	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/get_allocator.cpp my_tester/base.cpp && ./a.out 
 
 # Non-member function overloads
-#vector_is_equal_std : 
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/is_equal.cpp my_tester/base.cpp && ./a.out 
-#vector_is_equal_ft : 
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/is_equal.cpp my_tester/base.cpp && ./a.out 
+vector_is_equal_std : 
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/is_equal.cpp my_tester/base.cpp && ./a.out 
+vector_is_equal_ft : 
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/is_equal.cpp my_tester/base.cpp && ./a.out 
 
-#vector_is_not_equal_std : 
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/is_not_equal.cpp my_tester/base.cpp && ./a.out 
-#vector_is_not_equal_ft : 
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/is_not_equal.cpp my_tester/base.cpp && ./a.out 
+vector_is_not_equal_std : 
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/is_not_equal.cpp my_tester/base.cpp && ./a.out 
+vector_is_not_equal_ft : 
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/is_not_equal.cpp my_tester/base.cpp && ./a.out 
 
-#vector_is_less_std : 
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/is_less.cpp my_tester/base.cpp && ./a.out 
-#vector_is_less_ft : 
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/is_less.cpp my_tester/base.cpp && ./a.out 
+vector_is_less_std : 
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/is_less.cpp my_tester/base.cpp && ./a.out 
+vector_is_less_ft : 
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/is_less.cpp my_tester/base.cpp && ./a.out 
 
-#vector_is_less_or_equal_std : 
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/is_less_or_equal.cpp my_tester/base.cpp && ./a.out 
-#vector_is_less_or_equal_ft : 
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/is_less_or_equal.cpp my_tester/base.cpp && ./a.out 
+vector_is_less_or_equal_std : 
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/is_less_or_equal.cpp my_tester/base.cpp && ./a.out 
+vector_is_less_or_equal_ft : 
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/is_less_or_equal.cpp my_tester/base.cpp && ./a.out 
 
-#vector_is_greater_std : 
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/is_greater.cpp my_tester/base.cpp && ./a.out 
-#vector_is_greater_ft : 
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/is_greater.cpp my_tester/base.cpp && ./a.out 
+vector_is_greater_std : 
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/is_greater.cpp my_tester/base.cpp && ./a.out 
+vector_is_greater_ft : 
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/is_greater.cpp my_tester/base.cpp && ./a.out 
 
-#vector_is_greater_or_equal_std : 
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/is_greater_or_equal.cpp my_tester/base.cpp && ./a.out 
-#vector_is_greater_or_equal_ft : 
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/is_greater_or_equal.cpp my_tester/base.cpp && ./a.out 
+vector_is_greater_or_equal_std : 
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/is_greater_or_equal.cpp my_tester/base.cpp && ./a.out 
+vector_is_greater_or_equal_ft : 
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/is_greater_or_equal.cpp my_tester/base.cpp && ./a.out 
 
 #vector_swap_overload_std : 
 #	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/swap_overload.cpp my_tester/base.cpp && ./a.out 

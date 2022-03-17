@@ -2,8 +2,12 @@
 
 int main()
 {
-    NAMESPACE::vector<TYPE> vec_origin;
-    NAMESPACE::vector<TYPE> vec_copy;
+    NAMESPACE::vector<int>  vec_origin(10);
+
+    for (size_t i = 0; i < 10; i++)
+          vec_origin.push_back(2);
+
+    NAMESPACE::vector<int> vec_copy(vec_origin);
 
     std::cout << "\t\t===[ Vector copy constuctor ]===" << std::endl;
     std::cout << std::endl;
