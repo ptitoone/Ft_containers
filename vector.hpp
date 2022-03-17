@@ -288,7 +288,22 @@ namespace ft
 				}
 			}
 
-//			iterator		insert(iterator pos, const T& value);
+//			iterator
+//            insert(iterator _pos, const value_type& _value) {
+//                if (capacity() < size() + 1)
+//                {
+//                    pointer _tmp = _M_allocate(_M_check_len(size() +1 ));
+//                    std::uninitialized_copy(begin(), _pos, _tmp);
+//                    _M_alloc_intr.construct(_tmp + std::distance(begin(), _pos), _value);
+//                    std::uninitialized_copy(_pos + 1, end(), _tmp);
+//                    
+//                }
+//                else
+//                {
+//                    
+//                }
+//            }
+//
 //			void			insert(iterator pos, size_type count, const T& value);
 //			template <class InputIt>
 //			void			insert(iterator pos, InputIt first, InputIt last);
