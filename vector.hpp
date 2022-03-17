@@ -80,10 +80,10 @@ namespace ft
 //				
 //
 //			}
-//
-//			vector(vector const& other) {
-//
-//			}
+
+			vector(vector const& other) {
+                *this = other;
+			}
 
 			~vector(void) {
 				_M_deallocate(_M_start, capacity());

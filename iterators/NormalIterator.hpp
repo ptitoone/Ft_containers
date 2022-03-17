@@ -7,7 +7,7 @@ namespace ft {
 
 		template <class _Iterator, class _Container>
 		class NormalIterator {
-		protected:
+		private:
 				_Iterator _M_ptr;
 
 		public:
@@ -24,6 +24,11 @@ namespace ft {
 				NormalIterator(_Iterator const& _copy)
 				: _M_ptr(_copy)
                 {}
+
+                NormalIterator&  operator=(NormalIterator const & _rhs) {
+                    _M_ptr = _rhs.base();
+                    return (*this);
+                }
 
 				~NormalIterator()
                 {}
@@ -66,7 +71,7 @@ namespace ft {
 
 				NormalIterator
 				operator--(int post) {
-						NormalIterator tmp = this;
+						NormalIterator tmp = *this;
 						--_M_ptr;
 						return (tmp);
 				}

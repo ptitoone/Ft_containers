@@ -4,25 +4,25 @@ USE_FT = -D__FT=1
 TEST_SEGV = -DTEST_SEGV=1
 
 ## Member functions
-#vector_default_constructor_std :
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/default_constructor.cpp my_tester/base.cpp && ./a.out 
-#vector_default_constructor_ft :
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/default_constructor.cpp my_tester/base.cpp && ./a.out 
+vector_default_constructor_std :
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/default_constructor.cpp my_tester/base.cpp && ./a.out 
+vector_default_constructor_ft :
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/default_constructor.cpp my_tester/base.cpp && ./a.out 
 
-#vector_fill_constructor_std :
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/fill_constructor.cpp my_tester/base.cpp && ./a.out 
-#vector_fill_constructor_ft :
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/fill_constructor.cpp my_tester/base.cpp && ./a.out 
+vector_fill_constructor_std :
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/fill_constructor.cpp my_tester/base.cpp && ./a.out 
+vector_fill_constructor_ft :
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/fill_constructor.cpp my_tester/base.cpp && ./a.out 
 
 #vector_range_constructor_std :
 #	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/range_constructor.cpp my_tester/base.cpp && ./a.out 
 #vector_range_constructor_ft :
 #	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/range_constructor.cpp my_tester/base.cpp && ./a.out 
 
-#vector_copy_constructor_std :
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/copy_constructor.cpp my_tester/base.cpp && ./a.out 
-#vector_copy_constructor_ft :
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/copy_constructor.cpp my_tester/base.cpp && ./a.out 
+vector_copy_constructor_std :
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/copy_constructor.cpp my_tester/base.cpp && ./a.out 
+vector_copy_constructor_ft :
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/copy_constructor.cpp my_tester/base.cpp && ./a.out 
 
 #vector_destructor_std :
 #	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/destructor.cpp my_tester/base.cpp && ./a.out 
@@ -35,25 +35,25 @@ TEST_SEGV = -DTEST_SEGV=1
 #	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/equal_operator.cpp my_tester/base.cpp && ./a.out 
 
 ## Iterators
-#vector_begin_std :
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/begin.cpp my_tester/base.cpp && ./a.out 
-#vector_begin_ft :
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/begin.cpp my_tester/base.cpp && ./a.out 
+vector_begin_std :
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/begin.cpp my_tester/base.cpp && ./a.out 
+vector_begin_ft :
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/begin.cpp my_tester/base.cpp && ./a.out 
 
-#vector_end_std :
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/end.cpp my_tester/base.cpp && ./a.out 
-#vector_end_ft :
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/end.cpp my_tester/base.cpp && ./a.out 
+vector_end_std :
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/end.cpp my_tester/base.cpp && ./a.out 
+vector_end_ft :
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/end.cpp my_tester/base.cpp && ./a.out 
 
 vector_rbegin_std :
 	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/rbegin.cpp my_tester/base.cpp && ./a.out 
 vector_rbegin_ft :
 	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/rbegin.cpp my_tester/base.cpp && ./a.out 
 
-#vector_rend_std :
-#	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/rend.cpp my_tester/base.cpp && ./a.out 
-#vector_rend_ft :
-#	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/rend.cpp my_tester/base.cpp && ./a.out 
+vector_rend_std :
+	@clang++ -g $(USE_STD) VectorException.cpp my_tester/vector/rend.cpp my_tester/base.cpp && ./a.out 
+vector_rend_ft :
+	@clang++ -g $(USE_FT) VectorException.cpp my_tester/vector/rend.cpp my_tester/base.cpp && ./a.out 
 
 ## Capacity
 vector_size_std :
