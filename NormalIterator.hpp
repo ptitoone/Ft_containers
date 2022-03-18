@@ -2,6 +2,7 @@
 
 #include "Iterator.hpp"
 #include "IteratorTraits.hpp"
+#include "utils.hpp"
 
 namespace ft {
 
@@ -29,6 +30,10 @@ namespace ft {
                     _M_ptr = _rhs.base();
                     return (*this);
                 }
+
+                template<typename _Iter>
+                NormalIterator(const NormalIterator<_Iter, typename ft::enable_if<(std::is_same<_Iter, typename _Container::pointer>::value), _Container>::type>& i)
+                : _M_ptr(i.base()) { }
 
 				~NormalIterator()
                 {}
