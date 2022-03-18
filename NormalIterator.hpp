@@ -56,7 +56,7 @@ namespace ft {
 				}
 
 				NormalIterator
-				operator++(int post) {
+				operator++(int ) {
 						NormalIterator tmp = *this;
 						++_M_ptr;
 						return (tmp);
@@ -70,7 +70,7 @@ namespace ft {
 				}
 
 				NormalIterator
-				operator--(int post) {
+				operator--(int ) {
 						NormalIterator tmp = *this;
 						--_M_ptr;
 						return (tmp);

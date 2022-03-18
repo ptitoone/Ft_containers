@@ -49,6 +49,32 @@ namespace ft {
 						return (_M_ptr);
 				}
 
+				ConstIterator&
+				operator++() {
+						_M_ptr = _M_ptr + 1;
+						return (*this);
+				}
+
+				ConstIterator
+				operator++(int ) {
+						ConstIterator tmp = *this;
+						++_M_ptr;
+						return (tmp);
+				}
+
+// Bidirectional iterator requirements
+				ConstIterator&
+				operator--() {
+						_M_ptr = _M_ptr - 1;
+						return (*this);
+				}
+
+				ConstIterator
+				operator--(int ) {
+						ConstIterator tmp = *this;
+						--_M_ptr;
+						return (tmp);
+				}
 // Random Access iterator requirements
 				// Arithmetic operators//
 				ConstIterator

@@ -62,14 +62,14 @@ class VectorConstReverseIterator
         }
         
         const VectorConstReverseIterator
-        operator++(int post) {
+        operator++(int ) {
             VectorConstReverseIterator tmp = *this;
             ++_M_ptr;
             return (tmp);
         }
 
         const VectorConstReverseIterator
-        operator--(int post) {
+        operator--(int ) {
             VectorConstReverseIterator tmp = this;
             --_M_ptr;
             return (tmp);

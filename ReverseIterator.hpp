@@ -58,7 +58,7 @@ namespace ft {
 				}
 
 				ReverseIterator
-				operator++(int post) {
+				operator++(int ) {
 					ReverseIterator tmp = *this;
 					--_M_ptr;
 					return (tmp);
@@ -71,7 +71,7 @@ namespace ft {
 				}
 
 				ReverseIterator
-				operator--(int post) {
+				operator--(int ) {
 					ReverseIterator tmp = *this;
 					_M_ptr = _M_ptr + 1;
 					return (tmp);

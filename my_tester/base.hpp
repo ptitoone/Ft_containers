@@ -2,7 +2,7 @@
 #define TYPE int
 #if __FT
     #include "../vector.hpp"
-    #include "../iterators/IteratorTraits.hpp"
+    #include "../IteratorTraits.hpp"
     #define NAMESPACE ft
 #else
     #include <vector>

@@ -11,12 +11,12 @@
 /* ************************************************************************** */
 
 
-#include "VectorException.hpp"
-#include "iterators/NormalIterator.hpp"
-#include "iterators/ConstIterator.hpp"
-#include "iterators/ReverseIterator.hpp"
-#include "iterators/VectorConstReverseIterator.hpp"
+#include "NormalIterator.hpp"
+#include "ConstIterator.hpp"
+#include "ReverseIterator.hpp"
+#include "VectorConstReverseIterator.hpp"
 #include <iostream>
+#include <exception>
 #include <memory>
 
 namespace ft
@@ -47,6 +47,13 @@ namespace ft
 			pointer _M_end_of_storage;
 
 		public:
+
+            class OutOfMemoryException : std::exception {
+                const char*
+                what() throw() {
+                    return ("Error: Not enough memory available");
+                }
+            };
 
 			explicit vector(const allocator_type& _alloc = allocator_type())
 			: _M_alloc_intr(_alloc),
@@ -221,12 +228,12 @@ namespace ft
 
 			reference
 			back() {
-				return (*_M_finish);
+				return (*(_M_finish-1));
 			}
 
 			const_reference
 			back() const {
-				return (*_M_finish);
+				return (*(_M_finish-1));
 			}
 
 			pointer
@@ -375,9 +382,32 @@ namespace ft
 				_M_alloc_intr.destroy(_M_finish);
 				_M_finish--;
 			}
-//
-//			void			resize(size_type _n, value_type value = value_type());
-//
+
+			void
+            resize(size_type _n, value_type _value = value_type()) {
+                if (_n > capacity())
+                {
+                    pointer _tmp = _M_allocate(_n);
+                    std::uninitialized_copy(_M_start, _M_finish, _tmp);
+                    _M_deallocate(_M_start, capacity());
+                    _M_start = _tmp;
+                    _M_finish = _M_start + _n;
+                    _M_end_of_storage = _M_start + _n;
+                    std::uninitialized_fill_n(_M_finish, _n, _value);
+                }
+                else if (_n < size())
+                {
+                    for (size_type i = size() - 1; i > _n; i--)
+                        _M_alloc_intr.destroy(_M_finish + i);
+                    _M_finish = _M_start + _n;
+                }
+                else
+                {
+                    std::uninitialized_fill_n(end(), _n - size(), _value);
+                    _M_finish = _M_start + _n;
+                }
+            }
+
 			void
             swap(vector& _other) {
                 pointer _tmp_start = _other._M_start;
@@ -397,7 +427,7 @@ namespace ft
 
 		size_type _M_check_len(size_type _size) {
 			if (_M_alloc_intr.max_size() - size() < _size)
-				throw(VectorException::OutOfMemoryException());
+				throw(OutOfMemoryException());
 			size_type _len = size() + std::max(size(), _size);
 			return ((_len < size() || _len > max_size()) ? max_size() : _len);
 		}

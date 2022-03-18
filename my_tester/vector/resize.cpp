@@ -31,7 +31,7 @@ int main()
     AFTER
     print(tenths_vec, "tenths_vec");
     
-    PRINT_ACTION("resize() on full vector to bigger size and val specified")
+    PRINT_ACTION("resize() on full vector to bigger capacity and val specified")
     BEFORE
     print(tenths_vec, "tenths_vec");
     tenths_vec.resize(15, 420);
