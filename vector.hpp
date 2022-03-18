@@ -385,25 +385,30 @@ namespace ft
 
 			void
             resize(size_type _n, value_type _value = value_type()) {
-                if (_n > capacity())
+                pointer _tmp;
+
+                if (_n < size())
                 {
-                    pointer _tmp = _M_allocate(_n);
-                    std::uninitialized_copy(_M_start, _M_finish, _tmp);
+                    for (size_type i = size()-1; i >= _n; i--)
+                    {
+                    //    std::cout << "--->" << *(_M_start + i) << std::endl;
+                        _M_alloc_intr.destroy(_M_start + i);
+                    }
+                    _M_finish = _M_start + _n;
+                }
+                else if (_n > capacity())
+                {
+                    _tmp = _M_allocate(_n);
+                    std::uninitialized_copy(begin(), end(), _tmp);
+                    std::uninitialized_fill_n(_tmp + size(), _n, _value);
                     _M_deallocate(_M_start, capacity());
                     _M_start = _tmp;
                     _M_finish = _M_start + _n;
-                    _M_end_of_storage = _M_start + _n;
-                    std::uninitialized_fill_n(_M_finish, _n, _value);
-                }
-                else if (_n < size())
-                {
-                    for (size_type i = size() - 1; i > _n; i--)
-                        _M_alloc_intr.destroy(_M_finish + i);
-                    _M_finish = _M_start + _n;
+                    _M_end_of_storage = _M_finish;
                 }
                 else
                 {
-                    std::uninitialized_fill_n(end(), _n - size(), _value);
+                    std::uninitialized_fill_n(_M_finish, capacity() - (_n - 1), _value);
                     _M_finish = _M_start + _n;
                 }
             }

@@ -23,7 +23,7 @@ int main()
     tenths_vec.resize(6);
     AFTER
     print(tenths_vec, "tenths_vec");
-    
+  
     PRINT_ACTION("resize() on non-full vector to bigger size and val specified")
     BEFORE
     print(tenths_vec, "tenths_vec");
