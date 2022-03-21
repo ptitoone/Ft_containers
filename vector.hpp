@@ -60,15 +60,25 @@ namespace ft
 			_M_finish(0),
 			_M_end_of_storage(0) {}
 
-//			explicit vector(size_type _count,
-//							const T& _value = value_type(),
-//							const allocator_type& _alloc = allocator_type())
-//			: _M_alloc_intr(_alloc),
-//			_M_start(_M_alloc_intr.allocate(_count)),
-//			_M_finish(_M_start + _count),
-//			_M_end_of_storage(_M_start + _count) {
-//				std::uninitialized_fill_n(_M_start, _count, _value);
-//			}
+			explicit vector(size_type _count,
+							const T& _value = value_type(),
+							const allocator_type& _alloc = allocator_type())
+			: _M_alloc_intr(_alloc),
+			_M_start(_M_alloc_intr.allocate(_count)),
+			_M_finish(_M_start + _count),
+			_M_end_of_storage(_M_start + _count) {
+				std::uninitialized_fill_n(_M_start, _count, _value);
+                std::cout << "FILL DEFAULT" << std::endl;
+			}
+
+			template< class InputIt >
+			vector(	InputIt _first, InputIt _last,
+			Allocator const& _alloc = Allocator())
+            : _M_alloc_intr(_alloc)
+            {
+                typedef typename ft::is_integral<InputIt>::type _Integral;
+                _M_dispatch(_first, _last, _Integral());
+			}
 
             vector&
             operator=(const vector& _rhs) {
@@ -79,19 +89,6 @@ namespace ft
                 _M_end_of_storage = _M_start + _rhs.capacity();
                 return (*this);
             }
-
-			template< class InputIt >
-			vector(	InputIt _first, InputIt _last,
-			Allocator const& _alloc = Allocator())
-            : _M_alloc_intr(_alloc)
-            {
-                typedef typename ft::is_integral<InputIt>::type _Integral;
-                _M_dispatch(_first, _last, _Integral());
-                //_M_start = _M_allocate(std::distance(_first, _last));   
-                //std::uninitialized_copy(_first, _last, _M_start);
-                //_M_finish = _M_start + std::distance(_first, _last);
-                //_M_end_of_storage = _M_finish;
-			}
 
 			vector(vector const& _other)
             : _M_alloc_intr(_other.get_allocator())
@@ -432,14 +429,24 @@ namespace ft
 		private:
 
         template <typename _Integer>
-        void _M_dispatch(_Integer _n, _Integer _val, ft::true_type)
+        void _M_dispatch(_Integer _count, _Integer _val, ft::true_type)
         {
+            size_type _n = static_cast<size_type>(_count); 
+
+			_M_start = _M_allocate(_n);
+			_M_finish = _M_start + _n;
+			_M_end_of_storage = _M_start + _n;
+			std::uninitialized_fill_n(_M_start, _n, _val);
             std::cout << "FILL" << std::endl;
         }
 
         template <typename _InputIter>
         void _M_dispatch(_InputIter _first, _InputIter _last, ft::false_type)
         {
+            _M_start = _M_allocate(std::distance(_first, _last));   
+            std::uninitialized_copy(_first, _last, _M_start);
+            _M_finish = _M_start + std::distance(_first, _last);
+            _M_end_of_storage = _M_finish;
             std::cout << "RANGE" << std::endl;
         }
 
