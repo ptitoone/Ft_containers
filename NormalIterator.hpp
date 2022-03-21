@@ -26,17 +26,15 @@ namespace ft {
 				: _M_ptr(_copy)
                 {}
 
+                template<typename Iter>
+                NormalIterator(NormalIterator<Iter, _Container> const & it)
+                : _M_ptr( it.base() )
+                {}
+
                 NormalIterator&  operator=(NormalIterator const & _rhs) {
                     _M_ptr = _rhs.base();
                     return (*this);
                 }
-
-                template<typename _Iter>
-                NormalIterator(const NormalIterator<_Iter, typename ft::enable_if<(std::is_same<_Iter, typename _Container::pointer>::value), _Container>::type>& i)
-                : _M_ptr(i.base()) { }
-
-				~NormalIterator()
-                {}
 
 				const _Iterator&
 				base() const {
@@ -202,23 +200,23 @@ namespace ft {
 		}
 
 		template <typename _IterL, typename _IterR, typename _Container >
-		typename NormalIterator<_IterL, _Container>::diffrence_type
-		operator-( const NormalIterator<_IterL, _Container> &_lhs,
+		typename NormalIterator<_IterL, _Container>::difference_type
+		operator-(  const NormalIterator<_IterL, _Container> &_lhs,
 					const NormalIterator<_IterR, _Container> &_rhs ) {
 			return (_lhs.base() - _rhs.base());
 		}
 
 		template <typename _Iter, typename _Container >
-		typename NormalIterator<_Iter, _Container>::diffrence_type
-		operator-( const NormalIterator<_Iter, _Container> &_lhs,
-					const NormalIterator<_Iter, _Container> &_rhs ) {
+		typename NormalIterator<_Iter, _Container>::difference_type
+		operator-(  const NormalIterator<_Iter, _Container> &_lhs,
+				    const NormalIterator<_Iter, _Container> &_rhs ) {
 			return (_lhs.base() - _rhs.base());
 		}
 
 		template <typename _Iter, typename _Container >
 		NormalIterator<_Iter, _Container>
-		operator+(  const NormalIterator<_Iter, _Container> &_lhs,
-					const typename NormalIterator<_Iter, _Container>::difference_type &_rhs ) {
-			return (NormalIterator<_Iter, _Container>(_lhs.base() + _rhs));
+		operator+(  const typename NormalIterator<_Iter, _Container>::difference_type &_lhs,
+					const NormalIterator<_Iter, _Container> &_rhs ) {
+			return (NormalIterator<_Iter, _Container>(_rhs.base() + _lhs));
 		}
 };

@@ -12,9 +12,7 @@
 
 
 #include "NormalIterator.hpp"
-#include "ConstIterator.hpp"
 #include "ReverseIterator.hpp"
-#include "VectorConstReverseIterator.hpp"
 #include <iostream>
 #include <exception>
 #include <memory>
@@ -35,9 +33,9 @@ namespace ft
 			typedef typename allocator_type::const_pointer		const_pointer;
 
 			typedef ft::NormalIterator<pointer, vector>   		iterator;
-			typedef ConstIterator<const_pointer, vector>		const_iterator;
-			typedef ReverseIterator<pointer, vector>            reverse_iterator;
-			typedef VectorConstReverseIterator<T>           	const_reverse_iterator;
+			typedef ft::NormalIterator<const_pointer, vector>   const_iterator;
+			typedef ft::ReverseIterator<pointer, vector>        reverse_iterator;
+			typedef ft::ReverseIterator<const_pointer, vector>  const_reverse_iterator;
 			typedef ptrdiff_t	            					difference_type;
 			typedef size_t				            			size_type;
 

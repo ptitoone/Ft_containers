@@ -1,134 +1,27 @@
-		===[ Vector resize() ]===
+Pre inc
+20 | 20
+Pre dec
+25 | 25
+Post inc
+25 | 20
+Post dec
+20 | 25
+###############################################
+5
+10
+const_ite +=: 15
+const_ite -=: 25
+(it == const_it): 0
+(const_ite - it): -3
+(ite + 3 == it): 1
+size: 5
+capacity: OK
+max_size: 4611686018427387903
 
-		💡 [1;37mresize() on full vector to smaller size[0m
-⏪ Before
-[0;32m[[tenths_vec]][0m
-Size is: 7
-Capacity is: 7
-Content is: 
-	|POS	|VAL
-	|	|
-	[0]	|-> 0
-	[1]	|-> 10
-	[2]	|-> 20
-	[3]	|-> 30
-	[4]	|-> 40
-	[5]	|-> 50
-	[6]	|-> 60
-[0;32m==============================[0m
-
-⏩ After
-[0;32m[[tenths_vec]][0m
-Size is: 4
-Capacity is: 7
-Content is: 
-	|POS	|VAL
-	|	|
-	[0]	|-> 0
-	[1]	|-> 10
-	[2]	|-> 20
-	[3]	|-> 30
-[0;32m==============================[0m
-
-		💡 [1;37mresize() on non-full vector to bigger size and val unspecified[0m
-⏪ Before
-[0;32m[[tenths_vec]][0m
-Size is: 4
-Capacity is: 7
-Content is: 
-	|POS	|VAL
-	|	|
-	[0]	|-> 0
-	[1]	|-> 10
-	[2]	|-> 20
-	[3]	|-> 30
-[0;32m==============================[0m
-
-⏩ After
-[0;32m[[tenths_vec]][0m
-Size is: 6
-Capacity is: 7
-Content is: 
-	|POS	|VAL
-	|	|
-	[0]	|-> 0
-	[1]	|-> 10
-	[2]	|-> 20
-	[3]	|-> 30
-	[4]	|-> 0
-	[5]	|-> 0
-[0;32m==============================[0m
-
-		💡 [1;37mresize() on non-full vector to bigger size and val specified[0m
-⏪ Before
-[0;32m[[tenths_vec]][0m
-Size is: 6
-Capacity is: 7
-Content is: 
-	|POS	|VAL
-	|	|
-	[0]	|-> 0
-	[1]	|-> 10
-	[2]	|-> 20
-	[3]	|-> 30
-	[4]	|-> 0
-	[5]	|-> 0
-[0;32m==============================[0m
-
-⏩ After
-[0;32m[[tenths_vec]][0m
-Size is: 7
-Capacity is: 7
-Content is: 
-	|POS	|VAL
-	|	|
-	[0]	|-> 0
-	[1]	|-> 10
-	[2]	|-> 20
-	[3]	|-> 30
-	[4]	|-> 0
-	[5]	|-> 0
-	[6]	|-> 42
-[0;32m==============================[0m
-
-		💡 [1;37mresize() on full vector to bigger size and val specified[0m
-⏪ Before
-[0;32m[[tenths_vec]][0m
-Size is: 7
-Capacity is: 7
-Content is: 
-	|POS	|VAL
-	|	|
-	[0]	|-> 0
-	[1]	|-> 10
-	[2]	|-> 20
-	[3]	|-> 30
-	[4]	|-> 0
-	[5]	|-> 0
-	[6]	|-> 42
-[0;32m==============================[0m
-
-⏩ After
-[0;32m[[tenths_vec]][0m
-Size is: 15
-Capacity is: 15
-Content is: 
-	|POS	|VAL
-	|	|
-	[0]	|-> 0
-	[1]	|-> 10
-	[2]	|-> 20
-	[3]	|-> 30
-	[4]	|-> 0
-	[5]	|-> 0
-	[6]	|-> 42
-	[7]	|-> 420
-	[8]	|-> 420
-	[9]	|-> 420
-	[10]	|-> 420
-	[11]	|-> 420
-	[12]	|-> 420
-	[13]	|-> 420
-	[14]	|-> 420
-[0;32m==============================[0m
-
+Content is:
+- 25
+- 42
+- 15
+- 21
+- 5
+###############################################
