@@ -2,7 +2,6 @@
 
 #include "Iterator.hpp"
 #include "IteratorTraits.hpp"
-#include "utils.hpp"
 
 namespace ft {
 
@@ -147,56 +146,56 @@ namespace ft {
 		bool
 		operator<( const NormalIterator<_IterL, _Container> &_lhs,
 					const NormalIterator<_IterR, _Container> &_rhs ) {
-			return (_lhs.base() != _rhs.base());
+			return (_lhs.base() < _rhs.base());
 		}
 
 		template <typename _Iter, typename _Container >
 		bool
 		operator<(	const NormalIterator<_Iter, _Container> &_lhs,
 					const NormalIterator<_Iter, _Container> &_rhs ) {
-			return (_lhs.base() != _rhs.base());
+			return (_lhs.base() < _rhs.base());
 		}
 
 		template <typename _IterL, typename _IterR, typename _Container >
 		bool
 		operator<=( const NormalIterator<_IterL, _Container> &_lhs,
 					const NormalIterator<_IterR, _Container> &_rhs ) {
-			return (_lhs.base() != _rhs.base());
+			return (_lhs.base() <= _rhs.base());
 		}
 
 		template <typename _Iter, typename _Container >
 		bool
 		operator<=( const NormalIterator<_Iter, _Container> &_lhs,
 					const NormalIterator<_Iter, _Container> &_rhs ) {
-			return (_lhs.base() != _rhs.base());
+			return (_lhs.base() <= _rhs.base());
 		}
 
 		template <typename _IterL, typename _IterR, typename _Container >
 		bool
 		operator>( const NormalIterator<_IterL, _Container> &_lhs,
 					const NormalIterator<_IterR, _Container> &_rhs ) {
-			return (_lhs.base() != _rhs.base());
+			return (_lhs.base() > _rhs.base());
 		}
 
 		template <typename _Iter, typename _Container >
 		bool
 		operator>( const NormalIterator<_Iter, _Container> &_lhs,
 					const NormalIterator<_Iter, _Container> &_rhs ) {
-			return (_lhs.base() != _rhs.base());
+			return (_lhs.base() > _rhs.base());
 		}
 
 		template <typename _IterL, typename _IterR, typename _Container >
 		bool
 		operator>=( const NormalIterator<_IterL, _Container> &_lhs,
 					const NormalIterator<_IterR, _Container> &_rhs ) {
-			return (_lhs.base() != _rhs.base());
+			return (_lhs.base() >= _rhs.base());
 		}
 
 		template <typename _Iter, typename _Container >
 		bool
 		operator>=( const NormalIterator<_Iter, _Container> &_lhs,
 					const NormalIterator<_Iter, _Container> &_rhs ) {
-			return (_lhs.base() != _rhs.base());
+			return (_lhs.base() >= _rhs.base());
 		}
 
 		template <typename _IterL, typename _IterR, typename _Container >
