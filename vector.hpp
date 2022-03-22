@@ -103,8 +103,9 @@ namespace ft
 				_M_deallocate(_M_start, capacity());
 			}
 
+            template <typename _Iter>
 			void
-			assign(iterator _first, iterator _last) {
+			assign(_Iter _first, _Iter _last) {
 				size_type _count = std::distance(_first, _last);
 
 				if (_count > capacity())
@@ -126,7 +127,7 @@ namespace ft
 			}
 
 			void
-			assign(size_type _count, T const& _value) {
+			assign(size_type _count, value_type const& _value) {
 				if (_count > capacity())
 				{
 					_M_deallocate(_M_start, capacity());
@@ -293,23 +294,61 @@ namespace ft
 				}
 			}
 
-//			iterator
-//            insert(iterator _pos, const value_type& _value) {
-//                if (capacity() < size() + 1)
-//                {
-//                    pointer _tmp = _M_allocate(_M_check_len(size() +1 ));
-//                    std::uninitialized_copy(begin(), _pos, _tmp);
-//                    _M_alloc_intr.construct(_tmp + std::distance(begin(), _pos), _value);
-//                    std::uninitialized_copy(_pos + 1, end(), _tmp);
-//                    
-//                }
-//                else
-//                {
-//                    
-//                }
-//            }
-//
-//			void			insert(iterator pos, size_type count, const T& value);
+			iterator
+            insert(iterator _pos, const value_type& _value) {
+                size_type   _prev_size = size();
+                size_type   _capacity;
+                size_type   _ret_pos = std::distance(begin(), _pos);
+                pointer     _tmp;
+
+                if (_pos == end())
+                {
+                    /// PUSH BACK CAN BE USEDDDDDDDDD
+                    _M_alloc_intr.construct(_M_finish, _value);
+                    _M_finish++;
+                }
+                else 
+                {
+                    if (capacity() < size() + 1)
+                        _capacity = _M_check_len(size() +1 );
+                    else
+                        _capacity = capacity();
+                    _tmp = _M_allocate(_capacity);
+
+                    std::uninitialized_copy(begin(), _pos, _tmp);
+                    _M_alloc_intr.construct(_tmp + std::distance(begin(), _pos), _value);
+                    std::uninitialized_copy(_pos + 1, end(), _tmp);
+                    _M_deallocate(_M_start, capacity());
+                    _M_start = _tmp; 
+                    _M_finish = _M_start + (_prev_size + 1);
+                    _M_end_of_storage = _M_start + _capacity; 
+                }
+                return (begin() + _ret_pos);
+            }
+
+			void
+            insert(iterator _pos, size_type _count, const value_type& _value) {
+                size_type   _prev_size = size();
+                size_type   _capacity;
+                size_type   _ret_pos = std::distance(begin(), _pos);
+                pointer     _tmp;
+
+                if (_count + size() > capacity())
+                {
+                    if (_count + size() > capacity())
+                        _capacity = _M_check_len(_count + size();
+                    else
+                        _capacity = capacity();
+                    _tmp = _M_allocate(_capacity);
+                    std::uninitialized_copy(begin(), _pos, _tmp);
+                    std::uninitialized_fill_n(_tmp + _ret_pos, _count, _value);
+                    std::uninitialized_copy(_pos + _count, end(), _tmp);
+                    _M_deallocate(_M_start, capacity());
+                    _M_start = _tmp; 
+                    _M_finish = _M_start + (_prev_size + _count);
+                    _M_end_of_storage = _M_start + _capacity; 
+                }
+            }
 //			template <class InputIt>
 //			void			insert(iterator pos, InputIt first, InputIt last);
 
@@ -388,10 +427,7 @@ namespace ft
                 if (_n < size())
                 {
                     for (size_type i = size()-1; i >= _n; i--)
-                    {
-                    //    std::cout << "--->" << *(_M_start + i) << std::endl;
                         _M_alloc_intr.destroy(_M_start + i);
-                    }
                     _M_finish = _M_start + _n;
                 }
                 else if (_n > capacity())
