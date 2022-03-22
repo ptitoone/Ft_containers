@@ -3,15 +3,15 @@ Vector:
     - resize()                  []
     - insert()                  []
     - copy constructor          []
-    - range constructor         []
+    - range constructor         [x]
     - reverse iterator          [x]
     - const reverse iterator    []
-    - const iterator            []
-    - vector operator overloads []
+    - const iterator            [x]
+    - vector operator overloads [x]
 
 Common:
     - enable_if                 []
-    - is_integral               []
+    - is_integral               [x]
     - equal                     []
     - lexicographical_compare   []
 
