@@ -49,7 +49,7 @@ namespace ft
 
             class OutOfMemoryException : std::exception {
                 const char*
-                what() throw() {
+                what() const throw() {
                     return ("Error: Not enough memory available");
                 }
             };
@@ -68,7 +68,7 @@ namespace ft
 			_M_finish(_M_start + _count),
 			_M_end_of_storage(_M_start + _count) {
 				std::uninitialized_fill_n(_M_start, _count, _value);
-                std::cout << "FILL DEFAULT" << std::endl;
+                //std::cout << "FILL DEFAULT" << std::endl;
 			}
 
 			template< class InputIt >
@@ -301,7 +301,7 @@ namespace ft
                 size_type   _ret_pos = std::distance(begin(), _pos);
                 pointer     _tmp;
 
-                if (_pos == end())
+                if (_pos == end() && size() + 1 <= capacity())
                 {
                     /// PUSH BACK CAN BE USEDDDDDDDDD
                     _M_alloc_intr.construct(_M_finish, _value);
@@ -310,14 +310,15 @@ namespace ft
                 else 
                 {
                     if (capacity() < size() + 1)
-                        _capacity = _M_check_len(size() +1 );
+                        _capacity = _M_check_len(size());
                     else
                         _capacity = capacity();
+                    std::cout << _capacity << std::endl;
                     _tmp = _M_allocate(_capacity);
 
                     std::uninitialized_copy(begin(), _pos, _tmp);
                     _M_alloc_intr.construct(_tmp + std::distance(begin(), _pos), _value);
-                    std::uninitialized_copy(_pos + 1, end(), _tmp);
+                    std::uninitialized_copy(_pos, end(), _tmp + std::distance(begin(), _pos));
                     _M_deallocate(_M_start, capacity());
                     _M_start = _tmp; 
                     _M_finish = _M_start + (_prev_size + 1);
@@ -333,10 +334,16 @@ namespace ft
                 size_type   _ret_pos = std::distance(begin(), _pos);
                 pointer     _tmp;
 
-                if (_count + size() > capacity())
+                if (_pos == end() && size() + _count <= capacity())
+                {
+                    /// PUSH BACK CAN BE USEDDDDDDDDD
+                    std::uninitialized_fill_n(end(), _count, _value);
+                    _M_finish += _count;
+                }
+                else
                 {
                     if (_count + size() > capacity())
-                        _capacity = _M_check_len(_count + size();
+                        _capacity = _M_check_len(_count + size());
                     else
                         _capacity = capacity();
                     _tmp = _M_allocate(_capacity);
@@ -349,8 +356,28 @@ namespace ft
                     _M_end_of_storage = _M_start + _capacity; 
                 }
             }
-//			template <class InputIt>
-//			void			insert(iterator pos, InputIt first, InputIt last);
+
+			template <class InputIt>
+			void
+            insert(iterator _pos, InputIt _first, InputIt _last) {
+                size_type   _prev_size = size();
+                size_type   _capacity;
+                size_type   _dist = std::distance(_first, _last);
+                pointer     _tmp;
+
+                if (capacity() < _dist + size())
+                    _capacity = _M_check_len(_dist + size());
+                else
+                    _capacity = capacity();
+                _tmp = _M_allocate(_capacity);
+                std::uninitialized_copy(begin(), _pos, _tmp);
+                std::uninitialized_copy(_first, _last, _tmp + std::distance(begin(), _pos));
+                std::uninitialized_copy(_pos, end(), _tmp + (std::distance(begin(), _pos) + _dist));
+                _M_deallocate(_M_start, capacity());
+                _M_start = _tmp; 
+                _M_finish = _M_start + (_prev_size + _dist);
+                _M_end_of_storage = _M_start + _capacity;
+            }
 
 
 			iterator
@@ -422,19 +449,22 @@ namespace ft
 
 			void
             resize(size_type _n, value_type _value = value_type()) {
-                pointer _tmp;
+                pointer _tmp = 0;
 
                 if (_n < size())
                 {
-                    for (size_type i = size()-1; i >= _n; i--)
-                        _M_alloc_intr.destroy(_M_start + i);
+                    size_type len = size() - _n;
+                    while (len--)
+                       _M_alloc_intr.destroy(_M_start + len);
+
+                    //for (size_type i = size()-1; i >= _n; i--)
                     _M_finish = _M_start + _n;
                 }
                 else if (_n > capacity())
                 {
                     _tmp = _M_allocate(_n);
                     std::uninitialized_copy(begin(), end(), _tmp);
-                    std::uninitialized_fill_n(_tmp + size(), _n, _value);
+                    std::uninitialized_fill_n(_tmp + size(), _n - size(), _value);
                     _M_deallocate(_M_start, capacity());
                     _M_start = _tmp;
                     _M_finish = _M_start + _n;
@@ -442,7 +472,7 @@ namespace ft
                 }
                 else
                 {
-                    std::uninitialized_fill_n(_M_finish, capacity() - (_n - 1), _value);
+                    std::uninitialized_fill_n(_M_finish, _n - size(), _value);
                     _M_finish = _M_start + _n;
                 }
             }
@@ -473,7 +503,7 @@ namespace ft
 			_M_finish = _M_start + _n;
 			_M_end_of_storage = _M_start + _n;
 			std::uninitialized_fill_n(_M_start, _n, _val);
-            std::cout << "FILL" << std::endl;
+            //std::cout << "FILL" << std::endl;
         }
 
         template <typename _InputIter>
@@ -483,7 +513,7 @@ namespace ft
             std::uninitialized_copy(_first, _last, _M_start);
             _M_finish = _M_start + std::distance(_first, _last);
             _M_end_of_storage = _M_finish;
-            std::cout << "RANGE" << std::endl;
+            //std::cout << "RANGE" << std::endl;
         }
 
 		size_type _M_check_len(size_type _size) {
