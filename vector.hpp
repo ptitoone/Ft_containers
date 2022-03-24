@@ -84,11 +84,16 @@ namespace ft
 
             vector&
             operator=(const vector& _rhs) {
+                pointer     _tmp;
+                size_type   _prev_size = _rhs.size();
+                size_type   _prev_capacity = _rhs.capacity();
+
+                _tmp = _M_allocate(_rhs.capacity());
+                std::uninitialized_copy(_rhs.begin(), _rhs.end(), _tmp);
                 _M_deallocate(_M_start, capacity());
-                _M_start = _M_alloc_intr.allocate(_rhs.capacity());
-                std::uninitialized_copy(_rhs.begin(), _rhs.end(), _M_start);
-                _M_finish = _M_start + _rhs.size();
-                _M_end_of_storage = _M_start + _rhs.capacity();
+                _M_start = _tmp;
+                _M_finish = _M_start + _prev_size;
+                _M_end_of_storage = _M_start + _prev_capacity;
                 return (*this);
             }
 
@@ -104,18 +109,11 @@ namespace ft
 			~vector(void) {
 				_M_deallocate(_M_start, capacity());
 			}
-/////////////
+///////////// ASSIGN ////////////
 
-            template <typename _Iter>
-			void
-			assign(_Iter _first, _Iter _last) {
-                typedef typename ft::is_integral<_Iter>::type _Integral;
-                _M_assign_dispatch(_first, _last, _Integral());
-            }
-            ///////////
             template <typename _Iterator>
-			void
-			_M_assign_dispatch(_Iterator _first, _Iterator _last, false_type) {
+			typename enable_if<!ft::is_integral<_Iterator>::value, void>::type
+			assign(_Iterator _first, _Iterator _last) {
 				size_type _count = std::distance(_first, _last);
 
 				if (_count > capacity())
@@ -128,18 +126,24 @@ namespace ft
 				}
 				else
 				{
-					for (size_type i = size() - 1; i >= _count; i--)
-						_M_alloc_intr.destroy(_M_start + i);
-					_M_finish = _M_start + _count;
-					for (size_type i = 0; _first != _last; _first++)
-						*(_M_start + i++) = *_first;
+                    iterator it(begin());
+					for (; it != end(); it++)
+						_M_alloc_intr.destroy(it.base());
+                    std::uninitialized_copy(_first, _last, begin());
+                    _M_finish = _M_start + _count;
+					//for (size_type i = 0; i < _count; i++)
+					//	*(_M_start + i) = _value;
+
+//					for (size_type i = size() - 1; i >= _count; i--)
+//						_M_alloc_intr.destroy(_M_start + i);
+//					_M_finish = _M_start + _count;
+//					for (size_type i = 0; _first != _last; _first++)
+//						*(_M_start + i++) = *_first;
 				}
 			}
 
-            template <typename _Integral>
 			void
-			_M_assign_dispatch(_Integral _cnt, _Integral const& _value, true_type) {
-                size_type _count = static_cast<size_type>(_cnt);
+			assign(size_type _count, value_type const& _value) {
 
 				if (_count > capacity())
 				{
@@ -151,13 +155,16 @@ namespace ft
 				}
 				else
 				{
-					for (size_type i = size() - 1; i >= _count; i--)
-						_M_alloc_intr.destroy(_M_start + i);
-					_M_finish = _M_start + _count;
-					for (size_type i = 0; i < _count; i++)
-						*(_M_start + i) = _value;
+                    iterator it(begin());
+					for (; it != end(); it++)
+						_M_alloc_intr.destroy(it.base());
+                    std::uninitialized_fill_n(begin(), _count, _value);
+                    _M_finish = _M_start + _count;
+					//for (size_type i = 0; i < _count; i++)
+					//	*(_M_start + i) = _value;
 				}
 			}
+//////////////////////////////////////////////////////
 
 			allocator_type
 			get_allocator() const {
@@ -306,14 +313,8 @@ namespace ft
 					_M_finish = _M_start;
 				}
 			}
-
-			template <class InputIt>
-			void
-            insert(iterator _pos, InputIt _first, InputIt _last) {
-                typedef typename ft::is_integral<InputIt>::type _Integral;
-                _M_insert_dispatch(_pos, _first, _last, _Integral());
-            }
-            
+///////////// INSERT /////////////////
+//SINGLE
 			iterator
             insert(iterator _pos, const value_type& _value) {
                 size_type   _prev_size = size();
@@ -322,15 +323,11 @@ namespace ft
                 pointer     _tmp;
 
                 if (_pos == end() && size() + 1 <= capacity())
-                {
-                    /// PUSH BACK CAN BE USEDDDDDDDDD
-                    _M_alloc_intr.construct(_M_finish, _value);
-                    _M_finish++;
-                }
+                    push_back(_value);
                 else 
                 {
                     if (capacity() < size() + 1)
-                        _capacity = _M_check_len(size());
+                        _capacity = _M_check_len(1);
                     else
                         _capacity = capacity();
                     _tmp = _M_allocate(_capacity);
@@ -345,28 +342,23 @@ namespace ft
                 }
                 return (begin() + _ret_pos);
             }
-
-
-
-            template <class Integral>
+// FILL
 			void
-            _M_insert_dispatch(iterator _pos, Integral _count, const Integral& _val, true_type) {
+            insert(iterator _pos, size_type _count, const value_type& _value) {
                 size_type   _prev_size = size();
                 size_type   _capacity;
                 size_type   _ret_pos = std::distance(begin(), _pos);
                 pointer     _tmp;
-                value_type  _value = static_cast<value_type>(_val);
 
                 if (_pos == end() && size() + _count <= capacity())
                 {
-                    /// PUSH BACK CAN BE USEDDDDDDDDD
                     std::uninitialized_fill_n(end(), _count, _value);
                     _M_finish += _count;
                 }
                 else
                 {
                     if (_count + size() > capacity())
-                        _capacity = _M_check_len(_count + size());
+                        _capacity = _M_check_len(_count);
                     else
                         _capacity = capacity();
                     _tmp = _M_allocate(_capacity);
@@ -380,16 +372,16 @@ namespace ft
                 }
             }
 
-            template <class InputIt>
-			void
-            _M_insert_dispatch(iterator _pos, InputIt _first, InputIt _last, false_type) {
+            template <class _InputIt>
+			typename ft::enable_if<!ft::is_integral<_InputIt>::value, void>::type
+            insert(iterator _pos, _InputIt _first, _InputIt _last) {
                 size_type   _prev_size = size();
                 size_type   _capacity;
                 size_type   _dist = std::distance(_first, _last);
                 pointer     _tmp;
 
                 if (capacity() < _dist + size())
-                    _capacity = _M_check_len(_dist + size());
+                    _capacity = _M_check_len(_dist);
                 else
                     _capacity = capacity();
                 _tmp = _M_allocate(_capacity);
@@ -402,6 +394,7 @@ namespace ft
                 _M_end_of_storage = _M_start + _capacity;
             }
 
+///////////////////////////////
 			iterator
 			erase(iterator _it) {
                 difference_type _return_pos = std::distance(begin(), _it);
@@ -477,19 +470,18 @@ namespace ft
                     size_type len = size() - _n;
                     while (len--)
                        _M_alloc_intr.destroy(_M_start + len);
-
-                    //for (size_type i = size()-1; i >= _n; i--)
                     _M_finish = _M_start + _n;
                 }
                 else if (_n > capacity())
                 {
-                    _tmp = _M_allocate(_n);
+                    size_type _new_cap = _M_check_len(_n - size()); 
+                    _tmp = _M_allocate(_new_cap);
                     std::uninitialized_copy(begin(), end(), _tmp);
                     std::uninitialized_fill_n(_tmp + size(), _n - size(), _value);
                     _M_deallocate(_M_start, capacity());
                     _M_start = _tmp;
                     _M_finish = _M_start + _n;
-                    _M_end_of_storage = _M_finish;
+                    _M_end_of_storage = _M_start + _new_cap;
                 }
                 else
                 {
@@ -519,89 +511,86 @@ namespace ft
 
 		private:
 
-        template <typename _Integer>
-        void _M_range_dispatch(_Integer _count, _Integer _val, true_type)
-        {
-            size_type _n = static_cast<size_type>(_count); 
+            template <typename _Integer>
+            void _M_range_dispatch(_Integer _count, _Integer _val, true_type) {
+                size_type _n = static_cast<size_type>(_count); 
 
-			_M_start = _M_allocate(_n);
-			_M_finish = _M_start + _n;
-			_M_end_of_storage = _M_start + _n;
-			std::uninitialized_fill_n(_M_start, _n, _val);
-        }
+                _M_start = _M_allocate(_n);
+                _M_finish = _M_start + _n;
+                _M_end_of_storage = _M_start + _n;
+                std::uninitialized_fill_n(_M_start, _n, _val);
+            }
 
-        template <typename _InputIter>
-        void _M_range_dispatch(_InputIter _first, _InputIter _last, false_type)
-        {
-            _M_start = _M_allocate(std::distance(_first, _last));   
-            std::uninitialized_copy(_first, _last, _M_start);
-            _M_finish = _M_start + std::distance(_first, _last);
-            _M_end_of_storage = _M_finish;
-        }
+            template <typename _InputIter>
+            void _M_range_dispatch(_InputIter _first, _InputIter _last, false_type) {
+                _M_start = _M_allocate(std::distance(_first, _last));   
+                std::uninitialized_copy(_first, _last, _M_start);
+                _M_finish = _M_start + std::distance(_first, _last);
+                _M_end_of_storage = _M_finish;
+            }
 
-		size_type _M_check_len(size_type _size) {
-			if (_M_alloc_intr.max_size() - size() < _size)
-				throw(OutOfMemoryException());
-			size_type _len = size() + std::max(size(), _size);
-			return ((_len < size() || _len > max_size()) ? max_size() : _len);
-		}
+            size_type _M_check_len(size_type _size) {
+                if (_M_alloc_intr.max_size() - size() < _size)
+                    throw(OutOfMemoryException());
+                size_type _len = size() + std::max(size(), _size);
+                return ((_len < size() || _len > max_size()) ? max_size() : _len);
+            }
 
-	    pointer _M_allocate(size_type _size) {
-            return (_M_alloc_intr.allocate(_size));
-        }
+            pointer _M_allocate(size_type _size) {
+                return (_M_alloc_intr.allocate(_size));
+            }
 
-		void _M_deallocate(pointer _ptr, size_type _capacity) {
-			if (_ptr != 0) {
-				for (size_type i = 0; i < size(); i++)
-					_M_alloc_intr.destroy(_ptr + i);
-				_M_alloc_intr.deallocate(_ptr, _capacity);
-				_M_start = 0;
-				_M_finish = 0;
-				_M_end_of_storage = 0;
-			}
-		}
+            void _M_deallocate(pointer _ptr, size_type _capacity) {
+                if (_ptr != 0) {
+                    for (size_type i = 0; i < size(); i++)
+                        _M_alloc_intr.destroy(_ptr + i);
+                    _M_alloc_intr.deallocate(_ptr, _capacity);
+                    _M_start = 0;
+                    _M_finish = 0;
+                    _M_end_of_storage = 0;
+                }
+            }
 	};
-}
+    
+    template<class T, class Alloc>
+    bool
+    operator==(vector<T, Alloc> const & _lhs, vector<T, Alloc> const & _rhs) {
+        return(_lhs.size() == _rhs.size()
+            && ft::equal(_lhs.begin(), _lhs.end(), _rhs.begin()));
+    }
 
-template<class T, class Alloc>
-bool
-operator==(ft::vector<T, Alloc> const & _lhs, ft::vector<T, Alloc> const & _rhs) {
-    return(_lhs.size() == _rhs.size()
-        && std::equal(_lhs.begin(), _lhs.end(), _rhs.begin()));
-}
+    template<class T, class Alloc>
+    bool
+    operator!=(vector<T, Alloc> const & _lhs, vector<T, Alloc> const & _rhs) {
+        return (!(_lhs == _rhs));
+    }
 
-template<class T, class Alloc>
-bool
-operator!=(ft::vector<T, Alloc> const & _lhs, ft::vector<T, Alloc> const & _rhs) {
-    return (!(_lhs == _rhs));
-}
+    template<class T, class Alloc>
+    bool
+    operator<(vector<T, Alloc> const & _lhs, vector<T, Alloc> const & _rhs) {
+        return (ft::lexicographical_compare(_lhs.begin(), _lhs.end(), _rhs.begin(), _rhs.end()));
+    }
 
-template<class T, class Alloc>
-bool
-operator<(ft::vector<T, Alloc> const & _lhs, ft::vector<T, Alloc> const & _rhs) {
-    return (ft::lexicographical_compare(_lhs.begin(), _lhs.end(), _rhs.begin(), _rhs.end()));
-}
+    template<class T, class Alloc>
+    bool
+    operator<=(vector<T, Alloc> const & _lhs, vector<T, Alloc> const & _rhs) {
+        return !(_rhs < _lhs);
+    }
 
-template<class T, class Alloc>
-bool
-operator<=(ft::vector<T, Alloc> const & _lhs, ft::vector<T, Alloc> const & _rhs) {
-    return !(_rhs < _lhs);
-}
+    template<class T, class Alloc>
+    bool
+    operator>(vector<T, Alloc> const & _lhs, vector<T, Alloc> const & _rhs) {
+        return (_rhs < _lhs);
+    }
 
-template<class T, class Alloc>
-bool
-operator>(ft::vector<T, Alloc> const & _lhs, ft::vector<T, Alloc> const & _rhs) {
-    return (_rhs < _lhs);
-}
+    template<class T, class Alloc>
+    bool
+    operator>=(vector<T, Alloc> const & _lhs, vector<T, Alloc> const & _rhs) {
+        return !(_lhs < _rhs);
+    }
 
-template<class T, class Alloc>
-bool
-operator>=(ft::vector<T, Alloc> const & _lhs, ft::vector<T, Alloc> const & _rhs) {
-    return !(_lhs < _rhs);
+    template<typename T, typename Alloc>
+    void
+    swap(vector<T, Alloc>& _lhs, vector<T, Alloc>& _rhs)
+    { _lhs.swap(_rhs); }
 }
-
-//template<class T, class Alloc>
-//typename ft::vector<T, Alloc>::iterator
-//operator-(typename ft::vector<T, Alloc>::iterator const& _lhs, typename ft::vector<T, Alloc>::iterator const& _rhs) {
-    //return (typename ft::vector<T, Alloc>::iterator(_lhs.base() - _rhs.base()));
-//}
