@@ -409,12 +409,28 @@ namespace ft
                         _tmp++;
                     }
                 }
+                _M_alloc_intr.destroy(_M_finish - 1);
                 _M_finish--;
                 return (begin() + _return_pos); 
             }
 
 			iterator
             erase(iterator _first, iterator _last) {
+				size_type _count = std::distance(_first, _last);
+				iterator _f(_first);
+				iterator _l(_last);
+               	iterator	cpy(_first);
+
+				for (; _first != _last; _first++)
+					_M_alloc_intr.destroy(_first.base());
+				while (_last != end())
+					*(_f++) = *(_last++);
+				while (_f != end())
+					_M_alloc_intr.destroy((_f++).base());
+				_M_finish -= _count;
+				return cpy;
+				//return (end() - 3);
+			/*
                iterator	cpy(_first);
                pointer _f = _first.base() + (end() - _last);
 
@@ -428,6 +444,7 @@ namespace ft
 					this->_M_finish = _first.base() + (end() - _last);
 				}
 				return cpy;
+			*/
             }
 
 			void
