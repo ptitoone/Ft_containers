@@ -18,8 +18,6 @@
 #include <exception>
 #include <memory>
 
-#define DEBUG std::cout << "DEBUG" << std::endl;
-
 namespace ft
 {
 	template <class T, class Allocator = std::allocator<T> >
@@ -70,7 +68,6 @@ namespace ft
 			_M_finish(_M_start + _count),
 			_M_end_of_storage(_M_start + _count) {
 				std::uninitialized_fill_n(_M_start, _count, _value);
-                //std::cout << "FILL DEFAULT" << std::endl;
 			}
 
 			template< class InputIt >
@@ -109,7 +106,6 @@ namespace ft
 			~vector(void) {
 				_M_deallocate();
 			}
-///////////// ASSIGN ////////////
 
             template <typename _Iterator>
 			typename enable_if<!ft::is_integral<_Iterator>::value, void>::type
@@ -131,14 +127,6 @@ namespace ft
 						_M_alloc_intr.destroy(it.base());
                     std::uninitialized_copy(_first, _last, begin());
                     _M_finish = _M_start + _count;
-					//for (size_type i = 0; i < _count; i++)
-					//	*(_M_start + i) = _value;
-
-//					for (size_type i = size() - 1; i >= _count; i--)
-//						_M_alloc_intr.destroy(_M_start + i);
-//					_M_finish = _M_start + _count;
-//					for (size_type i = 0; _first != _last; _first++)
-//						*(_M_start + i++) = *_first;
 				}
 			}
 
@@ -160,11 +148,8 @@ namespace ft
 						_M_alloc_intr.destroy(it.base());
                     std::uninitialized_fill_n(begin(), _count, _value);
                     _M_finish = _M_start + _count;
-					//for (size_type i = 0; i < _count; i++)
-					//	*(_M_start + i) = _value;
 				}
 			}
-//////////////////////////////////////////////////////
 
 			allocator_type
 			get_allocator() const {
@@ -247,12 +232,12 @@ namespace ft
 
 			reference
 			back() {
-				return (*(_M_finish-1));
+				return (*(_M_finish - 1));
 			}
 
 			const_reference
 			back() const {
-				return (*(_M_finish-1));
+				return (*(_M_finish - 1));
 			}
 
 			pointer
@@ -313,8 +298,7 @@ namespace ft
 					_M_finish = _M_start;
 				}
 			}
-///////////// INSERT /////////////////
-//SINGLE
+
 			iterator
             insert(iterator _pos, const value_type& _value) {
                 size_type   _prev_size = size();
@@ -342,7 +326,7 @@ namespace ft
                 }
                 return (begin() + _ret_pos);
             }
-// FILL
+
 			void
             insert(iterator _pos, size_type _count, const value_type& _value) {
                 size_type   _prev_size = size();
@@ -394,7 +378,6 @@ namespace ft
                 _M_end_of_storage = _M_start + _capacity;
             }
 
-///////////////////////////////
 			iterator
 			erase(iterator _it) {
                 difference_type _return_pos = std::distance(begin(), _it);
@@ -416,34 +399,15 @@ namespace ft
 
 			iterator
             erase(iterator _first, iterator _last) {
-				size_type _count = std::distance(_first, _last);
-				iterator _f(_first);
-				iterator _l(_last);
-               	iterator	cpy(_first);
+				size_type	_count = std::distance(_first, _last);
+               	iterator	_ret(_first);
 
-			//	for (; _first != _last; _first++)
-			//		_M_alloc_intr.destroy(_first.base());
 				while (_last != end())
-					*(_f++) = *(_last++);
-				while (_f != end())
-					_M_alloc_intr.destroy((_f++).base());
+					*(_first++) = *(_last++);
+				while (_first != end())
+					_M_alloc_intr.destroy((_first++).base());
 				_M_finish -= _count;
-				return cpy;
-			/*
-               iterator	cpy(_first);
-               pointer _f = _first.base() + (end() - _last);
-
-				if (_first != _last) {
-					if (_last != end()) {
-						while (_last != end())
-							*_first++ = *_last++;
-					}
-                    for (; _f != _M_finish; ++_f) 
-					    _M_alloc_intr.destroy(_f);
-					this->_M_finish = _first.base() + (end() - _last);
-				}
-				return cpy;
-			*/
+				return (_ret);
             }
 
 			void
@@ -451,7 +415,6 @@ namespace ft
 				pointer		_tmp;
 				size_type	_new_size = _M_check_len(1);
 				size_type	_prev_size = size();
-				size_type	_prev_capacity = capacity();
 
 				if (size() < capacity())
 				{
@@ -609,4 +572,4 @@ namespace ft
     void
     swap(vector<T, Alloc>& _lhs, vector<T, Alloc>& _rhs)
     { _lhs.swap(_rhs); }
-}
+};

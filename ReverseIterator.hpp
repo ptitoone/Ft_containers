@@ -1,9 +1,7 @@
 #pragma once
 
-#include "Iterator.hpp"
 #include "NormalIterator.hpp"
 #include "IteratorTraits.hpp"
-
 
 namespace ft {
 
@@ -12,7 +10,6 @@ namespace ft {
 
         private:
 				_Iterator _M_ptr;
-
 
 		public:
 				typedef typename ft::iterator_traits<_Iterator>::difference_type difference_type;

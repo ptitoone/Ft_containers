@@ -16,7 +16,6 @@ int main()
     print(tenths_vec, "tenths_vec");
     for (; rite != rit; rite--)
         std::cout << "Post decrement = " << *rite << std::endl;
-    
-        std::cout << "test = " << rite[2] << std::endl;
+    std::cout << "test = " << rite[2] << std::endl;
     return (0);
 }

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Iterator.hpp"
 #include "IteratorTraits.hpp"
 
 namespace ft {
 
 		template <class _Iterator, class _Container>
 		class NormalIterator {
+
 		private:
 				_Iterator _M_ptr;
 
