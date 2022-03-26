@@ -74,7 +74,8 @@
         "iomanip": "cpp",
         "queue": "cpp",
         "set": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "*.tcc": "cpp"
     },
     "workbench.colorTheme": "Default Dark+"
 }
