@@ -271,7 +271,7 @@ namespace ft
 				size_type	_tmp_prev_size;
 
 				if (_new_cap > max_size())
-					throw std::length_error("vector::reserve");
+					throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
 				if (_new_cap > capacity())
 				{
 					_tmp_prev_size = size();
