@@ -1,4 +1,6 @@
-#include <stdint.h>
+#ifndef __UTILS_HPP
+# define __UTILS_HPP
+# include <stdint.h>
 
 namespace ft {
 
@@ -96,3 +98,4 @@ namespace ft {
         return (true);
     }
 }
+#endif

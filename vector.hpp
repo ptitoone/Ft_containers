@@ -3,13 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: akotzky <akotzky@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 18:53:28 by akotzky           #+#    #+#             */
-/*   Updated: 2022/03/16 23:20:20 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/03/28 16:38:16 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef __VECTOR_HPP
+# define __VECTOR_HPP
 
 #include "NormalIterator.hpp"
 #include "ReverseIterator.hpp"
@@ -573,3 +575,4 @@ namespace ft
     swap(vector<T, Alloc>& _lhs, vector<T, Alloc>& _rhs)
     { _lhs.swap(_rhs); }
 };
+#endif
