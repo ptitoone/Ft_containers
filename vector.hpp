@@ -97,12 +97,12 @@ namespace ft
             }
 
 			vector(vector const& _other)
-            : _M_alloc_intr(_other.get_allocator())
+            : _M_alloc_intr(_other.get_allocator()),
+			_M_start(_M_allocate(_other.size())),
+			_M_finish(_M_start + _other.size()),
+            _M_end_of_storage(_M_start + _other.size())
             {
-                _M_start = _M_allocate(_other.size());
                 std::uninitialized_copy(_other.begin(), _other.end(), _M_start);
-                _M_finish = _M_start + _other.size();
-                _M_end_of_storage = _M_start + _other.size();
 			}
 
 			~vector(void) {
@@ -382,7 +382,7 @@ namespace ft
 
 			iterator
 			erase(iterator _it) {
-                difference_type _return_pos = std::distance(begin(), _it);
+                size_type _return_pos = std::distance(begin(), _it);
                 pointer         _tmp = _it.base();
 
                 _M_alloc_intr.destroy(_it.base());
