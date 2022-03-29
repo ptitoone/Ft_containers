@@ -35,7 +35,7 @@ namespace ft {
                     return (*this);
                 }
 
-				const _Iterator&
+				_Iterator
 				base() const {
 						return (_M_ptr);
 				}

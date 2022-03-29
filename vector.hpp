@@ -273,7 +273,7 @@ namespace ft
 				size_type	_tmp_prev_size;
 
 				if (_new_cap > max_size())
-					throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
+					throw std::length_error("vector::reserve");
 				if (_new_cap > capacity())
 				{
 					_tmp_prev_size = size();
@@ -380,26 +380,17 @@ namespace ft
                 _M_end_of_storage = _M_start + _capacity;
             }
 
-			iterator
-			erase(iterator _it) {
-                size_type _return_pos = std::distance(begin(), _it);
-                pointer         _tmp = _it.base();
-
-                _M_alloc_intr.destroy(_it.base());
-                if (_it != end())
+	    iterator
+            erase(iterator _it) {
+                for ( iterator _crnt = _it; _crnt + 1 != this->end(); ++_crnt )
                 {
-                    while (_tmp != _M_finish)
-                    {
-                        *_tmp = *(_tmp + 1);
-                        _tmp++;
-                    }
+                    _M_alloc_intr.destroy( _crnt.base() );
+                    _M_alloc_intr.construct( _crnt.base(), *(_crnt + 1) );
                 }
-                _M_alloc_intr.destroy(_M_finish - 1);
-                _M_finish--;
-                return (begin() + _return_pos); 
+                _M_alloc_intr.destroy(--this->_M_finish);
+                return _it ;
             }
-
-			iterator
+		iterator
             erase(iterator _first, iterator _last) {
 				size_type	_count = std::distance(_first, _last);
                	iterator	_ret(_first);
@@ -449,9 +440,8 @@ namespace ft
                 if (_n < size())
                 {
                     size_type len = size() - _n;
-                    while (len--)
-                       _M_alloc_intr.destroy(_M_start + len);
-                    _M_finish = _M_start + _n;
+                    while (len-- > 0)
+                       _M_alloc_intr.destroy(--(_M_finish));
                 }
                 else if (_n > capacity())
                 {
@@ -495,11 +485,12 @@ namespace ft
             template <typename _Integer>
             void _M_range_dispatch(_Integer _count, _Integer _val, true_type) {
                 size_type _n = static_cast<size_type>(_count); 
+                value_type _v = static_cast<value_type>(_val); 
 
                 _M_start = _M_allocate(_n);
                 _M_finish = _M_start + _n;
                 _M_end_of_storage = _M_start + _n;
-                std::uninitialized_fill_n(_M_start, _n, _val);
+                std::uninitialized_fill_n(_M_start, _n, _v);
             }
 
             template <typename _InputIter>
