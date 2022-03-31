@@ -61,7 +61,8 @@ namespace ft {
     struct enable_if<true, T> { typedef T type; };
 
     template <class InputIterator1, class InputIterator2>
-    bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1,
+    bool
+    lexicographical_compare (InputIterator1 first1, InputIterator1 last1,
                                     InputIterator2 first2, InputIterator2 last2)
     {
         while (first1!=last1)
@@ -74,7 +75,8 @@ namespace ft {
     }
 
     template <class InputIterator1, class InputIterator2>
-    bool equal (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2) {
+    bool
+    equal (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2) {
         while (first1 != last1)
         {
             if (!(*first1 == *first2))
@@ -86,7 +88,8 @@ namespace ft {
     }
 
     template <class InputIterator1, class InputIterator2, class BinaryPredicate>
-    bool equal (InputIterator1 first1, InputIterator1 last1,
+    bool
+    equal (InputIterator1 first1, InputIterator1 last1,
               InputIterator2 first2, BinaryPredicate pred) {
         while (first1 != last1)
         {
@@ -97,5 +100,30 @@ namespace ft {
         }
         return (true);
     }
+
+    template<typename U, typename V>
+    class pair {
+
+        public:
+
+            typedef U   first_type;
+            typedef V   second_type;
+
+            pair()
+            : first(first_type()), second(second_type())
+            {}
+
+            template<class U, class V>
+            pair(pair<U, V> const& pr)
+            : first(pr.first), second(pr.second)
+            {}
+
+            pair(first_type const& a, second_type const& b)
+            : first(a), second(b)
+            {}
+
+            first_type  first;
+            second_type second;
+    };
 }
 #endif

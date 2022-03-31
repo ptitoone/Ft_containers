@@ -6,13 +6,17 @@
 /*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 15:08:21 by akotzky           #+#    #+#             */
-/*   Updated: 2022/03/31 19:24:41 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/03/31 19:37:16 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <functional>
-#include <memory>
-#include "tree.hpp"
+#ifndef __MAP_HPP
+# define __MAP_HPP
+
+# include <functional>
+# include <memory>
+# include "tree.hpp"
+# include "utils.hpp"
 
 namespace ft {
 
@@ -320,3 +324,5 @@ namespace ft {
         x.swap(y);
     }
 };
+
+#endif
