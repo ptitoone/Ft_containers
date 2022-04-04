@@ -106,15 +106,16 @@ namespace ft {
 
         public:
 
-            typedef U   first_type;
-            typedef V   second_type;
+            typedef U			first_type;
+            typedef V			second_type;
+			typedef pair<U, V>	value_type;
 
             pair()
             : first(first_type()), second(second_type())
             {}
 
-            template<class U, class V>
-            pair(pair<U, V> const& pr)
+            template<class U1, class V1>
+            pair(pair<U1, V1> const& pr)
             : first(pr.first), second(pr.second)
             {}
 
