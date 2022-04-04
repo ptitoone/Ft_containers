@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akotzky <akotzky@student.42.fr>            +#+  +:+       +#+        */
+/*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 15:08:21 by akotzky           #+#    #+#             */
-/*   Updated: 2022/04/04 16:47:43 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/04/04 21:52:46 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ namespace ft {
         private:
             typedef _B_tree<key_type, value_type, key_compare, allocator_type> _Rep_type;
             
-            _Rep_type _M_tree;
         
         public:
+            _Rep_type _M_tree;
             typedef typename allocator_type::pointer          pointer;
             typedef typename allocator_type::const_pointer    const_pointer;
             typedef typename allocator_type::reference        reference;

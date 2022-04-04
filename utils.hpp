@@ -123,8 +123,57 @@ namespace ft {
             : first(a), second(b)
             {}
 
+            pair&
+            operator=(pair const& rhs) {
+                first = rhs.first;
+                second = rhs.second;
+                return (*this);
+            }
+
             first_type  first;
             second_type second;
     };
+
+    template <typename T1, typename T2>
+    bool
+    operator==(ft::pair<T1, T2> const& lhs, ft::pair<T1, T2> const& rhs) {
+        return (lhs.first == rhs.first && lhs.second == rhs.second);
+    }
+
+    template <typename T1, typename T2>
+    bool
+    operator!=(ft::pair<T1, T2> const& lhs, ft::pair<T1, T2> const& rhs) {
+        return (!(lhs == rhs));
+    }
+    
+    template <typename T1, typename T2>
+    bool
+    operator<(ft::pair<T1, T2> const& lhs, ft::pair<T1, T2> const& rhs) {
+        return (lhs.first < rhs.first || !(lhs.first < rhs.first) && lhs.second < rhs.second);
+    }
+
+    template <typename T1, typename T2>
+    bool
+    operator>(ft::pair<T1, T2> const& lhs, ft::pair<T1, T2> const& rhs) {
+        return (rhs < lhs);
+    }
+    
+    template <typename T1, typename T2>
+    bool
+    operator<=(ft::pair<T1, T2> const& lhs, ft::pair<T1, T2> const& rhs) {
+        return (!(rhs < lhs));
+    }
+    
+    template <typename T1, typename T2>
+    bool
+    operator>=(ft::pair<T1, T2> const& lhs, ft::pair<T1, T2> const& rhs) {
+        return (!(lhs < rhs));
+    }
+
+    template<typename T1, typename T2>
+    pair<T1, T2>
+    make_pair(T1 lhs, T2 rhs) {
+        return (pair<T1, T2>(lhs, rhs));
+    }
 }
 #endif

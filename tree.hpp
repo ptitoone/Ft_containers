@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akotzky <akotzky@student.42.fr>            +#+  +:+       +#+        */
+/*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 15:57:56 by akotzky           #+#    #+#             */
-/*   Updated: 2022/04/04 16:53:36 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/04/04 22:17:11 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef __TREE_HPP
+# define __TREE_HPP
+
+//
+#include <iostream>
+//
+
 #include "utils.hpp"
+#include <cstddef>
 
 namespace ft {
 
@@ -20,9 +28,17 @@ namespace ft {
 		typedef T				value_type;
 		typedef _B_tree_node*	pointer;
 		
-		_B_tree_node(value_type val)
+		_B_tree_node(value_type const& val)
 		: value(val), left(0), right(0)
 		{}
+
+		_B_tree_node<T> const&
+		operator=(_B_tree_node const& rhs) {
+			left = rhs.left;
+			right = rhs.right;
+			value = value_type(rhs.value->first, rhs.value->second);
+			return (*this);
+		}
 
 		pointer		left;
 		pointer		right;
@@ -33,11 +49,13 @@ namespace ft {
 	class _B_tree {
 
 		public:
-			typedef  _Key						key_type;
-			typedef  _Pair						value_type;
-			typedef  _Compare					key_compare;
-			typedef	 _Alloc						allocator_type;
+			typedef _Key						key_type;
+			typedef _Pair						value_type;
+			typedef _Compare					key_compare;
+			typedef	_Alloc						allocator_type;
 			typedef	_B_tree_node<value_type> 	node_type;
+
+			typedef std::allocator<node_type>	node_allocator;
 
 //            typedef _B_tree_iterator<pointer>				iterator;
 //            typedef _B_tree_const_iterator<const_pointer>	const_iterator;
@@ -63,10 +81,51 @@ namespace ft {
 
 				if (!_M_root)
 				{
-					value_type* tmp = allocator_type().allocate(1);
-					allocator_type().construct(tmp, val);
-					*_M_root = node_type(*tmp);
+					_Pair *pr = allocator_type().allocate(1);
+					allocator_type().construct(pr, val);
+					_M_root = node_allocator().allocate(1);
+					node_allocator().construct(_M_root, node_type(val));
 				}
+				else
+				{
+					node_type* browse = _M_root;
+					int i = 0;
+					while (browse)
+					{
+						std::cout << "LOOP" << i++ << std::endl;
+						if (browse->value.first < val.first)
+						{
+							std::cout << "left" << std::endl;
+							browse = browse->left;
+						}
+						else
+						{
+							std::cout << "right" << std::endl;
+							browse = browse->right;
+						}
+					}
+					_Pair *pr = allocator_type().allocate(1);
+					allocator_type().construct(pr, val);
+					browse = node_allocator().allocate(1);
+					node_allocator().construct(browse, node_type(val));
+				}
+			}
+
+			void
+			printKey() const {
+				node_type *browse = _M_root;
+				while (browse)
+				{
+					std::cout << "browse = " << browse << std::endl; 
+					std::cout << "Key = " << browse->value.first << std::endl; 
+					browse = browse->right;
+				}
+			}
+
+			void
+			printVal() const {
+				std::cout << "Val = " << _M_root->value.second << std::endl; 
+
 			}
 	};
 };
@@ -105,3 +164,5 @@ operator=();
 // Function overloads
 swap();
 */
+
+#endif
