@@ -12,7 +12,8 @@ int main()
 	m.insert(ft::pair<int, char>(10, 'O'));
 
 	m._M_tree.printKey();
-	//m._M_tree.printVal();
+	m._M_tree.printVal();
+	std::cout << "Is map empty? : " << m.empty() << std::endl;
 
     return 0;
 }

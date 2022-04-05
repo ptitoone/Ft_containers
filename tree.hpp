@@ -1,168 +1,152 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tree.hpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 15:57:56 by akotzky           #+#    #+#             */
-/*   Updated: 2022/04/04 22:17:11 by akotzky          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef __TREE_HPP
 # define __TREE_HPP
 
-//
-#include <iostream>
-//
-
 #include "utils.hpp"
-#include <cstddef>
+#include "IteratorTraits.hpp"
 
 namespace ft {
 
-	template<typename T>
-	struct _B_tree_node {
+	enum _RBT_color { _RBT_red = false, _RBT_black = true };
 
-		typedef T				value_type;
-		typedef _B_tree_node*	pointer;
-		
-		_B_tree_node(value_type const& val)
-		: value(val), left(0), right(0)
-		{}
+	template<typename _Val>
+	struct _RBT_Node {
 
-		_B_tree_node<T> const&
-		operator=(_B_tree_node const& rhs) {
-			left = rhs.left;
-			right = rhs.right;
-			value = value_type(rhs.value->first, rhs.value->second);
-			return (*this);
+		//typedef	_RBT_Node<_Val>*	_Link_type;
+		typedef _RBT_Node<_Val>* 	_RBT_Node_ptr;
+		typedef _RBT_Node const*	_RBT_Node_const_ptr;
+
+		_RBT_color		_M_color;
+		_RBT_Node_ptr	_M_parent;
+		_RBT_Node_ptr	_M_left;
+		_RBT_Node_ptr	_M_right;
+		_Val			_M_value;
+
+		static _RBT_Node_ptr
+		_S_minimum(_RBT_Node_ptr _root) {
+			while (_root->_M_left)
+				_root = root->_M_left;
+			return (_root);
 		}
 
-		pointer		left;
-		pointer		right;
-		value_type	value;
+		static _RBT_Node_const_ptr
+		_S_minimum(_RBT_Node_ptr _root) {
+			while (_root->_M_left)
+				_root = root->_M_left;
+			return (_root);
+		}
+
+		static _RBT_Node_ptr
+		_S_maximum(_RBT_Node_ptr _root) {
+			while (_root->_M_right)
+				_root = root->_M_right;
+			return (_root);
+		}
+
+		static _RBT_Node_const_ptr
+		_S_maximum(_RBT_Node_ptr _root) {
+			while (_root->_M_right)
+				_root = root->_M_right;
+			return (_root);
+		}
 	};
 
-	template <typename _Key, typename _Pair, typename _Compare, typename _Alloc>
-	class _B_tree {
-
-		public:
-			typedef _Key						key_type;
-			typedef _Pair						value_type;
-			typedef _Compare					key_compare;
-			typedef	_Alloc						allocator_type;
-			typedef	_B_tree_node<value_type> 	node_type;
-
-			typedef std::allocator<node_type>	node_allocator;
-
-//            typedef _B_tree_iterator<pointer>				iterator;
-//            typedef _B_tree_const_iterator<const_pointer>	const_iterator;
-            typedef size_t									size_type;
-            typedef ptrdiff_t								difference_type;
-//            typedef ft::ReverseIterator<iterator>			reverse_iterator;
-//            typedef ft::ReverseIterator<const_iterator>		const_reverse_iterator;
-
-			node_type*	_M_root;
-
-			_B_tree()
-			: _M_root(0)
-			{}
-
-			_B_tree(_B_tree const& copy)
+//////////// INC DEC ///////////////
+/// Can be simplified for MAP case as each key is unique
+	template<typename _T>
+	static _RBT_Node<_T>*
+	_RBT_increment(_RBT_Node<_T>* _x) throw() {
+		if (_x->right)
+		{
+			_x = _x->_M_right;
+			while (_x->_M_left)
+				_x = _x->_M_left;
+		}
+		else
+		{
+			// Y = parent de X
+			_RBT_Node<_T>* _y = _x->_M_parent;
+			// Tant que X = parent droit de Y
+			// on remonte
+			while (_x == _y->_M_right)
 			{
-				// INSERT postfix, infix,  ??? 
+				// On remonte X a Y
+				_x = _y;
+				// On remonte Y a Y->parent
+				_y = _y->parent;
 			}
+			if (_x->_M_right != _y)
+				_x = _y;
+		}
+		return (_x);
+	}
 
-			/*ft::pair<iterator, bool>*/
-			void
-			_M_insert_unique(value_type const& val) {
-
-				if (!_M_root)
-				{
-					_Pair *pr = allocator_type().allocate(1);
-					allocator_type().construct(pr, val);
-					_M_root = node_allocator().allocate(1);
-					node_allocator().construct(_M_root, node_type(val));
-				}
-				else
-				{
-					node_type* browse = _M_root;
-					int i = 0;
-					while (browse)
-					{
-						std::cout << "LOOP" << i++ << std::endl;
-						if (browse->value.first < val.first)
-						{
-							std::cout << "left" << std::endl;
-							browse = browse->left;
-						}
-						else
-						{
-							std::cout << "right" << std::endl;
-							browse = browse->right;
-						}
-					}
-					_Pair *pr = allocator_type().allocate(1);
-					allocator_type().construct(pr, val);
-					browse = node_allocator().allocate(1);
-					node_allocator().construct(browse, node_type(val));
-				}
+	template<typename _T>
+	static _RBT_Node<_T>*
+	_RBT_decrement(_RBT_Node<_T>* _x) throw() {
+		//Cant be true in MAP
+		if (_x->_M_color = _RBT_red && _x->_M_parent->_M_parent == _x)
+			_x = _x->_M_right;
+		else if (_x->_M_left)
+		{
+			_RBT_Node<_T>* _y = _x->_M_left;
+			// remonter Y de 1 et descendre le plus a droite possible
+			while (_y->_M_right)
+				_y = _y->_M_right;
+			_x = _y;
+		}
+		else
+		{
+			_RBT_Node<_T>* _y = _x->_M_parent;
+			while (_x == _y->_M_left)
+			{
+				_x = _y;
+				_y = _y->_M_parent;
 			}
+			_x = _y;
 
-			void
-			printKey() const {
-				node_type *browse = _M_root;
-				while (browse)
-				{
-					std::cout << "browse = " << browse << std::endl; 
-					std::cout << "Key = " << browse->value.first << std::endl; 
-					browse = browse->right;
-				}
-			}
+		}
+		return _x;
+	}
+////////////////////////////////////
 
-			void
-			printVal() const {
-				std::cout << "Val = " << _M_root->value.second << std::endl; 
+	template<typename _T>
+	struct _RBT_iterator {
 
-			}
+		typedef _T value_type;
+		typedef _T&	reference;
+		typedef _T*	pointer;
+
+		typedef ft::bidirectional_iterator_tag	iterator_category;
+		typedef ptrdiff_t						difference_type;
+
+		typedef _RBT_iterator<_T>					_Self;
+//		typedef ft::_RBT_Node<_T>::_RBT_Node_ptr	_Base_ptr;
+		typedef ft::_RBT_Node<_T>*					_Link_type;
+
+		_RBT_iterator()
+		: _M_node() { }
+
+		explicit
+		_RBT_iterator(_Link_type _node)
+		: _M_node(_node) { }
+
+		reference
+		operator*() const {
+			return (_M_node->_M_value);
+		}
+
+		pointer
+		operator->() const {
+			return (&_M_node->_M_value);
+		}
+
+		_Self&
+		operator++() {
+
+		}
+
+		_Link_type _M_node;
 	};
 };
-/*
-
-// Increment / add
-RB_tree_increment();
-const RB_tree_increment();
-
-// Increment / add
-RB_tree_decrement();
-const RB_tree_decrement();
-
-// Iterators
-struct RB_tree_iterator {};
-struct RB_tree_const_iterator {};
-
-// Operator overloads for iterators
-operator==();
-operator!=();
-
-// Out of scope function definitions
-RB_tree_insert_and_rebalance();
-RB_tree_rebalance_for_erase();
-
-
-// Operator overloads for trees
-operator==();
-operator!=();
-operator<();
-operator<=();
-operator>();
-operator>=();
-operator=();
-
-// Function overloads
-swap();
-*/
 
 #endif

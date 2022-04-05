@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: akotzky <akotzky@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 15:08:21 by akotzky           #+#    #+#             */
-/*   Updated: 2022/04/04 21:52:46 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/04/05 13:14:05 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ namespace ft {
         
         public:
             _Rep_type _M_tree;
+			
             typedef typename allocator_type::pointer          pointer;
             typedef typename allocator_type::const_pointer    const_pointer;
             typedef typename allocator_type::reference        reference;
@@ -130,13 +131,13 @@ namespace ft {
         rend() const {
             return(_M_tree.rend(););
         }
-
+*/
         // CAPACITY //
         bool
         empty() const {
-            return(_M_tree.empty(););
+            return(_M_tree.empty());
         }
-
+/*
         size_type
         size() const {
             return(_M_tree.size(););
