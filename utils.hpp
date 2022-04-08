@@ -175,13 +175,5 @@ namespace ft {
     make_pair(T1 lhs, T2 rhs) {
         return (pair<T1, T2>(lhs, rhs));
     }
-
-	template<typename T>
-	struct addressof {
-
-		addressof(T const& var) {}
-
-		operator() {}
-	};
 }
 #endif
