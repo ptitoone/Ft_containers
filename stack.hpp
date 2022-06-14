@@ -6,7 +6,7 @@
 /*   By: akotzky <akotzky@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 14:48:08 by akotzky           #+#    #+#             */
-/*   Updated: 2022/03/28 16:36:49 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/05/16 15:26:51 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,70 +50,83 @@ namespace ft {
             {}
 
             bool
-            empty() const {
+            empty() const
+			{
                 return (c.empty());
             }
 
             size_type
-            size() const {
+            size() const
+			{
                 return (c.size());
             }
 
             value_type&
-            top() {
+            top()
+			{
                 return (c.back());
             }
 
             const value_type&
-            top() const {
+            top() const
+			{
                 return (c.back());
             }
 
             void
-            push(value_type const& val) {
+            push(value_type const& val)
+			{
                 c.push_back(val);
             }
 
             void
-            pop() {
+            pop()
+			{
                 c.pop_back();
             }
     };
 
     template<typename T, typename Seq>
     inline bool
-    operator==(stack<T, Seq> const& x, stack<T, Seq> const& y) {
+    operator==(stack<T, Seq> const& x, stack<T, Seq> const& y)
+	{
         return (x.c == y.c);
     }
 
     template<typename T, typename Seq>
     inline bool
-    operator<(stack<T, Seq> const& x, stack<T, Seq> const& y) {
+    operator<(stack<T, Seq> const& x, stack<T, Seq> const& y)
+	{
         return (x.c < y.c);
     }
 
     template<typename T, typename Seq>
     inline bool
-    operator!=(stack<T, Seq> const& x, stack<T, Seq> const& y) {
+    operator!=(stack<T, Seq> const& x, stack<T, Seq> const& y)
+	{
         return (!(x == y));
     }
 
     template<typename T, typename Seq>
     inline bool
-    operator>(stack<T, Seq> const& x, stack<T, Seq> const& y) {
+    operator>(stack<T, Seq> const& x, stack<T, Seq> const& y)
+	{
         return (y < x);
     }
 
     template<typename T, typename Seq>
     inline bool
-    operator<=(stack<T, Seq> const& x, stack<T, Seq> const& y) {
+    operator<=(stack<T, Seq> const& x, stack<T, Seq> const& y)
+	{
         return (!(y < x));
     }
 
     template<typename T, typename Seq>
     inline bool
-    operator>=(stack<T, Seq> const& x, stack<T, Seq> const& y) {
+    operator>=(stack<T, Seq> const& x, stack<T, Seq> const& y)
+	{
         return (!(x < y));
     }
 };
+
 #endif

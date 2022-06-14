@@ -6,7 +6,7 @@
 /*   By: akotzky <akotzky@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 18:53:28 by akotzky           #+#    #+#             */
-/*   Updated: 2022/03/28 16:38:16 by akotzky          ###   ########.fr       */
+/*   Updated: 2022/06/14 11:01:09 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,18 @@ namespace ft
 			typedef ft::ReverseIterator<const_iterator>         const_reverse_iterator;
 			typedef ptrdiff_t	            					difference_type;
 			typedef size_t				            			size_type;
+		
+		private:
 
-			allocator_type _M_alloc_intr;
-			pointer _M_start;
-			pointer _M_finish;
-			pointer _M_end_of_storage;
+			allocator_type	_M_alloc_intr;
+			pointer			_M_start;
+			pointer			_M_finish;
+			pointer			_M_end_of_storage;
 
 		public:
 
-            class OutOfMemoryException : std::exception {
+            class OutOfMemoryException : std::exception
+			{
                 const char*
                 what() const throw() {
                     return ("Error: Not enough memory available");
@@ -60,7 +63,8 @@ namespace ft
 			: _M_alloc_intr(_alloc),
 			_M_start(0),
 			_M_finish(0),
-			_M_end_of_storage(0) {}
+			_M_end_of_storage(0)
+			{}
 
 			explicit vector(size_type _count,
 							const T& _value = value_type(),
@@ -68,13 +72,13 @@ namespace ft
 			: _M_alloc_intr(_alloc),
 			_M_start(_M_alloc_intr.allocate(_count)),
 			_M_finish(_M_start + _count),
-			_M_end_of_storage(_M_start + _count) {
+			_M_end_of_storage(_M_start + _count)
+			{
 				std::uninitialized_fill_n(_M_start, _count, _value);
 			}
 
-			template< class InputIt >
-			vector(	InputIt _first, InputIt _last,
-			Allocator const& _alloc = Allocator())
+			template<typename InputIt>
+			vector(	InputIt _first, InputIt _last, Allocator const& _alloc = Allocator())
             : _M_alloc_intr(_alloc)
             {
                 typedef typename ft::is_integral<InputIt>::type _Integral;
@@ -82,7 +86,8 @@ namespace ft
 			}
 
             vector&
-            operator=(const vector& _rhs) {
+            operator=(const vector& _rhs)
+			{
                 pointer     _tmp = 0;
                 size_type   _prev_size = _rhs.size();
                 size_type   _prev_capacity = std::max(capacity(), _rhs.capacity());
@@ -96,7 +101,7 @@ namespace ft
                 return (*this);
             }
 
-			vector(vector const& _other)
+			vector(const vector& _other)
             : _M_alloc_intr(_other.get_allocator()),
 			_M_start(_M_allocate(_other.size())),
 			_M_finish(_M_start + _other.size()),
@@ -111,7 +116,8 @@ namespace ft
 
             template <typename _Iterator>
 			typename enable_if<!ft::is_integral<_Iterator>::value, void>::type
-			assign(_Iterator _first, _Iterator _last) {
+			assign(_Iterator _first, _Iterator _last)
+			{
 				size_type _count = std::distance(_first, _last);
 
 				if (_count > capacity())
@@ -133,7 +139,8 @@ namespace ft
 			}
 
 			void
-			assign(size_type _count, value_type const& _value) {
+			assign(size_type _count, const value_type& _value)
+			{
 
 				if (_count > capacity())
 				{
@@ -154,121 +161,144 @@ namespace ft
 			}
 
 			allocator_type
-			get_allocator() const {
+			get_allocator() const
+			{
 				return (allocator_type(_M_alloc_intr));
 			}
 
 			reference
-			at(size_type _pos) {
+			at(size_type _pos)
+			{
                 if (_pos > size())
                     throw (std::out_of_range("vector"));
                 return (_M_start[_pos]);
 			}
 
 			const_reference
-			at(size_type _pos) const {
+			at(size_type _pos) const
+			{
                 if (_pos > size())
                     throw (std::out_of_range("vector"));
                 return (_M_start[_pos]);
 			}
 
 			reference
-			operator[](size_type _pos) {
+			operator[](size_type _pos)
+			{
 				return (*(_M_start + _pos));
 			}
 
 			const_reference
-			operator[](size_type _pos) const {
+			operator[](size_type _pos) const
+			{
 				return (*(_M_start + _pos));
 			}
 
 			iterator
-			begin() {
+			begin()
+			{
 				return (iterator(this->_M_start));
 			}
 
 			const_iterator
-			begin() const {
+			begin() const
+			{
 				return (const_iterator(this->_M_start));
 			}
 
 			iterator
-			end() {
+			end()
+			{
 				return (iterator(this->_M_finish));
 			}
 
 			const_iterator
-			end() const {
+			end() const
+			{
 				return (const_iterator(this->_M_finish));
 			}
 			
 			reverse_iterator
-			rbegin() {
+			rbegin()
+			{
 				return (reverse_iterator(this->_M_finish));
 			}
 
 			const_reverse_iterator
-			rbegin() const {
+			rbegin() const
+			{
 				return (const_reverse_iterator(this->_M_finish));
 			}
 
 			reverse_iterator
-			rend() {
+			rend()
+			{
 				return (reverse_iterator(this->_M_start));
 			}
 
 			const_reverse_iterator
-			rend() const {
+			rend() const
+			{
 				return (const_reverse_iterator(this->_M_start));
 			}
 
 			reference
-			front() {
+			front()
+			{
 				return (*_M_start);
 			}
 
 			const_reference
-			front() const {
+			front() const
+			{
 				return (*_M_start);
 			}
 
 			reference
-			back() {
+			back()
+			{
 				return (*(_M_finish - 1));
 			}
 
 			const_reference
-			back() const {
+			back() const
+			{
 				return (*(_M_finish - 1));
 			}
 
 			pointer
-			data() {
+			data()
+			{
 				return (_M_start);
 			}
 
 			const_pointer
-			data() const {
+			data() const
+			{
 				return (_M_start);
 			}
 
 			bool
-			empty(void) const {
+			empty(void) const
+			{
 				return (this->_M_finish == this->_M_start ? true : false);
 			}
 
 			size_type
-			size() const {
+			size() const
+			{
 				return (_M_finish - _M_start);
 			}
 
 			size_type
-			max_size() const {
+			max_size() const
+			{
 				return (_M_alloc_intr.max_size());
 			}
 
 			void
-			reserve(size_type _new_cap) {
+			reserve(size_type _new_cap)
+			{
 				pointer		_tmp;
 				size_type	_tmp_prev_size;
 
@@ -287,12 +317,14 @@ namespace ft
 			}
 
 			size_type
-			capacity() const {
+			capacity() const
+			{
 				return (_M_end_of_storage - _M_start);
 			}
 
 			void
-			clear(void) {
+			clear(void)
+			{
 				size_type	_tmp_size = size();
 				if (_tmp_size) {
 					for (size_type i = 0; i < _tmp_size; i++)
@@ -302,7 +334,8 @@ namespace ft
 			}
 
 			iterator
-            insert(iterator _pos, const value_type& _value) {
+            insert(iterator _pos, const value_type& _value)
+			{
                 size_type   _prev_size = size();
                 size_type   _capacity;
                 size_type   _ret_pos = std::distance(begin(), _pos);
@@ -330,7 +363,8 @@ namespace ft
             }
 
 			void
-            insert(iterator _pos, size_type _count, const value_type& _value) {
+            insert(iterator _pos, size_type _count, const value_type& _value)
+			{
                 size_type   _prev_size = size();
                 size_type   _capacity;
                 size_type   _ret_pos = std::distance(begin(), _pos);
@@ -358,9 +392,10 @@ namespace ft
                 }
             }
 
-            template <class _InputIt>
+            template <typename _InputIt>
 			typename ft::enable_if<!ft::is_integral<_InputIt>::value, void>::type
-            insert(iterator _pos, _InputIt _first, _InputIt _last) {
+            insert(iterator _pos, _InputIt _first, _InputIt _last)
+			{
                 size_type   _prev_size = size();
                 size_type   _capacity;
                 size_type   _dist = std::distance(_first, _last);
@@ -380,18 +415,21 @@ namespace ft
                 _M_end_of_storage = _M_start + _capacity;
             }
 
-	    iterator
-            erase(iterator _it) {
+	    	iterator
+            erase(iterator _it)
+			{
                 for ( iterator _crnt = _it; _crnt + 1 != this->end(); ++_crnt )
                 {
                     _M_alloc_intr.destroy( _crnt.base() );
                     _M_alloc_intr.construct( _crnt.base(), *(_crnt + 1) );
                 }
                 _M_alloc_intr.destroy(--this->_M_finish);
-                return _it ;
+                return _it;
             }
-		iterator
-            erase(iterator _first, iterator _last) {
+
+			iterator
+            erase(iterator _first, iterator _last)
+			{
 				size_type	_count = std::distance(_first, _last);
                	iterator	_ret(_first);
 
@@ -404,7 +442,8 @@ namespace ft
             }
 
 			void
-			push_back(const value_type& _value) {
+			push_back(const value_type& _value)
+			{
 				pointer		_tmp;
 				size_type	_new_size = _M_check_len(1);
 				size_type	_prev_size = size();
@@ -428,7 +467,8 @@ namespace ft
 			}
 
 			void
-			pop_back() {
+			pop_back()
+			{
 				_M_alloc_intr.destroy(_M_finish -1);
 				_M_finish--;
 			}
@@ -462,7 +502,8 @@ namespace ft
             }
 
 			void
-            swap(vector& _other) {
+            swap(vector& _other)
+			{
                 pointer _tmp_start = _other._M_start;
                 pointer _tmp_finish = _other._M_finish;
                 pointer _tmp_end_of_storage = _other._M_end_of_storage;
@@ -483,7 +524,8 @@ namespace ft
 		private:
 
             template <typename _Integer>
-            void _M_range_dispatch(_Integer _count, _Integer _val, true_type) {
+            void _M_range_dispatch(_Integer _count, _Integer _val, true_type)
+			{
                 size_type _n = static_cast<size_type>(_count); 
                 value_type _v = static_cast<value_type>(_val); 
 
@@ -494,25 +536,33 @@ namespace ft
             }
 
             template <typename _InputIter>
-            void _M_range_dispatch(_InputIter _first, _InputIter _last, false_type) {
+            void
+			_M_range_dispatch(_InputIter _first, _InputIter _last, false_type)
+			{
                 _M_start = _M_allocate(std::distance(_first, _last));   
                 std::uninitialized_copy(_first, _last, _M_start);
                 _M_finish = _M_start + std::distance(_first, _last);
                 _M_end_of_storage = _M_finish;
             }
 
-            size_type _M_check_len(size_type _size) {
+            size_type
+			_M_check_len(size_type _size)
+			{
                 if (_M_alloc_intr.max_size() - size() < _size)
                     throw(OutOfMemoryException());
                 size_type _len = size() + std::max(size(), _size);
                 return ((_len < size() || _len > max_size()) ? max_size() : _len);
             }
 
-            pointer _M_allocate(size_type _size) {
+            pointer
+			_M_allocate(size_type _size)
+			{
                 return (_M_alloc_intr.allocate(_size));
             }
 
-            void _M_deallocate() {
+            void
+			_M_deallocate()
+			{
                 if (_M_start != 0) {
                     for (size_type i = 0; i < size(); i++)
                         _M_alloc_intr.destroy(_M_start + i);
@@ -524,46 +574,63 @@ namespace ft
             }
 	};
     
-    template<class T, class Alloc>
+    template<typename T, typename Alloc>
     bool
-    operator==(vector<T, Alloc> const & _lhs, vector<T, Alloc> const & _rhs) {
+    operator==(	const vector<T, Alloc>& _lhs,
+				const vector<T, Alloc>& _rhs )
+	{
         return(_lhs.size() == _rhs.size()
             && ft::equal(_lhs.begin(), _lhs.end(), _rhs.begin()));
     }
 
-    template<class T, class Alloc>
+    template<typename T, typename Alloc>
     bool
-    operator!=(vector<T, Alloc> const & _lhs, vector<T, Alloc> const & _rhs) {
+    operator!=(	const vector<T, Alloc>& _lhs,
+				const vector<T, Alloc>& _rhs )
+	{
         return (!(_lhs == _rhs));
     }
 
-    template<class T, class Alloc>
+    template<typename T, typename Alloc>
     bool
-    operator<(vector<T, Alloc> const & _lhs, vector<T, Alloc> const & _rhs) {
-        return (ft::lexicographical_compare(_lhs.begin(), _lhs.end(), _rhs.begin(), _rhs.end()));
+    operator<(	const vector<T, Alloc>& _lhs,
+				const vector<T, Alloc>& _rhs )
+	{
+        return (ft::lexicographical_compare(
+			_lhs.begin(), _lhs.end(),
+			_rhs.begin(), _rhs.end()));
     }
 
-    template<class T, class Alloc>
+    template<typename T, typename Alloc>
     bool
-    operator<=(vector<T, Alloc> const & _lhs, vector<T, Alloc> const & _rhs) {
+    operator<=(	const vector<T, Alloc>& _lhs,
+				const vector<T, Alloc>& _rhs )
+	{
         return !(_rhs < _lhs);
     }
 
-    template<class T, class Alloc>
+    template<typename T, typename Alloc>
     bool
-    operator>(vector<T, Alloc> const & _lhs, vector<T, Alloc> const & _rhs) {
+    operator>(	const vector<T, Alloc>& _lhs,
+				const vector<T, Alloc>& _rhs )
+	{
         return (_rhs < _lhs);
     }
 
-    template<class T, class Alloc>
+    template<typename T, typename Alloc>
     bool
-    operator>=(vector<T, Alloc> const & _lhs, vector<T, Alloc> const & _rhs) {
+    operator>=(	const vector<T, Alloc>& _lhs,
+				const vector<T, Alloc>& _rhs )
+	{
         return !(_lhs < _rhs);
     }
 
     template<typename T, typename Alloc>
     void
     swap(vector<T, Alloc>& _lhs, vector<T, Alloc>& _rhs)
-    { _lhs.swap(_rhs); }
+    {
+		_lhs.swap(_rhs);
+	}
 };
+
 #endif
